@@ -16,7 +16,7 @@ namespace FreelancerModStudio
 {
     internal static class Helper
     {
-        public struct Program
+        internal struct Program
         {
             public static void Start()
             {
@@ -69,7 +69,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Update
+        internal struct Update
         {
             public static AutoUpdate.AutoUpdate AutoUpdate = new AutoUpdate.AutoUpdate();
 
@@ -115,7 +115,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Template
+        internal struct Template
         {
             static FreelancerModStudio.Data.Template _data;
 
@@ -170,6 +170,16 @@ namespace FreelancerModStudio
 
                 public static int GetIndex(string file)
                 {
+                    FreelancerManifest manifest = FreelancerManifest.FromFile(file);
+                    if (manifest != null)
+                    {
+                        int manifestIndex = manifest.GetTemplateIndex(file);
+                        if (manifestIndex != -1)
+                        {
+                            return manifestIndex;
+                        }
+                    }
+
                     for (int i = 0; i < Files.Count; ++i)
                     {
                         foreach (string path in Files[i].Paths)
@@ -186,6 +196,12 @@ namespace FreelancerModStudio
 
                 public static string GetDataPath(string filePath, int fileTemplate)
                 {
+                    FreelancerManifest manifest = FreelancerManifest.FromFile(filePath);
+                    if (manifest != null)
+                    {
+                        return manifest.DataPath;
+                    }
+
                     // return if invalid file template or template path
                     if (fileTemplate < 0 ||
                         fileTemplate > Files.Count - 1 ||
@@ -251,7 +267,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Settings
+        internal struct Settings
         {
             public static Data.Settings Data;
 
@@ -321,7 +337,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Thread
+        internal struct Thread
         {
             public static void Start(ref System.Threading.Thread thread, ThreadStart threadDelegate, ThreadPriority priority, bool isBackground)
             {
@@ -354,7 +370,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Compare
+        internal struct Compare
         {
             public static bool Size(Point checkSize, Point currentSize, bool bigger)
             {
@@ -372,12 +388,12 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct String
+        internal struct String
         {
             public static readonly StringBuilder StringBuilder = new StringBuilder();
         }
 
-        public struct Exceptions
+        internal struct Exceptions
         {
             public static void Show(Exception exception)
             {
@@ -402,7 +418,7 @@ namespace FreelancerModStudio
             }
         }
 
-        public struct Assembly
+        internal struct Assembly
         {
             public static string Name
             {

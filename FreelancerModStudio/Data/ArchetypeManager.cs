@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using FreelancerModStudio.Data.INI;
@@ -44,6 +44,16 @@ namespace FreelancerModStudio.Data
         {
             if (dataPath != null)
             {
+                FreelancerManifest manifest = FreelancerManifest.FromFile(dataPath);
+                if (manifest != null)
+                {
+                    string manifestArchetypePath = manifest.GetSolarArchetypeFile();
+                    if (manifestArchetypePath != null)
+                    {
+                        return manifestArchetypePath;
+                    }
+                }
+
                 string archetypePath = Path.Combine(dataPath, Path.Combine("Solar", "SolarArch.ini"));
                 if (File.Exists(archetypePath))
                 {
