@@ -809,6 +809,12 @@ namespace FreelancerModStudio
             }
         }
 
+        void ApplySystemEditorLayoutProportions()
+        {
+            dockPanel1.DockLeftPortion = 0.6;
+            dockPanel1.DockRightPortion = 0.2;
+        }
+
         void mnuOptions_Click(object sender, EventArgs e)
         {
             frmOptions optionsForm = new frmOptions();
@@ -1407,6 +1413,7 @@ namespace FreelancerModStudio
                 InitSystemEditor();
             }
 
+            ApplySystemEditorLayoutProportions();
             ShowDocked(_propertiesForm, DockState.DockRight);
 
             // system editor is never null as it was initialized above if that was the case

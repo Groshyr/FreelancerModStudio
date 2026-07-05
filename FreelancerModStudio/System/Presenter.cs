@@ -79,7 +79,7 @@ namespace FreelancerModStudio.SystemPresenter
         private readonly Dictionary<string, Model3D> modelCache = new Dictionary<string, Model3D>(StringComparer.OrdinalIgnoreCase);
         private int secondLayerId;
         private Visual3D lighting;
-        private LinesVisual3D navmapGrid;
+        private Visual3D navmapGrid;
         private BoundingBoxWireFrameVisual3D selectionBox;
         private LineVisual3D trackedLine;
 
@@ -119,7 +119,7 @@ namespace FreelancerModStudio.SystemPresenter
             }
         }
 
-        public LinesVisual3D NavmapGrid
+        public Visual3D NavmapGrid
         {
             get => this.navmapGrid;
 
@@ -1152,11 +1152,6 @@ namespace FreelancerModStudio.SystemPresenter
 
         public void ClearDisplay(bool light)
         {
-            if (this.navmapGrid != null)
-            {
-                this.navmapGrid.StopRendering();
-            }
-
             this.Viewport.Children.Clear();
             this.navmapGrid = null;
 
@@ -1247,25 +1242,40 @@ namespace FreelancerModStudio.SystemPresenter
             const int cells = 8;
             double halfSize = navmapScale * 100000d * SystemParser.SYSTEM_SCALE;
             double step = halfSize * 2d / cells;
-            double z = -0.001d;
+            double z = -0.01d;
+            double thickness = Math.Max(step * 0.004d, 0.02d);
 
-            LinesVisual3D grid = new LinesVisual3D
-            {
-                Color = Color.FromRgb(70, 95, 115),
-                Thickness = 1,
-                DepthOffset = 0.0001
-            };
+            MeshGeometry3D mesh = new MeshGeometry3D();
 
             for (int i = 0; i <= cells; ++i)
             {
                 double value = -halfSize + step * i;
-                grid.Points.Add(new Point3D(value, -halfSize, z));
-                grid.Points.Add(new Point3D(value, halfSize, z));
-                grid.Points.Add(new Point3D(-halfSize, value, z));
-                grid.Points.Add(new Point3D(halfSize, value, z));
+                AddGridStrip(mesh, value - thickness, -halfSize, value + thickness, halfSize, z);
+                AddGridStrip(mesh, -halfSize, value - thickness, halfSize, value + thickness, z);
             }
 
-            this.NavmapGrid = grid;
+            Material material = MaterialHelper.CreateEmissiveMaterial(Color.FromRgb(80, 170, 220));
+            this.NavmapGrid = new ModelVisual3D
+                {
+                    Content = new GeometryModel3D(mesh, material)
+                };
+        }
+
+        static void AddGridStrip(MeshGeometry3D mesh, double x1, double y1, double x2, double y2, double z)
+        {
+            int start = mesh.Positions.Count;
+
+            mesh.Positions.Add(new Point3D(x1, y1, z));
+            mesh.Positions.Add(new Point3D(x2, y1, z));
+            mesh.Positions.Add(new Point3D(x2, y2, z));
+            mesh.Positions.Add(new Point3D(x1, y2, z));
+
+            mesh.TriangleIndices.Add(start);
+            mesh.TriangleIndices.Add(start + 1);
+            mesh.TriangleIndices.Add(start + 2);
+            mesh.TriangleIndices.Add(start);
+            mesh.TriangleIndices.Add(start + 2);
+            mesh.TriangleIndices.Add(start + 3);
         }
 
         private void DisplayUniverseConnections(Dictionary<int, UniverseConnection> connections)
