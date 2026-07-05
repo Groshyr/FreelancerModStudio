@@ -126,15 +126,6 @@ namespace FreelancerModStudio
             _presenter.Viewport.ZoomExtents(0);
         }
 
-        public void SetNavmapGrid(double navmapScale, bool visible)
-        {
-            _presenter.SetNavmapGrid(visible ? navmapScale : 0);
-            if (visible && navmapScale > 0)
-            {
-                _presenter.Viewport.ZoomExtents(0);
-            }
-        }
-
         public void ShowUniverseConnections(string file, List<TableBlock> blocks, ArchetypeManager archetype)
         {
             if (File.Exists(file))

@@ -79,7 +79,6 @@ namespace FreelancerModStudio.SystemPresenter
         private readonly Dictionary<string, Model3D> modelCache = new Dictionary<string, Model3D>(StringComparer.OrdinalIgnoreCase);
         private int secondLayerId;
         private Visual3D lighting;
-        private Visual3D navmapGrid;
         private BoundingBoxWireFrameVisual3D selectionBox;
         private LineVisual3D trackedLine;
 
@@ -116,17 +115,6 @@ namespace FreelancerModStudio.SystemPresenter
             {
                 this.AddOrReplace(this.selectionBox, value);
                 this.selectionBox = value;
-            }
-        }
-
-        public Visual3D NavmapGrid
-        {
-            get => this.navmapGrid;
-
-            set
-            {
-                this.AddOrReplace(this.navmapGrid, value);
-                this.navmapGrid = value;
             }
         }
 
@@ -1153,7 +1141,6 @@ namespace FreelancerModStudio.SystemPresenter
         public void ClearDisplay(bool light)
         {
             this.Viewport.Children.Clear();
-            this.navmapGrid = null;
 
             if (light || this.Lighting == null)
             {
@@ -1170,11 +1157,6 @@ namespace FreelancerModStudio.SystemPresenter
         {
             int index = 0;
             if (this.Lighting != null)
-            {
-                ++index;
-            }
-
-            if (this.NavmapGrid != null)
             {
                 ++index;
             }
@@ -1229,53 +1211,6 @@ namespace FreelancerModStudio.SystemPresenter
             analyzer.Analyze();
 
             this.DisplayUniverseConnections(analyzer.Connections);
-        }
-
-        public void SetNavmapGrid(double navmapScale)
-        {
-            if (this.ViewerType != ViewerType.System || navmapScale <= 0)
-            {
-                this.NavmapGrid = null;
-                return;
-            }
-
-            const int cells = 8;
-            double halfSize = navmapScale * 100000d * SystemParser.SYSTEM_SCALE;
-            double step = halfSize * 2d / cells;
-            double z = -0.01d;
-            double thickness = Math.Max(step * 0.004d, 0.02d);
-
-            MeshGeometry3D mesh = new MeshGeometry3D();
-
-            for (int i = 0; i <= cells; ++i)
-            {
-                double value = -halfSize + step * i;
-                AddGridStrip(mesh, value - thickness, -halfSize, value + thickness, halfSize, z);
-                AddGridStrip(mesh, -halfSize, value - thickness, halfSize, value + thickness, z);
-            }
-
-            Material material = MaterialHelper.CreateEmissiveMaterial(Color.FromRgb(80, 170, 220));
-            this.NavmapGrid = new ModelVisual3D
-                {
-                    Content = new GeometryModel3D(mesh, material)
-                };
-        }
-
-        static void AddGridStrip(MeshGeometry3D mesh, double x1, double y1, double x2, double y2, double z)
-        {
-            int start = mesh.Positions.Count;
-
-            mesh.Positions.Add(new Point3D(x1, y1, z));
-            mesh.Positions.Add(new Point3D(x2, y1, z));
-            mesh.Positions.Add(new Point3D(x2, y2, z));
-            mesh.Positions.Add(new Point3D(x1, y2, z));
-
-            mesh.TriangleIndices.Add(start);
-            mesh.TriangleIndices.Add(start + 1);
-            mesh.TriangleIndices.Add(start + 2);
-            mesh.TriangleIndices.Add(start);
-            mesh.TriangleIndices.Add(start + 2);
-            mesh.TriangleIndices.Add(start + 3);
         }
 
         private void DisplayUniverseConnections(Dictionary<int, UniverseConnection> connections)
