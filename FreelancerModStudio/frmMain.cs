@@ -74,7 +74,9 @@ namespace FreelancerModStudio
         {
             try
             {
-                return File.ReadAllText(layoutFile).IndexOf("DockPanel+Persistor+DummyContent", StringComparison.OrdinalIgnoreCase) == -1;
+                string layout = File.ReadAllText(layoutFile);
+                return layout.IndexOf("DockPanel+Persistor+DummyContent", StringComparison.OrdinalIgnoreCase) == -1 &&
+                       layout.IndexOf(typeof(frmTableEditor).ToString(), StringComparison.OrdinalIgnoreCase) == -1;
             }
             catch
             {
@@ -114,25 +116,7 @@ namespace FreelancerModStudio
             }
             else
             {
-                string[] parsedStrings = persistString.Split(new[] { ',' });
-                if (parsedStrings.Length != 3)
-                {
-                    return null;
-                }
-
-                if (parsedStrings[0] != typeof(frmTableEditor).ToString() || parsedStrings[1].Length == 0 || parsedStrings[2].Length == 0)
-                {
-                    return null;
-                }
-
-                try
-                {
-                    return DisplayFile(parsedStrings[1], Convert.ToInt32(parsedStrings[2]));
-                }
-                catch
-                {
-                    return null;
-                }
+                return null;
             }
         }
 
@@ -159,10 +143,10 @@ namespace FreelancerModStudio
 
         bool CloseAllDocuments()
         {
-            foreach (Form child in MdiChildren)
+            foreach (IDockContent document in dockPanel1.DocumentsToArray())
             {
-                child.Close();
-                if (!child.IsDisposed)
+                document.DockHandler.Close();
+                if (IsDocumentOpen(document))
                 {
                     return false;
                 }
@@ -173,12 +157,13 @@ namespace FreelancerModStudio
 
         bool CloseOtherDocuments()
         {
-            foreach (Form child in MdiChildren)
+            IDockContent activeDocument = dockPanel1.ActiveDocument;
+            foreach (IDockContent document in dockPanel1.DocumentsToArray())
             {
-                if (child != dockPanel1.ActiveDocument)
+                if (document != activeDocument)
                 {
-                    child.Close();
-                    if (!child.IsDisposed)
+                    document.DockHandler.Close();
+                    if (IsDocumentOpen(document))
                     {
                         return false;
                     }
@@ -186,6 +171,19 @@ namespace FreelancerModStudio
             }
 
             return true;
+        }
+
+        bool IsDocumentOpen(IDockContent document)
+        {
+            foreach (IDockContent openDocument in dockPanel1.DocumentsToArray())
+            {
+                if (ReferenceEquals(openDocument, document))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         void mnuNewWindow_Click(object sender, EventArgs e)
@@ -561,6 +559,11 @@ namespace FreelancerModStudio
                 e.Cancel = true;
                 return;
             }*/
+            if (!CloseAllDocuments())
+            {
+                e.Cancel = true;
+                return;
+            }
 
             SetSettings();
         }
@@ -1166,14 +1169,20 @@ namespace FreelancerModStudio
 
         void CloseSystemEditor()
         {
+            if (_systemEditor == null)
+            {
+                return;
+            }
+
             //dispose system editor
-            _systemEditor.Dispose();
+            frmSystemEditor systemEditor = _systemEditor;
             _systemEditor = null;
+            systemEditor.Dispose();
         }
 
         void dockPanel1_ContentRemoved(object sender, DockContentEventArgs e)
         {
-            if (e.Content is frmSystemEditor)
+            if (ReferenceEquals(e.Content, _systemEditor))
             {
                 CloseSystemEditor();
             }
