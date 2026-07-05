@@ -45,7 +45,8 @@ namespace FreelancerModStudio
             mnuNavmapGrid = new ToolStripMenuItem
                 {
                     Text = "Navmap 8x8 Grid",
-                    CheckOnClick = true
+                    CheckOnClick = true,
+                    Checked = true
                 };
             mnuNavmapGrid.Click += mnuNavmapGrid_Click;
 
@@ -1375,13 +1376,19 @@ namespace FreelancerModStudio
                 return 0;
             }
 
-            string resolvedFile = Path.GetFullPath(Path.Combine(dataRoot, file.Replace('/', Path.DirectorySeparatorChar)));
-            if (!resolvedFile.Equals(systemFile, StringComparison.OrdinalIgnoreCase))
+            string normalizedFile = file.Replace('/', Path.DirectorySeparatorChar);
+            if (!IsMatchingSystemFile(Path.Combine(dataRoot, normalizedFile), systemFile) &&
+                !IsMatchingSystemFile(Path.Combine(Path.Combine(dataRoot, "universe"), normalizedFile), systemFile))
             {
                 return 0;
             }
 
             return Parser.ParseDouble(navmapScale, 0);
+        }
+
+        static bool IsMatchingSystemFile(string candidateFile, string systemFile)
+        {
+            return Path.GetFullPath(candidateFile).Equals(systemFile, StringComparison.OrdinalIgnoreCase);
         }
 
         static string StripComment(string line)
