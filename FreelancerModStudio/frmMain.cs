@@ -67,7 +67,7 @@ namespace FreelancerModStudio
 
             //load layout
             string layoutFile = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName), Resources.LayoutPath);
-            if (File.Exists(layoutFile))
+            if (File.Exists(layoutFile) && IsLayoutRestorable(layoutFile))
             {
                 // don't throw an error if the layout file can't be loaded
                 try
@@ -83,6 +83,18 @@ namespace FreelancerModStudio
             ShowDocked(_propertiesForm, DockState.DockRight);
 
             SettingsChanged();
+        }
+
+        static bool IsLayoutRestorable(string layoutFile)
+        {
+            try
+            {
+                return File.ReadAllText(layoutFile).IndexOf("DockPanel+Persistor+DummyContent", StringComparison.OrdinalIgnoreCase) == -1;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         void InitContentWindows()
@@ -107,17 +119,13 @@ namespace FreelancerModStudio
         {
             if (persistString == typeof(frmProperties).ToString())
             {
-                // Tool windows are positioned explicitly after layout load/open.
-                // Restoring stale saved panes can pin them to the wrong side.
-                return null;
+                return _propertiesForm;
             }
             //else if (persistString == typeof(frmSolutionExplorer).ToString())
             //    return solutionExplorerForm;
             else if (persistString == typeof(frmSystemEditor).ToString())
             {
-                // The 3D editor is auto-opened for compatible documents and
-                // positioned explicitly; do not restore stale saved placement.
-                return null;
+                return _systemEditor;
             }
             else
             {

@@ -1247,7 +1247,7 @@ namespace FreelancerModStudio.SystemPresenter
             const int cells = 8;
             double halfSize = navmapScale * 100000d * SystemParser.SYSTEM_SCALE;
             double step = halfSize * 2d / cells;
-            double y = -0.001d;
+            double z = -0.001d;
 
             LinesVisual3D grid = new LinesVisual3D
             {
@@ -1259,10 +1259,10 @@ namespace FreelancerModStudio.SystemPresenter
             for (int i = 0; i <= cells; ++i)
             {
                 double value = -halfSize + step * i;
-                grid.Points.Add(new Point3D(value, y, -halfSize));
-                grid.Points.Add(new Point3D(value, y, halfSize));
-                grid.Points.Add(new Point3D(-halfSize, y, value));
-                grid.Points.Add(new Point3D(halfSize, y, value));
+                grid.Points.Add(new Point3D(value, -halfSize, z));
+                grid.Points.Add(new Point3D(value, halfSize, z));
+                grid.Points.Add(new Point3D(-halfSize, value, z));
+                grid.Points.Add(new Point3D(halfSize, value, z));
             }
 
             this.NavmapGrid = grid;
