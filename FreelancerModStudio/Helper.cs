@@ -115,6 +115,36 @@ namespace FreelancerModStudio
             }
         }
 
+        internal struct UI
+        {
+            const string FontName = "Segoe UI";
+
+            public static Font CreateFont(Font baseFont)
+            {
+                if (baseFont == null)
+                {
+                    baseFont = SystemFonts.MessageBoxFont;
+                }
+
+                return new Font(FontName, baseFont.Size, baseFont.Style, baseFont.Unit, baseFont.GdiCharSet, baseFont.GdiVerticalFont);
+            }
+
+            public static void ApplyFont(Control control)
+            {
+                if (control == null)
+                {
+                    return;
+                }
+
+                control.Font = CreateFont(control.Font);
+
+                foreach (Control child in control.Controls)
+                {
+                    ApplyFont(child);
+                }
+            }
+        }
+
         internal struct Template
         {
             static FreelancerModStudio.Data.Template _data;

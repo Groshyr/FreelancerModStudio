@@ -8,6 +8,7 @@ namespace FreelancerModStudio
         public frmSolutionExplorer()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             Icon = Properties.Resources.SolutionExplorer;
 
             var imageList = new ImageList { ColorDepth = ColorDepth.Depth24Bit };

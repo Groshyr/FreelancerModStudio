@@ -9,6 +9,7 @@ namespace FreelancerModStudio
         public frmFileType(string filePath)
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
 
             if (!string.IsNullOrEmpty(filePath))
             {

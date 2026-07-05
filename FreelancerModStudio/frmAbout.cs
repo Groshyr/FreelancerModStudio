@@ -9,6 +9,7 @@ namespace FreelancerModStudio
         public frmAbout()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
 
             Text = string.Format(Strings.AboutText, Helper.Assembly.Name);
             lblProductName.Text = Helper.Assembly.Name;

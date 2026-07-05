@@ -5,6 +5,7 @@ namespace FreelancerModStudio
         public frmErrorList()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             Icon = Properties.Resources.Error;
         }
 

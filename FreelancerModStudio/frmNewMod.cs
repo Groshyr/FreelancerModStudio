@@ -8,6 +8,7 @@ namespace FreelancerModStudio
         public frmNewMod()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
         }
 
         bool ValidPathRoot(string path)

@@ -83,6 +83,8 @@ namespace FreelancerModStudio
         public frmTableEditor(int templateIndex, string file)
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
+            objectListView1.EmptyListMsgFont = Helper.UI.CreateFont(objectListView1.EmptyListMsgFont);
 
             LoadIcons();
             _undoManager.DataChanged += UndoManager_DataChanged;

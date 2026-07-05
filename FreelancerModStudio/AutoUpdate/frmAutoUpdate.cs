@@ -11,6 +11,7 @@ namespace FreelancerModStudio.AutoUpdate
         public frmAutoUpdate()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             Icon = Resources.LogoIcon;
         }
 

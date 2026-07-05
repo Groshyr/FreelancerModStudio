@@ -44,9 +44,11 @@ namespace WeifenLuo.WinFormsUI.Docking
 		private const int _TabGapBetween = 10;
 
 		#region Customizable Properties
+        private static readonly Font _textFont = new Font("Segoe UI", SystemInformation.MenuFont.Size, SystemInformation.MenuFont.Style, SystemInformation.MenuFont.Unit, SystemInformation.MenuFont.GdiCharSet, SystemInformation.MenuFont.GdiVerticalFont);
+
         private static Font TextFont
         {
-            get { return SystemInformation.MenuFont; }
+            get { return _textFont; }
         }
 
 		private static StringFormat _stringFormatTabHorizontal;

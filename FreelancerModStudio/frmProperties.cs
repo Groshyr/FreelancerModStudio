@@ -25,6 +25,7 @@ namespace FreelancerModStudio
         public frmProperties()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             Icon = Resources.Properties;
 
             RefreshSettings();

@@ -52,6 +52,7 @@ namespace FreelancerModStudio
         public frmSystemEditor()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             InitializeView();
         }
 
@@ -71,6 +72,7 @@ namespace FreelancerModStudio
                 {
                     Background = Brushes.Black,
                     Foreground = Brushes.Yellow,
+                    FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 14,
                     ClipToBounds = false,
                     ShowViewCube = true

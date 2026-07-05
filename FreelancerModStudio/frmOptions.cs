@@ -7,6 +7,7 @@ namespace FreelancerModStudio
         public frmOptions()
         {
             InitializeComponent();
+            Helper.UI.ApplyFont(this);
             propertyGrid.SelectedObject = Helper.Settings.Data.Data.General;
             propertyGrid.ExpandAllGridItems();
         }
