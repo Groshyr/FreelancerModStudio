@@ -41,11 +41,11 @@ namespace FreelancerModStudio
 
         public Presenter.DataManipulatedType DataManipulated;
 
-        void OnDataManipulated(TableBlock newBlock, TableBlock oldBlock)
+        void OnDataManipulated(List<TableBlock> newBlocks, List<TableBlock> oldBlocks)
         {
             if (DataManipulated != null)
             {
-                DataManipulated(newBlock, oldBlock);
+                DataManipulated(newBlocks, oldBlocks);
             }
         }
 
@@ -91,7 +91,7 @@ namespace FreelancerModStudio
             st.Stop();
             Debug.WriteLine("init host: " + st.ElapsedMilliseconds + "ms");
 #endif
-            _presenter = new Presenter(viewport);
+            _presenter = new Presenter(viewport, this);
             _presenter.SelectionChanged += systemPresenter_SelectionChanged;
             _presenter.FileOpen += systemPresenter_FileOpen;
             _presenter.DataManipulated += systemPresenter_DataManipulated;
@@ -107,9 +107,9 @@ namespace FreelancerModStudio
             OnFileOpen(file);
         }
 
-        void systemPresenter_DataManipulated(TableBlock newBlock, TableBlock oldBlock)
+        void systemPresenter_DataManipulated(List<TableBlock> newBlocks, List<TableBlock> oldBlocks)
         {
-            OnDataManipulated(newBlock, oldBlock);
+            OnDataManipulated(newBlocks, oldBlocks);
         }
 
         public void ShowViewer(ViewerType viewerType)
@@ -150,25 +150,19 @@ namespace FreelancerModStudio
         public void Clear(bool clearLight, bool waitForThread)
         {
             Helper.Thread.Abort(ref _universeLoadingThread, waitForThread);
-            _presenter.SelectedContent = null;
+            ContentBaseList.ClearAll(_presenter);
             _presenter.TrackedContent = null;
             _presenter.ClearDisplay(clearLight);
         }
 
         public void Select(TableBlock block)
         {
-            // return if object is already selected
-            if (_presenter.SelectedContent != null && _presenter.SelectedContent.Block.Id == block.Id)
-            {
-                return;
-            }
-
             if (block.Visibility)
             {
                 bool isModelPreview = _presenter.ViewerType == ViewerType.SolarArchetype || _presenter.ViewerType == ViewerType.ModelPreview;
                 if (isModelPreview)
                 {
-                    _presenter.SelectedContent = null;
+                    ContentBaseList.ClearAll(_presenter);
                     _presenter.ClearDisplay(false);
                     _presenter.Add(block);
                 }
@@ -177,7 +171,7 @@ namespace FreelancerModStudio
                 ContentBase content = _presenter.FindContent(block);
                 if (content != null)
                 {
-                    _presenter.SelectedContent = content;
+                    ContentBaseList.AddItem(_presenter, content);
 
                     if (isModelPreview)
                     {
@@ -194,7 +188,7 @@ namespace FreelancerModStudio
                 if (content != null)
                 {
                     SystemParser.SetValues(content, block, false);
-                    _presenter.SelectedContent = content;
+                    ContentBaseList.AddItem(_presenter, content);
                     return;
                 }
             }
@@ -205,7 +199,7 @@ namespace FreelancerModStudio
 
         public void Deselect()
         {
-            _presenter.SelectedContent = null;
+            ContentBaseList.ClearAll(_presenter);
 
             if (_presenter.ViewerType == ViewerType.SolarArchetype || _presenter.ViewerType == ViewerType.ModelPreview)
             {

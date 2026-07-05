@@ -50,7 +50,6 @@ namespace FreelancerModStudio
             }
 
             //load layout
-            bool layoutLoaded = false;
             string layoutFile = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName), Resources.LayoutPath);
             if (File.Exists(layoutFile))
             {
@@ -58,18 +57,14 @@ namespace FreelancerModStudio
                 try
                 {
                     dockPanel1.LoadFromXml(layoutFile, GetContentFromPersistString);
-                    layoutLoaded = true;
                 }
                 catch
                 {
                 }
             }
 
-            if (!layoutLoaded)
-            {
-                //this.solutionExplorerForm.Show(dockPanel1);
-                _propertiesForm.Show(dockPanel1);
-            }
+            //this.solutionExplorerForm.Show(dockPanel1);
+            ShowDocked(_propertiesForm, DockState.DockRight);
 
             SettingsChanged();
         }
@@ -96,20 +91,17 @@ namespace FreelancerModStudio
         {
             if (persistString == typeof(frmProperties).ToString())
             {
-                return _propertiesForm;
+                // Tool windows are positioned explicitly after layout load/open.
+                // Restoring stale saved panes can pin them to the wrong side.
+                return null;
             }
             //else if (persistString == typeof(frmSolutionExplorer).ToString())
             //    return solutionExplorerForm;
             else if (persistString == typeof(frmSystemEditor).ToString())
             {
-                // do not open system editor if not a single document could be loaded
-                // usually we handle this over active document changed events, but this will not be fired if no document was loaded
-                if (MdiChildren.Length == 0)
-                {
-                    return null;
-                }
-
-                return _systemEditor;
+                // The 3D editor is auto-opened for compatible documents and
+                // positioned explicitly; do not restore stale saved placement.
+                return null;
             }
             else
             {
@@ -226,7 +218,11 @@ namespace FreelancerModStudio
 
                 if (_systemEditor != null)
                 {
-                    _systemEditor.Select(data[0]);
+                    _systemEditor.Deselect();
+                    foreach (TableBlock block in data)
+                    {
+                        _systemEditor.Select(block);
+                    }
                 }
             }
             else
@@ -536,6 +532,11 @@ namespace FreelancerModStudio
             tableEditor.FormClosed += DefaultEditor_FormClosed;
             tableEditor.Show(dockPanel1, DockState.Document);
 
+            if (tableEditor.CanDisplay3DViewer() && Helper.Settings.Data.Data.General.AutomaticallyOpen3DEditor)
+            {
+                Open3DSystemEditor(tableEditor);
+            }
+
             return tableEditor;
         }
 
@@ -763,8 +764,21 @@ namespace FreelancerModStudio
                 List<TableBlock> blocks = tableEditor.GetSelectedBlocks();
                 if (blocks != null)
                 {
-                    _systemEditor.Select(blocks[0]);
+                    _systemEditor.Deselect();
+                    foreach (TableBlock block in blocks)
+                    {
+                        _systemEditor.Select(block);
+                    }
                 }
+            }
+        }
+
+        void ShowDocked(DockContent content, DockState dockState)
+        {
+            content.Show(dockPanel1, dockState);
+            if (content.DockHandler.DockState != dockState)
+            {
+                content.DockHandler.DockState = dockState;
             }
         }
 
@@ -878,7 +892,7 @@ namespace FreelancerModStudio
 
         void mnuProperties_Click(object sender, EventArgs e)
         {
-            _propertiesForm.Show(dockPanel1, DockState.DockRight);
+            ShowDocked(_propertiesForm, DockState.DockRight);
         }
 
         void mnuNewFile_Click(object sender, EventArgs e)
@@ -1251,23 +1265,34 @@ namespace FreelancerModStudio
             SetContentMenus(content);
         }
 
-        void mnu3dEditor_Click(object sender, EventArgs e)
+        void Open3DSystemEditor(frmTableEditor tableEditor = null)
         {
             if (_systemEditor == null)
             {
                 InitSystemEditor();
             }
 
+            ShowDocked(_propertiesForm, DockState.DockRight);
+
             // system editor is never null as it was initialized above if that was the case
             // ReSharper disable PossibleNullReferenceException
-            _systemEditor.Show(dockPanel1);
+            ShowDocked(_systemEditor, DockState.DockLeft);
             // ReSharper restore PossibleNullReferenceException
 
-            frmTableEditor tableEditor = dockPanel1.ActiveDocument as frmTableEditor;
+            if (tableEditor == null)
+            {
+                tableEditor = dockPanel1.ActiveDocument as frmTableEditor;
+            }
+
             if (tableEditor != null)
             {
                 ShowSystemEditor(tableEditor);
             }
+        }
+
+        void mnu3dEditor_Click(object sender, EventArgs e)
+        {
+            Open3DSystemEditor();
         }
 
         void systemEditor_FileOpen(string path)
@@ -1309,12 +1334,12 @@ namespace FreelancerModStudio
             }
         }
 
-        void systemEditor_DataManipulated(TableBlock newBlock, TableBlock oldBlock)
+        void systemEditor_DataManipulated(List<TableBlock> newBlocks, List<TableBlock> oldBlocks)
         {
             frmTableEditor tableEditor = dockPanel1.ActiveDocument as frmTableEditor;
             if (tableEditor != null)
             {
-                tableEditor.ChangeBlocks(new List<TableBlock> { newBlock }, new List<TableBlock> { oldBlock });
+                tableEditor.ChangeBlocks(newBlocks, oldBlocks);
             }
         }
 

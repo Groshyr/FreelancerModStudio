@@ -242,6 +242,9 @@
     <Content Include="Template.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Template.xml">
+      <LogicalName>Template.xml</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAbout.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.cs</DependentUpon>

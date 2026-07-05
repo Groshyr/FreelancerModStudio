@@ -121,7 +121,9 @@ namespace FreelancerModStudio
 
             public static void Load()
             {
-                Load(Path.Combine(Application.StartupPath, Resources.TemplatePath));
+                string file = Path.Combine(Application.StartupPath, Resources.TemplatePath);
+                EnsureTemplateFile(file);
+                Load(file);
             }
 
             public static void Load(string file)
@@ -137,6 +139,39 @@ namespace FreelancerModStudio
                 {
                     Exceptions.Show(string.Format(Strings.TemplateLoadException, Resources.TemplatePath), ex);
                     Environment.Exit(0);
+                }
+            }
+
+            static void EnsureTemplateFile(string file)
+            {
+                if (File.Exists(file))
+                {
+                    return;
+                }
+
+                string directory = Path.GetDirectoryName(file);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                using (Stream input = assembly.GetManifestResourceStream(Resources.TemplatePath))
+                {
+                    if (input == null)
+                    {
+                        throw new FileNotFoundException("Embedded template resource was not found.", Resources.TemplatePath);
+                    }
+
+                    using (FileStream output = File.Create(file))
+                    {
+                        byte[] buffer = new byte[81920];
+                        int read;
+                        while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            output.Write(buffer, 0, read);
+                        }
+                    }
                 }
             }
 

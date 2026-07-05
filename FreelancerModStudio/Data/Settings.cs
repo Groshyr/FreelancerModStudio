@@ -90,6 +90,10 @@ namespace FreelancerModStudio.Data
             [DisplayName("Hidden text color")]
             public Color EditorHiddenColor { get; set; }
 
+            [Category("INI Editor")]
+            [DisplayName("Automatically Open 3D Editor")]
+            public bool AutomaticallyOpen3DEditor { get; set; }
+
             [Category("INI Formatting")]
             [DisplayName("Spaces around equal sign")]
             public bool FormattingSpaces { get; set; }
@@ -169,6 +173,7 @@ namespace FreelancerModStudio.Data
                 EditorModifiedColor = Color.FromArgb(255, 227, 164);
                 EditorModifiedSavedColor = Color.FromArgb(192, 255, 192);
                 EditorHiddenColor = Color.FromArgb(128, 128, 128);
+                AutomaticallyOpen3DEditor = true;
 
                 FormattingSpaces = true;
                 FormattingEmptyLine = true;
