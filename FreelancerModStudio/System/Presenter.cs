@@ -79,6 +79,7 @@ namespace FreelancerModStudio.SystemPresenter
         private readonly Dictionary<string, Model3D> modelCache = new Dictionary<string, Model3D>(StringComparer.OrdinalIgnoreCase);
         private int secondLayerId;
         private Visual3D lighting;
+        private LinesVisual3D navmapGrid;
         private BoundingBoxWireFrameVisual3D selectionBox;
         private LineVisual3D trackedLine;
 
@@ -115,6 +116,17 @@ namespace FreelancerModStudio.SystemPresenter
             {
                 this.AddOrReplace(this.selectionBox, value);
                 this.selectionBox = value;
+            }
+        }
+
+        public LinesVisual3D NavmapGrid
+        {
+            get => this.navmapGrid;
+
+            set
+            {
+                this.AddOrReplace(this.navmapGrid, value);
+                this.navmapGrid = value;
             }
         }
 
@@ -1140,7 +1152,13 @@ namespace FreelancerModStudio.SystemPresenter
 
         public void ClearDisplay(bool light)
         {
+            if (this.navmapGrid != null)
+            {
+                this.navmapGrid.StopRendering();
+            }
+
             this.Viewport.Children.Clear();
+            this.navmapGrid = null;
 
             if (light || this.Lighting == null)
             {
@@ -1157,6 +1175,11 @@ namespace FreelancerModStudio.SystemPresenter
         {
             int index = 0;
             if (this.Lighting != null)
+            {
+                ++index;
+            }
+
+            if (this.NavmapGrid != null)
             {
                 ++index;
             }
@@ -1211,6 +1234,38 @@ namespace FreelancerModStudio.SystemPresenter
             analyzer.Analyze();
 
             this.DisplayUniverseConnections(analyzer.Connections);
+        }
+
+        public void SetNavmapGrid(double navmapScale)
+        {
+            if (this.ViewerType != ViewerType.System || navmapScale <= 0)
+            {
+                this.NavmapGrid = null;
+                return;
+            }
+
+            const int cells = 8;
+            double halfSize = navmapScale * 100000d * SystemParser.SYSTEM_SCALE;
+            double step = halfSize * 2d / cells;
+            double y = -0.001d;
+
+            LinesVisual3D grid = new LinesVisual3D
+            {
+                Color = Color.FromRgb(70, 95, 115),
+                Thickness = 1,
+                DepthOffset = 0.0001
+            };
+
+            for (int i = 0; i <= cells; ++i)
+            {
+                double value = -halfSize + step * i;
+                grid.Points.Add(new Point3D(value, y, -halfSize));
+                grid.Points.Add(new Point3D(value, y, halfSize));
+                grid.Points.Add(new Point3D(-halfSize, y, value));
+                grid.Points.Add(new Point3D(halfSize, y, value));
+            }
+
+            this.NavmapGrid = grid;
         }
 
         private void DisplayUniverseConnections(Dictionary<int, UniverseConnection> connections)

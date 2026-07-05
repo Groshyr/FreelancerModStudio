@@ -21,12 +21,14 @@ namespace FreelancerModStudio
         frmProperties _propertiesForm;
         //frmSolutionExplorer solutionExplorerForm = null;
         frmSystemEditor _systemEditor;
+        ToolStripMenuItem mnuNavmapGrid;
         readonly UICultureChanger _uiCultureChanger = new UICultureChanger();
 
         public frmMain()
         {
             InitializeComponent();
             Helper.UI.ApplyFont(this);
+            InitializeNavmapGridMenu();
             Icon = Resources.LogoIcon;
 
             GetSettings();
@@ -36,6 +38,19 @@ namespace FreelancerModStudio
 
             //register event to restart app if update was downloaded and button 'Install' pressed
             Helper.Update.AutoUpdate.RestartingApplication += AutoUpdate_RestartingApplication;
+        }
+
+        void InitializeNavmapGridMenu()
+        {
+            mnuNavmapGrid = new ToolStripMenuItem
+                {
+                    Text = "Navmap 8x8 Grid",
+                    CheckOnClick = true
+                };
+            mnuNavmapGrid.Click += mnuNavmapGrid_Click;
+
+            int index = mnuView.DropDownItems.IndexOf(mnuShowModels);
+            mnuView.DropDownItems.Insert(index + 1, mnuNavmapGrid);
         }
 
         void frmMain_Load(object sender, EventArgs e)
@@ -731,14 +746,17 @@ namespace FreelancerModStudio
                         // set model mode as it was reset if the editor was closed
                         _systemEditor.IsModelMode = mnuShowModels.Checked;
                         _systemEditor.ShowData(tableEditor.Data);
+                        _systemEditor.SetNavmapGrid(GetNavmapScale(tableEditor), mnuNavmapGrid.Checked);
                         break;
                     case ViewerType.Universe:
                         _systemEditor.IsModelMode = false;
+                        _systemEditor.SetNavmapGrid(0, false);
                         _systemEditor.ShowData(tableEditor.Data);
                         _systemEditor.ShowUniverseConnections(tableEditor.File, tableEditor.Data.Blocks, tableEditor.Archetype);
                         break;
                     case ViewerType.SolarArchetype:
                     case ViewerType.ModelPreview:
+                        _systemEditor.SetNavmapGrid(0, false);
                         _systemEditor.IsModelMode = true;
                         break;
                 }
@@ -1025,6 +1043,15 @@ namespace FreelancerModStudio
             }
         }
 
+        void mnuNavmapGrid_Click(object sender, EventArgs e)
+        {
+            frmTableEditor tableEditor = dockPanel1.ActiveDocument as frmTableEditor;
+            if (_systemEditor != null && tableEditor != null && tableEditor.ViewerType == ViewerType.System)
+            {
+                _systemEditor.SetNavmapGrid(GetNavmapScale(tableEditor), mnuNavmapGrid.Checked);
+            }
+        }
+
         void mnuManipulationNone_Click(object sender, EventArgs e)
         {
             mnuManipulationNone.Checked = true;
@@ -1224,6 +1251,8 @@ namespace FreelancerModStudio
             mnuSelectAll.Enabled = isDocument && document.CanSelectAll();
 
             mnu3dEditor.Enabled = isDocument && document.CanDisplay3DViewer();
+            frmTableEditor tableEditor = document as frmTableEditor;
+            SetMenuVisible(mnuNavmapGrid, tableEditor != null && tableEditor.ViewerType == ViewerType.System);
 
             isVisible = isDocument && document.CanFocusSelected(false);
             isEnabled = isVisible && document.CanFocusSelected(true);
@@ -1248,6 +1277,103 @@ namespace FreelancerModStudio
             SetMenuVisible(mnuChangeVisibility, isVisible, isEnabled);
             SetMenuVisible(mnuShowModels, isVisible);
             SetMenuVisible(mnuShowModelsSeperator, isVisible);
+        }
+
+        double GetNavmapScale(frmTableEditor tableEditor)
+        {
+            if (tableEditor == null || tableEditor.ViewerType != ViewerType.System || string.IsNullOrEmpty(tableEditor.File))
+            {
+                return 0;
+            }
+
+            string dataPath = tableEditor.DataPath;
+            if (string.IsNullOrEmpty(dataPath))
+            {
+                dataPath = Helper.Template.Data.GetDataPath(tableEditor.File, Helper.Template.Data.SystemFile);
+            }
+
+            string universeFile = Path.Combine(Path.Combine(dataPath ?? string.Empty, "universe"), "universe.ini");
+            if (!File.Exists(universeFile))
+            {
+                return 0;
+            }
+
+            string systemFile = Path.GetFullPath(tableEditor.File);
+            string dataRoot = Path.GetFullPath(dataPath ?? Path.GetDirectoryName(universeFile));
+
+            string currentBlock = null;
+            string file = null;
+            string navmapScale = null;
+
+            foreach (string rawLine in File.ReadAllLines(universeFile))
+            {
+                string line = StripComment(rawLine).Trim();
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                if (line.StartsWith("[") && line.EndsWith("]"))
+                {
+                    double scale = GetMatchingNavmapScale(file, navmapScale, dataRoot, systemFile);
+                    if (scale > 0)
+                    {
+                        return scale;
+                    }
+
+                    currentBlock = line.Substring(1, line.Length - 2).Trim();
+                    file = null;
+                    navmapScale = null;
+                    continue;
+                }
+
+                if (!"system".Equals(currentBlock, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                int valueIndex = line.IndexOf('=');
+                if (valueIndex == -1)
+                {
+                    continue;
+                }
+
+                string optionName = line.Substring(0, valueIndex).Trim();
+                string optionValue = line.Substring(valueIndex + 1).Trim();
+
+                if (optionName.Equals("file", StringComparison.OrdinalIgnoreCase))
+                {
+                    file = optionValue;
+                }
+                else if (optionName.Equals("navmapscale", StringComparison.OrdinalIgnoreCase))
+                {
+                    navmapScale = optionValue;
+                }
+            }
+
+            return GetMatchingNavmapScale(file, navmapScale, dataRoot, systemFile);
+        }
+
+        static double GetMatchingNavmapScale(string file, string navmapScale, string dataRoot, string systemFile)
+        {
+            if (string.IsNullOrEmpty(file))
+            {
+                return 0;
+            }
+
+            string resolvedFile = Path.GetFullPath(Path.Combine(dataRoot, file.Replace('/', Path.DirectorySeparatorChar)));
+            if (!resolvedFile.Equals(systemFile, StringComparison.OrdinalIgnoreCase))
+            {
+                return 0;
+            }
+
+            return Parser.ParseDouble(navmapScale, 0);
+        }
+
+        static string StripComment(string line)
+        {
+            int commentIndex = line.IndexOf(';');
+            return commentIndex == -1 ? line : line.Substring(0, commentIndex);
         }
 
         void SetContentMenus(IContentForm content)
