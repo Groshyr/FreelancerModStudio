@@ -205,6 +205,10 @@ namespace FreelancerModStudio.Data
 
             public void CheckValidData()
             {
+                AutomaticallyOpen3DEditor = true;
+                FormattingSpaces = true;
+                FormattingEmptyLine = true;
+                FormattingComments = true;
             }
 
             void SetDefaultAutoUpdate()

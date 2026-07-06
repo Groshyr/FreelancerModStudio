@@ -72,37 +72,6 @@ namespace FreelancerModStudio
                 set { _settings.EditorHiddenColor = value; }
             }
 
-            [Category("INI Editor")]
-            [DisplayName("Automatically Open 3D Editor")]
-            public bool AutomaticallyOpen3DEditor
-            {
-                get { return _settings.AutomaticallyOpen3DEditor; }
-                set { _settings.AutomaticallyOpen3DEditor = value; }
-            }
-
-            [Category("INI Formatting")]
-            [DisplayName("Spaces around equal sign")]
-            public bool FormattingSpaces
-            {
-                get { return _settings.FormattingSpaces; }
-                set { _settings.FormattingSpaces = value; }
-            }
-
-            [Category("INI Formatting")]
-            [DisplayName("Empty line between sections")]
-            public bool FormattingEmptyLine
-            {
-                get { return _settings.FormattingEmptyLine; }
-                set { _settings.FormattingEmptyLine = value; }
-            }
-
-            [Category("INI Formatting")]
-            [DisplayName("Comments")]
-            public bool FormattingComments
-            {
-                get { return _settings.FormattingComments; }
-                set { _settings.FormattingComments = value; }
-            }
         }
     }
 }
