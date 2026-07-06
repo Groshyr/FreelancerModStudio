@@ -781,7 +781,7 @@ namespace FreelancerModStudio
                     _mnuThemeLight,
                     _mnuThemeDark
                 });
-            ToolStripMenuItem iniColorsMenuItem = new ToolStripMenuItem("INI Colors...", null, mnuIniColors_Click);
+            ToolStripMenuItem iniColorsMenuItem = new ToolStripMenuItem("INI Colors...", Resources.Filter, mnuIniColors_Click);
 
             mnuHelp.Text = "Options";
             mnuCheckUpdate.Text = "Check for updates...";
