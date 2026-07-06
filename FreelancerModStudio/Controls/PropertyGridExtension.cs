@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
 using System.Text;
+using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using FreelancerModStudio.Data;
 using FreelancerModStudio.Data.INI;
 
@@ -33,10 +36,15 @@ namespace FreelancerModStudio.Controls
     public class PropertyBlock : PropertyOptionCollection
     {
         public PropertyBlock(EditorINIBlock block, Template.Block templateBlock)
+            : this(block, templateBlock, null)
+        {
+        }
+
+        public PropertyBlock(EditorINIBlock block, Template.Block templateBlock, IDictionary<string, bool> encounterParameterStatus)
         {
             foreach (EditorINIOption option in block.Options)
             {
-                List.Add(new PropertyOption(option.Values, templateBlock.Options[option.TemplateIndex], option.ChildTemplateIndex != -1));
+                List.Add(new PropertyOption(option.Values, templateBlock.Options[option.TemplateIndex], option.ChildTemplateIndex != -1, encounterParameterStatus));
             }
 
             // show comments
@@ -72,6 +80,11 @@ namespace FreelancerModStudio.Controls
         }
 
         public PropertyOption(List<EditorINIEntry> options, Template.Option templateOption, bool children)
+            : this(options, templateOption, children, null)
+        {
+        }
+
+        public PropertyOption(List<EditorINIEntry> options, Template.Option templateOption, bool children, IDictionary<string, bool> encounterParameterStatus)
         {
             Name = templateOption.Name;
 
@@ -86,7 +99,7 @@ namespace FreelancerModStudio.Controls
                         new TypeConverterAttribute(typeof(PropertyOptionCollectionConverter))
                     };
 
-                Value = new PropertySubOptions(templateOption.Name, options, children);
+                Value = new PropertySubOptions(templateOption.Name, options, children, encounterParameterStatus);
             }
             else
             {
@@ -95,6 +108,11 @@ namespace FreelancerModStudio.Controls
         }
 
         public PropertyOption(string name, object option, List<object> subOptions, bool children)
+            : this(name, option, subOptions, children, null)
+        {
+        }
+
+        public PropertyOption(string name, object option, List<object> subOptions, bool children, bool? encounterParameterExists)
         {
             Name = name;
 
@@ -125,21 +143,103 @@ namespace FreelancerModStudio.Controls
             {
                 Value = option;
             }
+
+            if (encounterParameterExists.HasValue)
+            {
+                List<Attribute> attributes = Attributes != null ? new List<Attribute>(Attributes) : new List<Attribute>();
+                attributes.Add(new EditorAttribute(typeof(EncounterParameterStatusEditor), typeof(UITypeEditor)));
+                attributes.Add(new EncounterParameterStatusAttribute(encounterParameterExists.Value));
+                Attributes = attributes.ToArray();
+            }
         }
     }
 
     public class PropertySubOptions : PropertyOptionCollection
     {
         public PropertySubOptions(string optionName, List<EditorINIEntry> options, bool children)
+            : this(optionName, options, children, null)
+        {
+        }
+
+        public PropertySubOptions(string optionName, List<EditorINIEntry> options, bool children, IDictionary<string, bool> encounterParameterStatus)
         {
             int index = 0;
             foreach (EditorINIEntry entry in options)
             {
-                List.Add(new PropertyOption(optionName + " " + (index + 1).ToString(CultureInfo.InvariantCulture), entry.Value, entry.SubOptions, children));
+                bool? status = null;
+                if (encounterParameterStatus != null && optionName.Equals("encounter", StringComparison.OrdinalIgnoreCase))
+                {
+                    string encounterName = GetEncounterName(entry.Value);
+                    if (encounterName.Length > 0 && encounterParameterStatus.ContainsKey(encounterName))
+                    {
+                        status = encounterParameterStatus[encounterName];
+                    }
+                }
+
+                List.Add(new PropertyOption(optionName + " " + (index + 1).ToString(CultureInfo.InvariantCulture), entry.Value, entry.SubOptions, children, status));
                 ++index;
             }
 
             List.Add(new PropertyOption(optionName + " " + (index + 1).ToString(CultureInfo.InvariantCulture), string.Empty, null, children));
+        }
+
+        static string GetEncounterName(object value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            string text = value.ToString();
+            int commaIndex = text.IndexOf(',');
+            if (commaIndex != -1)
+            {
+                text = text.Substring(0, commaIndex);
+            }
+
+            return text.Trim();
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class EncounterParameterStatusAttribute : Attribute
+    {
+        public readonly bool Exists;
+
+        public EncounterParameterStatusAttribute(bool exists)
+        {
+            Exists = exists;
+        }
+    }
+
+    public class EncounterParameterStatusEditor : UITypeEditor
+    {
+        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            EncounterParameterStatusAttribute status = null;
+            if (e.Context != null && e.Context.PropertyDescriptor != null)
+            {
+                status = (EncounterParameterStatusAttribute)e.Context.PropertyDescriptor.Attributes[typeof(EncounterParameterStatusAttribute)];
+            }
+
+            Color color = status != null && status.Exists ? Color.ForestGreen : Color.Firebrick;
+            using (Brush brush = new SolidBrush(color))
+            {
+                e.Graphics.FillRectangle(brush, e.Bounds);
+            }
+
+            using (Pen pen = new Pen(SystemColors.WindowText))
+            {
+                Rectangle border = e.Bounds;
+                border.Width -= 1;
+                border.Height -= 1;
+                e.Graphics.DrawRectangle(pen, border);
+            }
         }
     }
 

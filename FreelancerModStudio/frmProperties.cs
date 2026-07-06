@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using FreelancerModStudio.Controls;
 using FreelancerModStudio.Data;
+using FreelancerModStudio.Data.INI;
 using FreelancerModStudio.Properties;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -54,16 +55,22 @@ namespace FreelancerModStudio
 
         public void ShowData(List<TableBlock> blocks, int templateIndex)
         {
+            ShowData(blocks, templateIndex, null);
+        }
+
+        public void ShowData(List<TableBlock> blocks, int templateIndex, List<TableBlock> allBlocks)
+        {
             if (blocks == null)
             {
                 propertyGrid.SelectedObjects = null;
                 return;
             }
 
+            Dictionary<string, bool> encounterParameterStatus = BuildEncounterParameterStatus(blocks, allBlocks);
             PropertyBlock[] propertyBlocks = new PropertyBlock[blocks.Count];
             for (int i = 0; i < blocks.Count; i++)
             {
-                propertyBlocks[i] = new PropertyBlock(blocks[i].Block, Helper.Template.Data.Files[templateIndex].Blocks.Values[blocks[i].Block.TemplateIndex]);
+                propertyBlocks[i] = new PropertyBlock(blocks[i].Block, Helper.Template.Data.Files[templateIndex].Blocks.Values[blocks[i].Block.TemplateIndex], encounterParameterStatus);
             }
 
             propertyGrid.SelectedObjects = propertyBlocks;
@@ -71,6 +78,115 @@ namespace FreelancerModStudio
 
             //ensure visibility of selected grid item
             propertyGrid.SelectedGridItem.Select();
+        }
+
+        static Dictionary<string, bool> BuildEncounterParameterStatus(List<TableBlock> selectedBlocks, List<TableBlock> allBlocks)
+        {
+            if (!ContainsEncounterOption(selectedBlocks))
+            {
+                return null;
+            }
+
+            Dictionary<string, bool> status = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            if (allBlocks != null)
+            {
+                foreach (TableBlock block in allBlocks)
+                {
+                    if (block == null || block.Block == null || !block.Block.Name.Equals("EncounterParameters", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    string nickname = GetOptionValue(block.Block, "nickname");
+                    if (!string.IsNullOrEmpty(nickname) && !status.ContainsKey(nickname))
+                    {
+                        status.Add(nickname, true);
+                    }
+                }
+            }
+
+            foreach (TableBlock block in selectedBlocks)
+            {
+                if (block == null || block.Block == null)
+                {
+                    continue;
+                }
+
+                foreach (EditorINIOption option in block.Block.Options)
+                {
+                    if (!option.Name.Equals("encounter", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    foreach (EditorINIEntry entry in option.Values)
+                    {
+                        string encounterName = GetEncounterName(entry.Value);
+                        if (encounterName.Length > 0 && !status.ContainsKey(encounterName))
+                        {
+                            status.Add(encounterName, false);
+                        }
+                    }
+                }
+            }
+
+            return status;
+        }
+
+        static bool ContainsEncounterOption(List<TableBlock> blocks)
+        {
+            if (blocks == null)
+            {
+                return false;
+            }
+
+            foreach (TableBlock block in blocks)
+            {
+                if (block == null || block.Block == null)
+                {
+                    continue;
+                }
+
+                foreach (EditorINIOption option in block.Block.Options)
+                {
+                    if (option.Name.Equals("encounter", StringComparison.OrdinalIgnoreCase) && option.Values.Count > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        static string GetOptionValue(EditorINIBlock block, string optionName)
+        {
+            foreach (EditorINIOption option in block.Options)
+            {
+                if (option.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase) && option.Values.Count > 0 && option.Values[0].Value != null)
+                {
+                    return option.Values[0].Value.ToString().Trim();
+                }
+            }
+
+            return string.Empty;
+        }
+
+        static string GetEncounterName(object value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            string text = value.ToString();
+            int commaIndex = text.IndexOf(',');
+            if (commaIndex != -1)
+            {
+                text = text.Substring(0, commaIndex);
+            }
+
+            return text.Trim();
         }
 
         void descriptionToolStripMenuItem_Click(object sender, EventArgs e)

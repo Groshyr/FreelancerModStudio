@@ -227,7 +227,8 @@ namespace FreelancerModStudio
         {
             if (data != null)
             {
-                _propertiesForm.ShowData(data, templateIndex);
+                frmTableEditor activeTableEditor = dockPanel1.ActiveDocument as frmTableEditor;
+                _propertiesForm.ShowData(data, templateIndex, activeTableEditor != null ? activeTableEditor.Data.Blocks : null);
 
                 if (_systemEditor != null)
                 {
@@ -903,7 +904,7 @@ namespace FreelancerModStudio
                 }
 
                 // update property window after changing active document
-                _propertiesForm.ShowData(tableEditor.GetSelectedBlocks(), tableEditor.Data.TemplateIndex);
+                _propertiesForm.ShowData(tableEditor.GetSelectedBlocks(), tableEditor.Data.TemplateIndex, tableEditor.Data.Blocks);
             }
             else
             {
