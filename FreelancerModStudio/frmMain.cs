@@ -45,11 +45,13 @@ namespace FreelancerModStudio
         {
             //open files
             string[] arguments = Environment.GetCommandLineArgs();
+            bool openedCommandLineFile = false;
             for (int i = 1; i < arguments.Length; ++i)
             {
                 if (File.Exists(arguments[i]))
                 {
                     OpenFile(arguments[i]);
+                    openedCommandLineFile = true;
                 }
             }
 
@@ -69,6 +71,11 @@ namespace FreelancerModStudio
 
             //this.solutionExplorerForm.Show(dockPanel1);
             ShowDocked(_propertiesForm, DockState.DockRight);
+
+            if (!openedCommandLineFile)
+            {
+                RestorePreviousFiles();
+            }
 
             SettingsChanged();
         }
@@ -397,6 +404,86 @@ namespace FreelancerModStudio
             DisplayRecentFiles();
         }
 
+        void RemoveFromPreviousFiles(string file)
+        {
+            for (int i = 0; i < Helper.Settings.Data.Data.Forms.Main.OpenFiles.Count; ++i)
+            {
+                if (Helper.Settings.Data.Data.Forms.Main.OpenFiles[i].File == file)
+                {
+                    Helper.Settings.Data.Data.Forms.Main.OpenFiles.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        void SavePreviousFiles()
+        {
+            List<Settings.RecentFile> openFiles = new List<Settings.RecentFile>();
+
+            foreach (IDockContent document in dockPanel1.DocumentsToArray())
+            {
+                frmTableEditor tableEditor = document as frmTableEditor;
+                if (tableEditor == null || string.IsNullOrEmpty(tableEditor.File))
+                {
+                    continue;
+                }
+
+                bool alreadyAdded = false;
+                foreach (Settings.RecentFile openFile in openFiles)
+                {
+                    if (openFile.File.Equals(tableEditor.File, StringComparison.OrdinalIgnoreCase))
+                    {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyAdded)
+                {
+                    openFiles.Add(new Settings.RecentFile
+                        {
+                            File = tableEditor.File,
+                            TemplateIndex = tableEditor.Data.TemplateIndex
+                        });
+                }
+            }
+
+            Helper.Settings.Data.Data.Forms.Main.OpenFiles = openFiles;
+        }
+
+        void RestorePreviousFiles()
+        {
+            if (!Helper.Settings.Data.Data.General.RestorePreviousFiles)
+            {
+                return;
+            }
+
+            Settings.RecentFile[] openFiles = Helper.Settings.Data.Data.Forms.Main.OpenFiles.ToArray();
+            foreach (Settings.RecentFile openFile in openFiles)
+            {
+                if (openFile == null || string.IsNullOrEmpty(openFile.File))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    if (File.Exists(openFile.File))
+                    {
+                        OpenFile(openFile.File, openFile.TemplateIndex);
+                    }
+                    else
+                    {
+                        RemoveFromPreviousFiles(openFile.File);
+                    }
+                }
+                catch
+                {
+                    RemoveFromPreviousFiles(openFile.File);
+                }
+            }
+        }
+
         void AddToRecentFiles(string file, int templateIndex)
         {
             //remove double files
@@ -555,6 +642,7 @@ namespace FreelancerModStudio
                 e.Cancel = true;
                 return;
             }*/
+            SavePreviousFiles();
             if (!CloseAllDocuments())
             {
                 e.Cancel = true;

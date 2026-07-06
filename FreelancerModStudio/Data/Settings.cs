@@ -96,6 +96,10 @@ namespace FreelancerModStudio.Data
             [DisplayName("Automatically Open 3D Editor")]
             public bool AutomaticallyOpen3DEditor { get; set; }
 
+            [Category("General")]
+            [DisplayName("Restore previous files")]
+            public bool RestorePreviousFiles { get; set; }
+
             [Category("INI Formatting")]
             [DisplayName("Spaces around equal sign")]
             public bool FormattingSpaces { get; set; }
@@ -176,6 +180,7 @@ namespace FreelancerModStudio.Data
                 EditorModifiedSavedColor = Color.ForestGreen;
                 EditorHiddenColor = Color.Gray;
                 AutomaticallyOpen3DEditor = true;
+                RestorePreviousFiles = true;
 
                 FormattingSpaces = true;
                 FormattingEmptyLine = true;
@@ -267,6 +272,9 @@ namespace FreelancerModStudio.Data
         {
             [XmlArrayItem("RecentFile")]
             public List<RecentFile> RecentFiles = new List<RecentFile>();
+
+            [XmlArrayItem("OpenFile")]
+            public List<RecentFile> OpenFiles = new List<RecentFile>();
 
             public Point Location;
             public Size Size;
