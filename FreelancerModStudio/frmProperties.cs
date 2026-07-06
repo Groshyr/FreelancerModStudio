@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Windows.Forms;
 using FreelancerModStudio.Controls;
 using FreelancerModStudio.Data;
@@ -17,9 +16,6 @@ namespace FreelancerModStudio
         public OptionsChangedType OptionsChanged;
 
         readonly ToolTip parameterDescriptionToolTip;
-        Control propertyGridView;
-        MethodInfo getGridEntryFromOffsetMethod;
-        object lastDescriptionGridEntry;
 
         void OnOptionsChanged(PropertyBlock[] blocks)
         {
@@ -34,13 +30,12 @@ namespace FreelancerModStudio
             InitializeComponent();
             parameterDescriptionToolTip = new ToolTip(components)
             {
-                AutomaticDelay = 1000,
+                AutomaticDelay = 0,
                 AutoPopDelay = 10000,
-                InitialDelay = 1000,
-                ReshowDelay = 100,
+                InitialDelay = 0,
+                ReshowDelay = 0,
                 ShowAlways = true
             };
-            ConfigureParameterDescriptionToolTip();
             Helper.UI.ApplyFont(this);
             Icon = Resources.Properties;
             Helper.UI.ApplyTheme(this);
@@ -211,83 +206,16 @@ namespace FreelancerModStudio
 
         void parameterDescriptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowSelectedParameterDescriptionAtCursor();
+            ShowSelectedParameterDescription();
         }
 
         void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            ShowSelectedParameterDescriptionAtCursor();
+            ShowSelectedParameterDescription();
         }
 
-        void ConfigureParameterDescriptionToolTip()
-        {
-            FieldInfo gridViewField = propertyGrid.GetType().GetField("_gridView", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (gridViewField == null)
-            {
-                gridViewField = propertyGrid.GetType().GetField("gridView", BindingFlags.Instance | BindingFlags.NonPublic);
-            }
-
-            propertyGridView = gridViewField != null ? gridViewField.GetValue(propertyGrid) as Control : null;
-            if (propertyGridView == null)
-            {
-                return;
-            }
-
-            getGridEntryFromOffsetMethod = propertyGridView.GetType().GetMethod("GetGridEntryFromOffset", BindingFlags.Instance | BindingFlags.NonPublic);
-            propertyGridView.MouseMove += propertyGridView_MouseMove;
-            propertyGridView.MouseLeave += propertyGridView_MouseLeave;
-        }
-
-        void propertyGridView_MouseMove(object sender, MouseEventArgs e)
-        {
-            object gridEntry = GetGridEntryFromOffset(e.Y);
-            if (ReferenceEquals(gridEntry, lastDescriptionGridEntry))
-            {
-                return;
-            }
-
-            lastDescriptionGridEntry = gridEntry;
-            string description = GetGridEntryDescription(gridEntry);
-            parameterDescriptionToolTip.SetToolTip(propertyGridView, description);
-        }
-
-        void propertyGridView_MouseLeave(object sender, EventArgs e)
-        {
-            lastDescriptionGridEntry = null;
-            parameterDescriptionToolTip.Hide(propertyGridView ?? propertyGrid);
-        }
-
-        object GetGridEntryFromOffset(int y)
-        {
-            if (getGridEntryFromOffsetMethod == null || propertyGridView == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return getGridEntryFromOffsetMethod.Invoke(propertyGridView, new object[] { y });
-            }
-            catch (TargetInvocationException)
-            {
-                return null;
-            }
-        }
-
-        static string GetGridEntryDescription(object gridEntry)
-        {
-            if (gridEntry == null)
-            {
-                return null;
-            }
-
-            PropertyInfo propertyDescriptionProperty = gridEntry.GetType().GetProperty("PropertyDescription", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            string description = propertyDescriptionProperty != null ? propertyDescriptionProperty.GetValue(gridEntry, null) as string : null;
-            return string.IsNullOrEmpty(description) ? "No description provided yet." : description;
-        }
-
-        void ShowSelectedParameterDescriptionAtCursor()
+        void ShowSelectedParameterDescription()
         {
             GridItem selectedItem = propertyGrid.SelectedGridItem;
             if (selectedItem == null || selectedItem.PropertyDescriptor == null)
@@ -302,7 +230,7 @@ namespace FreelancerModStudio
             }
 
             parameterDescriptionToolTip.Hide(propertyGrid);
-            parameterDescriptionToolTip.Show(description, propertyGridView ?? propertyGrid, (propertyGridView ?? propertyGrid).PointToClient(Cursor.Position), 10000);
+            parameterDescriptionToolTip.Show(description, propertyGrid, propertyGrid.PointToClient(Cursor.Position), 10000);
         }
 
         void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
