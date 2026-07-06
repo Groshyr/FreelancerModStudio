@@ -99,7 +99,6 @@
     <Compile Include="Data\ByteLen.cs" />
     <Compile Include="Data\CrcTool.cs" />
     <Compile Include="Data\FreelancerManifest.cs" />
-    <Compile Include="Data\ParameterDescriptions.cs" />
     <Compile Include="Data\INI\INIOption.cs" />
     <Compile Include="Data\INI\INIBlock.cs" />
     <Compile Include="Data\INI\INIOptions.cs" />

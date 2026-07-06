@@ -72,7 +72,6 @@ namespace FreelancerModStudio.Controls
             // comments
             Name = name;
             Value = value ?? string.Empty;
-            Description = ParameterDescriptions.Get(name, null);
 
             Attributes = new Attribute[]
                 {
@@ -90,7 +89,7 @@ namespace FreelancerModStudio.Controls
             Name = templateOption.Name;
 
             Category = templateOption.Category;
-            Description = ParameterDescriptions.Get(templateOption.Name, templateOption.Description);
+            Description = templateOption.Description;
 
             if (templateOption.Multiple)
             {
@@ -116,7 +115,6 @@ namespace FreelancerModStudio.Controls
         public PropertyOption(string name, object option, List<object> subOptions, bool children, bool? encounterParameterExists)
         {
             Name = name;
-            Description = ParameterDescriptions.Get(name, null);
 
             if (children)
             {

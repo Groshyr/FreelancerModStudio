@@ -194,34 +194,6 @@ namespace FreelancerModStudio
             propertyGrid.HelpVisible = descriptionToolStripMenuItem.Checked;
         }
 
-        void parameterDescriptionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowSelectedParameterDescription();
-        }
-
-        void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            ShowSelectedParameterDescription();
-        }
-
-        void ShowSelectedParameterDescription()
-        {
-            GridItem selectedItem = propertyGrid.SelectedGridItem;
-            if (selectedItem == null || selectedItem.PropertyDescriptor == null)
-            {
-                return;
-            }
-
-            string description = selectedItem.PropertyDescriptor.Description;
-            if (string.IsNullOrEmpty(description))
-            {
-                description = "No local Starport-derived description is available for this parameter yet.";
-            }
-
-            MessageBox.Show(this, description, selectedItem.Label, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.Value != e.OldValue)
