@@ -30,6 +30,9 @@ namespace FreelancerModStudio
             Icon = Resources.LogoIcon;
 
             GetSettings();
+            Helper.UI.ApplyToolStripTheme();
+            Helper.UI.ApplyTheme(this);
+            Helper.UI.ApplyDockPanelTheme(dockPanel1);
 
             //initialize content windows after language was set
             InitContentWindows();
@@ -90,6 +93,7 @@ namespace FreelancerModStudio
             //solutionExplorerForm = new frmSolutionExplorer();
 
             _propertiesForm.OptionsChanged += Properties_OptionsChanged;
+            Helper.UI.ApplyTheme(_propertiesForm);
 
             InitSystemEditor();
         }
@@ -100,6 +104,7 @@ namespace FreelancerModStudio
             _systemEditor.SelectionChanged += systemEditor_SelectionChanged;
             _systemEditor.FileOpen += systemEditor_FileOpen;
             _systemEditor.DataManipulated += systemEditor_DataManipulated;
+            Helper.UI.ApplyTheme(_systemEditor);
         }
 
         IDockContent GetContentFromPersistString(string persistString)
@@ -529,6 +534,7 @@ namespace FreelancerModStudio
         frmTableEditor DisplayFile(string file, int templateIndex)
         {
             frmTableEditor tableEditor = new frmTableEditor(templateIndex, file);
+            Helper.UI.ApplyTheme(tableEditor);
             tableEditor.ShowData();
             tableEditor.TabPageContextMenuStrip = contextMenuStrip1;
 

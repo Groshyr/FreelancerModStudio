@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using FreelancerModStudio.AutoUpdate;
 using FreelancerModStudio.Data;
 using FreelancerModStudio.Properties;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace FreelancerModStudio
 {
@@ -42,12 +43,7 @@ namespace FreelancerModStudio
                 Debug.WriteLine("loading settings.xml and template.xml: " + st.ElapsedMilliseconds + "ms");
 #endif
 
-                //whidbey color table (gray colors of menustrip and tabstrip)
-                ProfessionalColorTable whidbeyColorTable = new ProfessionalColorTable
-                    {
-                        UseSystemColors = true
-                    };
-                ToolStripManager.Renderer = new ToolStripProfessionalRenderer(whidbeyColorTable);
+                UI.ApplyToolStripTheme();
 
                 //remove installed update if it exists
                 if (Settings.Data.Data.General.AutoUpdate.Update.Installed)
@@ -118,6 +114,21 @@ namespace FreelancerModStudio
         internal struct UI
         {
             const string FontName = "Segoe UI";
+            public static readonly Color DarkBackground = Color.FromArgb(30, 30, 30);
+            public static readonly Color DarkSurface = Color.FromArgb(37, 37, 38);
+            public static readonly Color DarkSurfaceAlt = Color.FromArgb(45, 45, 48);
+            public static readonly Color DarkBorder = Color.FromArgb(63, 63, 70);
+            public static readonly Color DarkText = Color.FromArgb(204, 204, 204);
+            public static readonly Color DarkMutedText = Color.FromArgb(153, 153, 153);
+            public static readonly Color DarkAccent = Color.FromArgb(0, 122, 204);
+
+            public static bool IsDarkTheme
+            {
+                get
+                {
+                    return Settings.Data.Data.General.Theme == Data.Settings.Theme.Dark;
+                }
+            }
 
             public static Font CreateFont(Font baseFont)
             {
@@ -142,6 +153,175 @@ namespace FreelancerModStudio
                 {
                     ApplyFont(child);
                 }
+            }
+
+            public static void ApplyToolStripTheme()
+            {
+                if (IsDarkTheme)
+                {
+                    ToolStripManager.Renderer = new ToolStripProfessionalRenderer(new DarkColorTable());
+                    return;
+                }
+
+                ProfessionalColorTable whidbeyColorTable = new ProfessionalColorTable
+                    {
+                        UseSystemColors = true
+                    };
+                ToolStripManager.Renderer = new ToolStripProfessionalRenderer(whidbeyColorTable);
+            }
+
+            public static void ApplyTheme(Control control)
+            {
+                if (control == null || !IsDarkTheme)
+                {
+                    return;
+                }
+
+                ApplyThemeToControl(control);
+
+                foreach (Control child in control.Controls)
+                {
+                    ApplyTheme(child);
+                }
+            }
+
+            public static void ApplyDockPanelTheme(DockPanel dockPanel)
+            {
+                if (dockPanel == null || !IsDarkTheme)
+                {
+                    return;
+                }
+
+                dockPanel.BackColor = DarkBackground;
+
+                DockPanelSkin skin = dockPanel.Skin;
+                SetGradient(skin.AutoHideStripSkin.DockStripGradient, DarkSurface, DarkSurface);
+                SetTabGradient(skin.AutoHideStripSkin.TabGradient, DarkSurfaceAlt, DarkSurfaceAlt, DarkText);
+
+                DockPaneStripGradient document = skin.DockPaneStripSkin.DocumentGradient;
+                SetGradient(document.DockStripGradient, DarkBackground, DarkBackground);
+                SetTabGradient(document.ActiveTabGradient, DarkSurfaceAlt, DarkSurfaceAlt, Color.White);
+                SetTabGradient(document.InactiveTabGradient, DarkSurface, DarkSurface, DarkMutedText);
+
+                DockPaneStripToolWindowGradient tool = skin.DockPaneStripSkin.ToolWindowGradient;
+                SetGradient(tool.DockStripGradient, DarkBackground, DarkBackground);
+                SetTabGradient(tool.ActiveTabGradient, DarkSurfaceAlt, DarkSurfaceAlt, Color.White);
+                SetTabGradient(tool.InactiveTabGradient, DarkSurface, DarkSurface, DarkMutedText);
+                SetTabGradient(tool.ActiveCaptionGradient, DarkAccent, DarkAccent, Color.White);
+                SetTabGradient(tool.InactiveCaptionGradient, DarkSurfaceAlt, DarkSurfaceAlt, DarkText);
+            }
+
+            public static void ApplyPropertyGridTheme(PropertyGrid propertyGrid)
+            {
+                if (propertyGrid == null || !IsDarkTheme)
+                {
+                    return;
+                }
+
+                propertyGrid.BackColor = DarkBackground;
+                propertyGrid.ViewBackColor = DarkBackground;
+                propertyGrid.ViewForeColor = DarkText;
+                propertyGrid.CategoryForeColor = Color.White;
+                propertyGrid.CommandsBackColor = DarkSurface;
+                propertyGrid.CommandsForeColor = DarkText;
+                propertyGrid.HelpBackColor = DarkSurface;
+                propertyGrid.HelpForeColor = DarkText;
+                propertyGrid.LineColor = DarkBorder;
+            }
+
+            static void ApplyThemeToControl(Control control)
+            {
+                if (control is TextBoxBase || control is ListView || control is TreeView || control is DataGridView || control is PropertyGrid)
+                {
+                    control.BackColor = DarkBackground;
+                    control.ForeColor = DarkText;
+                    return;
+                }
+
+                if (control is Button)
+                {
+                    control.BackColor = DarkSurfaceAlt;
+                    control.ForeColor = DarkText;
+                    return;
+                }
+
+                if (control is ToolStrip)
+                {
+                    ApplyToolStripColors((ToolStrip)control);
+                    return;
+                }
+
+                control.BackColor = DarkSurface;
+                control.ForeColor = DarkText;
+            }
+
+            public static void ApplyToolStripColors(ToolStrip toolStrip)
+            {
+                if (toolStrip == null || !IsDarkTheme)
+                {
+                    return;
+                }
+
+                toolStrip.BackColor = DarkSurface;
+                toolStrip.ForeColor = DarkText;
+
+                foreach (ToolStripItem item in toolStrip.Items)
+                {
+                    ApplyToolStripItemColors(item);
+                }
+            }
+
+            static void ApplyToolStripItemColors(ToolStripItem item)
+            {
+                item.BackColor = DarkSurface;
+                item.ForeColor = DarkText;
+
+                ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+                if (menuItem == null)
+                {
+                    return;
+                }
+
+                foreach (ToolStripItem dropDownItem in menuItem.DropDownItems)
+                {
+                    ApplyToolStripItemColors(dropDownItem);
+                }
+            }
+
+            static void SetGradient(DockPanelGradient gradient, Color startColor, Color endColor)
+            {
+                gradient.StartColor = startColor;
+                gradient.EndColor = endColor;
+            }
+
+            static void SetTabGradient(TabGradient gradient, Color startColor, Color endColor, Color textColor)
+            {
+                SetGradient(gradient, startColor, endColor);
+                gradient.TextColor = textColor;
+            }
+
+            sealed class DarkColorTable : ProfessionalColorTable
+            {
+                public override Color ToolStripDropDownBackground { get { return DarkSurface; } }
+                public override Color ImageMarginGradientBegin { get { return DarkSurfaceAlt; } }
+                public override Color ImageMarginGradientMiddle { get { return DarkSurfaceAlt; } }
+                public override Color ImageMarginGradientEnd { get { return DarkSurfaceAlt; } }
+                public override Color MenuBorder { get { return DarkBorder; } }
+                public override Color MenuItemBorder { get { return DarkAccent; } }
+                public override Color MenuItemSelected { get { return Color.FromArgb(62, 62, 64); } }
+                public override Color MenuItemSelectedGradientBegin { get { return Color.FromArgb(62, 62, 64); } }
+                public override Color MenuItemSelectedGradientEnd { get { return Color.FromArgb(62, 62, 64); } }
+                public override Color MenuItemPressedGradientBegin { get { return DarkSurfaceAlt; } }
+                public override Color MenuItemPressedGradientMiddle { get { return DarkSurfaceAlt; } }
+                public override Color MenuItemPressedGradientEnd { get { return DarkSurfaceAlt; } }
+                public override Color ToolStripBorder { get { return DarkBorder; } }
+                public override Color ToolStripGradientBegin { get { return DarkSurface; } }
+                public override Color ToolStripGradientMiddle { get { return DarkSurface; } }
+                public override Color ToolStripGradientEnd { get { return DarkSurface; } }
+                public override Color MenuStripGradientBegin { get { return DarkSurface; } }
+                public override Color MenuStripGradientEnd { get { return DarkSurface; } }
+                public override Color SeparatorDark { get { return DarkBorder; } }
+                public override Color SeparatorLight { get { return DarkSurfaceAlt; } }
             }
         }
 

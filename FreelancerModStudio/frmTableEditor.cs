@@ -112,6 +112,8 @@ namespace FreelancerModStudio
                 SetFile(string.Empty);
             }
 
+            SetTheme();
+
             objectListView1.CellToolTip.InitialDelay = 1000;
             objectListView1.UnfocusedHighlightBackgroundColor = objectListView1.HighlightBackgroundColorOrDefault;
             objectListView1.UnfocusedHighlightForegroundColor = objectListView1.HighlightForegroundColorOrDefault;
@@ -124,6 +126,19 @@ namespace FreelancerModStudio
             }
 
             RefreshSettings();
+        }
+
+        void SetTheme()
+        {
+            if (!Helper.UI.IsDarkTheme)
+            {
+                return;
+            }
+
+            objectListView1.BackColor = Helper.UI.DarkBackground;
+            objectListView1.ForeColor = Helper.UI.DarkText;
+            objectListView1.BorderStyle = BorderStyle.None;
+            objectListView1.GridLines = false;
         }
 
         void LoadIcons()

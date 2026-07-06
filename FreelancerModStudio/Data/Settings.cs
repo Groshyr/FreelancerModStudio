@@ -44,6 +44,12 @@ namespace FreelancerModStudio.Data
             public Forms Forms = new Forms();
         }
 
+        public enum Theme
+        {
+            Light,
+            Dark
+        }
+
         [DisplayName("General")]
         public class General
         {
@@ -61,6 +67,10 @@ namespace FreelancerModStudio.Data
             [Category("General")]
             [DisplayName("Default Freelancer DATA folder")]
             public string DefaultDataDirectory { get; set; }
+
+            [Category("General")]
+            [DisplayName("Mod Studio Theme")]
+            public Theme Theme { get; set; }
 
             [Category("Properties")]
             [DisplayName("Sort type")]
@@ -165,6 +175,7 @@ namespace FreelancerModStudio.Data
                 // set default values
                 RecentFilesCount = 4;
                 Language = LanguageType.English;
+                Theme = Theme.Dark;
 
                 PropertiesSortType = PropertySort.NoSort;
                 PropertiesShowHelp = false;

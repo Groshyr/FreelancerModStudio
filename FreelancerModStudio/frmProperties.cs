@@ -27,6 +27,8 @@ namespace FreelancerModStudio
             InitializeComponent();
             Helper.UI.ApplyFont(this);
             Icon = Resources.Properties;
+            Helper.UI.ApplyTheme(this);
+            Helper.UI.ApplyPropertyGridTheme(propertyGrid);
 
             RefreshSettings();
         }
