@@ -15,7 +15,14 @@ namespace FreelancerModStudio
 
         public OptionsChangedType OptionsChanged;
 
-        readonly ToolTip parameterDescriptionToolTip;
+        readonly ToolTip parameterDescriptionToolTip = new ToolTip
+        {
+            AutomaticDelay = 0,
+            AutoPopDelay = 10000,
+            InitialDelay = 0,
+            ReshowDelay = 0,
+            ShowAlways = true
+        };
 
         void OnOptionsChanged(PropertyBlock[] blocks)
         {
@@ -28,14 +35,6 @@ namespace FreelancerModStudio
         public frmProperties()
         {
             InitializeComponent();
-            parameterDescriptionToolTip = new ToolTip(components)
-            {
-                AutomaticDelay = 0,
-                AutoPopDelay = 10000,
-                InitialDelay = 0,
-                ReshowDelay = 0,
-                ShowAlways = true
-            };
             Helper.UI.ApplyFont(this);
             Icon = Resources.Properties;
             Helper.UI.ApplyTheme(this);
