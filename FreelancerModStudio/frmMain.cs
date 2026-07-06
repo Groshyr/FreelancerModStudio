@@ -131,16 +131,6 @@ namespace FreelancerModStudio
             frmAbout.ShowDialog();
         }
 
-        void mnuVisitForum_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://the-starport.net/freelancer/forum/viewtopic.php?topic_id=2174");
-        }
-
-        void mnuReportIssue_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://code.google.com/p/freelancermodstudio/issues");
-        }
-
         void mnuCloseAllDocuments_Click(object sender, EventArgs e)
         {
             CloseAllDocuments();

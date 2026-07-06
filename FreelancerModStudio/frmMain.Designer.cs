@@ -97,7 +97,6 @@
             this.mnuChangeVisibility = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShowModelsSeperator = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFullScreen = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTools = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,9 +105,6 @@
             this.mnuResetLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuWindowsSeperator = new System.Windows.Forms.ToolStripSeparator();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuReportIssue = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuVisitForum = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCheckUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,7 +157,7 @@
             this.mnuFile,
             this.mnuEdit,
             this.mnuView,
-            this.mnuTools,
+            this.mnuOptions,
             this.mnuWindows,
             this.mnuHelp});
             this.menuStrip1.MdiWindowListItem = this.mnuWindows;
@@ -682,25 +678,14 @@
             this.mnuFullScreen.ShortcutKeyDisplayString = null;
             this.mnuFullScreen.Click += new System.EventHandler(this.mnuFullScreen_Click);
             // 
-            // mnuTools
-            // 
-            this.mnuTools.AccessibleDescription = null;
-            this.mnuTools.AccessibleName = null;
-            resources.ApplyResources(this.mnuTools, "mnuTools");
-            this.mnuTools.BackgroundImage = null;
-            this.mnuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuOptions});
-            this.mnuTools.MergeIndex = 3;
-            this.mnuTools.Name = "mnuTools";
-            this.mnuTools.ShortcutKeyDisplayString = null;
-            // 
             // mnuOptions
-            // 
+            //
             this.mnuOptions.AccessibleDescription = null;
             this.mnuOptions.AccessibleName = null;
             resources.ApplyResources(this.mnuOptions, "mnuOptions");
             this.mnuOptions.BackgroundImage = null;
             this.mnuOptions.Image = global::FreelancerModStudio.Properties.Resources.Settings;
+            this.mnuOptions.MergeIndex = 3;
             this.mnuOptions.Name = "mnuOptions";
             this.mnuOptions.ShortcutKeyDisplayString = null;
             this.mnuOptions.Click += new System.EventHandler(this.mnuOptions_Click);
@@ -773,45 +758,12 @@
             resources.ApplyResources(this.mnuHelp, "mnuHelp");
             this.mnuHelp.BackgroundImage = null;
             this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuReportIssue,
-            this.mnuVisitForum,
-            this.toolStripMenuItem2,
             this.mnuCheckUpdate,
             this.toolStripMenuItem10,
             this.mnuAbout});
             this.mnuHelp.MergeIndex = 5;
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.ShortcutKeyDisplayString = null;
-            // 
-            // mnuReportIssue
-            // 
-            this.mnuReportIssue.AccessibleDescription = null;
-            this.mnuReportIssue.AccessibleName = null;
-            resources.ApplyResources(this.mnuReportIssue, "mnuReportIssue");
-            this.mnuReportIssue.BackgroundImage = null;
-            this.mnuReportIssue.Image = global::FreelancerModStudio.Properties.Resources.ReportIssue;
-            this.mnuReportIssue.Name = "mnuReportIssue";
-            this.mnuReportIssue.ShortcutKeyDisplayString = null;
-            this.mnuReportIssue.Click += new System.EventHandler(this.mnuReportIssue_Click);
-            // 
-            // mnuVisitForum
-            // 
-            this.mnuVisitForum.AccessibleDescription = null;
-            this.mnuVisitForum.AccessibleName = null;
-            resources.ApplyResources(this.mnuVisitForum, "mnuVisitForum");
-            this.mnuVisitForum.BackgroundImage = null;
-            this.mnuVisitForum.Image = global::FreelancerModStudio.Properties.Resources.HomePage;
-            this.mnuVisitForum.Name = "mnuVisitForum";
-            this.mnuVisitForum.ShortcutKeyDisplayString = null;
-            this.mnuVisitForum.Click += new System.EventHandler(this.mnuVisitForum_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.AccessibleDescription = null;
-            this.toolStripMenuItem2.AccessibleName = null;
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            // 
             // mnuCheckUpdate
             // 
             this.mnuCheckUpdate.AccessibleDescription = null;
@@ -1035,8 +987,6 @@
         private System.Windows.Forms.ToolStripPanel toolStripPanel3;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
-        private System.Windows.Forms.ToolStripMenuItem mnuReportIssue;
-        private System.Windows.Forms.ToolStripMenuItem mnuVisitForum;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel1;
         private System.Windows.Forms.ToolStripMenuItem mnuWindows;
@@ -1048,7 +998,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripMenuItem mnuOpenMod;
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
-        private System.Windows.Forms.ToolStripMenuItem mnuTools;
         private System.Windows.Forms.ToolStripMenuItem mnuOptions;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuFullScreen;
@@ -1059,7 +1008,6 @@
         private System.Windows.Forms.ToolStripSeparator mnuSaveSeperator;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator mnuCloseSeperator;
         private System.Windows.Forms.ToolStripMenuItem mnuCheckUpdate;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
