@@ -157,9 +157,7 @@
             this.mnuFile,
             this.mnuEdit,
             this.mnuView,
-            this.mnuWindows,
             this.mnuHelp});
-            this.menuStrip1.MdiWindowListItem = this.mnuWindows;
             this.menuStrip1.Name = "menuStrip1";
             // 
             // mnuFile
