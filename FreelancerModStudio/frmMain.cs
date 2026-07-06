@@ -22,6 +22,9 @@ namespace FreelancerModStudio
         //frmSolutionExplorer solutionExplorerForm = null;
         frmSystemEditor _systemEditor;
         readonly UICultureChanger _uiCultureChanger = new UICultureChanger();
+        ToolStripMenuItem _mnuThemeLight;
+        ToolStripMenuItem _mnuThemeDark;
+        ToolStripMenuItem _mnuRestorePreviousFiles;
 
         public frmMain()
         {
@@ -33,6 +36,7 @@ namespace FreelancerModStudio
             Helper.UI.ApplyToolStripTheme();
             Helper.UI.ApplyTheme(this);
             Helper.UI.ApplyDockPanelTheme(dockPanel1);
+            ConfigureOptionsMenu();
 
             //initialize content windows after language was set
             InitContentWindows();
@@ -759,7 +763,77 @@ namespace FreelancerModStudio
 
         void mnuCheckUpdate_Click(object sender, EventArgs e)
         {
-            Helper.Update.Check(false, false);
+            Process.Start(Helper.Update.ReleasesUrl);
+        }
+
+        void ConfigureOptionsMenu()
+        {
+            _mnuThemeLight = new ToolStripMenuItem("Light", null, mnuThemeLight_Click);
+            _mnuThemeDark = new ToolStripMenuItem("Dark", null, mnuThemeDark_Click);
+            _mnuRestorePreviousFiles = new ToolStripMenuItem("Restore previous files", null, mnuRestorePreviousFiles_Click)
+                {
+                    CheckOnClick = true
+                };
+
+            ToolStripMenuItem themeMenu = new ToolStripMenuItem("Theme");
+            themeMenu.DropDownItems.AddRange(new ToolStripItem[]
+                {
+                    _mnuThemeLight,
+                    _mnuThemeDark
+                });
+
+            mnuHelp.Text = "Options";
+            mnuCheckUpdate.Text = "Check for updates...";
+            mnuHelp.DropDownItems.Clear();
+            mnuHelp.DropDownItems.AddRange(new ToolStripItem[]
+                {
+                    themeMenu,
+                    _mnuRestorePreviousFiles,
+                    toolStripMenuItem10,
+                    mnuOptions,
+                    mnuCheckUpdate,
+                    mnuAbout
+                });
+
+            UpdateOptionsMenuChecks();
+        }
+
+        void UpdateOptionsMenuChecks()
+        {
+            if (_mnuThemeLight == null || _mnuThemeDark == null || _mnuRestorePreviousFiles == null)
+            {
+                return;
+            }
+
+            _mnuThemeLight.Checked = Helper.Settings.Data.Data.General.Theme == Settings.Theme.Light;
+            _mnuThemeDark.Checked = Helper.Settings.Data.Data.General.Theme == Settings.Theme.Dark;
+            _mnuRestorePreviousFiles.Checked = Helper.Settings.Data.Data.General.RestorePreviousFiles;
+        }
+
+        void SetTheme(Settings.Theme theme)
+        {
+            if (Helper.Settings.Data.Data.General.Theme == theme)
+            {
+                return;
+            }
+
+            Helper.Settings.Data.Data.General.Theme = theme;
+            SettingsChanged();
+        }
+
+        void mnuThemeLight_Click(object sender, EventArgs e)
+        {
+            SetTheme(Settings.Theme.Light);
+        }
+
+        void mnuThemeDark_Click(object sender, EventArgs e)
+        {
+            SetTheme(Settings.Theme.Dark);
+        }
+
+        void mnuRestorePreviousFiles_Click(object sender, EventArgs e)
+        {
+            Helper.Settings.Data.Data.General.RestorePreviousFiles = _mnuRestorePreviousFiles.Checked;
         }
 
         void AutoUpdate_RestartingApplication(object sender, CancelEventArgs e)
@@ -924,8 +998,15 @@ namespace FreelancerModStudio
 
         void SettingsChanged()
         {
+            Helper.UI.ApplyToolStripTheme();
+            Helper.UI.ApplyTheme(this);
+            Helper.UI.ApplyDockPanelTheme(dockPanel1);
+
             _uiCultureChanger.ApplyCulture(new CultureInfo("en"));
             _uiCultureChanger.ApplyCultureToForm(this);
+            mnuHelp.Text = "Options";
+            mnuCheckUpdate.Text = "Check for updates...";
+            UpdateOptionsMenuChecks();
 
             foreach (IDockContent dockContent in dockPanel1.Contents)
             {

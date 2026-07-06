@@ -188,7 +188,7 @@ namespace FreelancerModStudio.Data
 
                 AutoUpdate = new AutoUpdate
                     {
-                        Enabled = true,
+                        Enabled = false,
                         Proxy = new Proxy(),
                     };
                 SetDefaultAutoUpdate();
@@ -211,7 +211,7 @@ namespace FreelancerModStudio.Data
             {
                 AutoUpdate.CheckInterval = 28;
                 AutoUpdate.SilentDownload = false;
-                AutoUpdate.UpdateFile = @"https://raw.githubusercontent.com/Groshyr/FreelancerModStudio/master/updates.txt";
+                AutoUpdate.UpdateFile = @"https://github.com/Groshyr/FreelancerModStudio/releases";
             }
         }
 

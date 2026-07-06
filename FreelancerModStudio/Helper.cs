@@ -51,12 +51,6 @@ namespace FreelancerModStudio
                     AutoUpdate.AutoUpdate.RemoveUpdate();
                 }
 
-                //check for update
-                if (Settings.Data.Data.General.AutoUpdate.Enabled && Settings.Data.Data.General.AutoUpdate.UpdateFile != null && Settings.Data.Data.General.AutoUpdate.LastCheck.Date.AddDays(Settings.Data.Data.General.AutoUpdate.CheckInterval) <= DateTime.Now.Date)
-                {
-                    Update.Check(true, Settings.Data.Data.General.AutoUpdate.SilentDownload);
-                }
-
                 //start main form
                 Application.Run(new frmMain());
 
@@ -67,6 +61,8 @@ namespace FreelancerModStudio
 
         internal struct Update
         {
+            public const string ReleasesUrl = "https://github.com/Groshyr/FreelancerModStudio/releases";
+
             public static AutoUpdate.AutoUpdate AutoUpdate = new AutoUpdate.AutoUpdate();
 
             public static void Check(bool silentCheck, bool silentDownload)
