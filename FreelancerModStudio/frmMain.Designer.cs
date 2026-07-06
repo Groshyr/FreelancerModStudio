@@ -643,6 +643,8 @@
             this.mnuShowModels.AccessibleName = null;
             resources.ApplyResources(this.mnuShowModels, "mnuShowModels");
             this.mnuShowModels.BackgroundImage = null;
+            this.mnuShowModels.Checked = true;
+            this.mnuShowModels.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuShowModels.Name = "mnuShowModels";
             this.mnuShowModels.ShortcutKeyDisplayString = null;
             this.mnuShowModels.Click += new System.EventHandler(this.mnuShowModels_Click);
