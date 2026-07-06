@@ -168,7 +168,7 @@ namespace FreelancerModStudio
 
             public static void ApplyTheme(Control control)
             {
-                if (control == null || !IsDarkTheme)
+                if (control == null)
                 {
                     return;
                 }
@@ -183,12 +183,36 @@ namespace FreelancerModStudio
 
             public static void ApplyDockPanelTheme(DockPanel dockPanel)
             {
-                if (dockPanel == null || !IsDarkTheme)
+                if (dockPanel == null)
                 {
                     return;
                 }
 
+                if (!IsDarkTheme)
+                {
+                    dockPanel.BackColor = SystemColors.Control;
+                    dockPanel.DockBackColor = SystemColors.Control;
+
+                    DockPanelSkin lightSkin = dockPanel.Skin;
+                    SetGradient(lightSkin.AutoHideStripSkin.DockStripGradient, SystemColors.ControlLight, SystemColors.ControlLight);
+                    SetTabGradient(lightSkin.AutoHideStripSkin.TabGradient, SystemColors.Control, SystemColors.Control, SystemColors.ControlDarkDark);
+
+                    DockPaneStripGradient lightDocument = lightSkin.DockPaneStripSkin.DocumentGradient;
+                    SetGradient(lightDocument.DockStripGradient, SystemColors.ControlLight, SystemColors.ControlLight);
+                    SetTabGradient(lightDocument.ActiveTabGradient, SystemColors.ControlLightLight, SystemColors.ControlLightLight, SystemColors.ControlText);
+                    SetTabGradient(lightDocument.InactiveTabGradient, SystemColors.ControlLight, SystemColors.ControlLight, SystemColors.ControlText);
+
+                    DockPaneStripToolWindowGradient lightTool = lightSkin.DockPaneStripSkin.ToolWindowGradient;
+                    SetGradient(lightTool.DockStripGradient, SystemColors.ControlLight, SystemColors.ControlLight);
+                    SetTabGradient(lightTool.ActiveTabGradient, SystemColors.Control, SystemColors.Control, SystemColors.ControlText);
+                    SetTabGradient(lightTool.InactiveTabGradient, Color.Transparent, Color.Transparent, SystemColors.ControlDarkDark);
+                    SetTabGradient(lightTool.ActiveCaptionGradient, SystemColors.GradientActiveCaption, SystemColors.ActiveCaption, SystemColors.ActiveCaptionText);
+                    SetTabGradient(lightTool.InactiveCaptionGradient, SystemColors.InactiveBorder, SystemColors.InactiveBorder, SystemColors.ControlText);
+                    return;
+                }
+
                 dockPanel.BackColor = DarkBackground;
+                dockPanel.DockBackColor = DarkBackground;
 
                 DockPanelSkin skin = dockPanel.Skin;
                 SetGradient(skin.AutoHideStripSkin.DockStripGradient, DarkSurface, DarkSurface);
@@ -209,8 +233,22 @@ namespace FreelancerModStudio
 
             public static void ApplyPropertyGridTheme(PropertyGrid propertyGrid)
             {
-                if (propertyGrid == null || !IsDarkTheme)
+                if (propertyGrid == null)
                 {
+                    return;
+                }
+
+                if (!IsDarkTheme)
+                {
+                    propertyGrid.BackColor = SystemColors.Control;
+                    propertyGrid.ViewBackColor = SystemColors.Window;
+                    propertyGrid.ViewForeColor = SystemColors.WindowText;
+                    propertyGrid.CategoryForeColor = SystemColors.ControlText;
+                    propertyGrid.CommandsBackColor = SystemColors.Control;
+                    propertyGrid.CommandsForeColor = SystemColors.ControlText;
+                    propertyGrid.HelpBackColor = SystemColors.Control;
+                    propertyGrid.HelpForeColor = SystemColors.ControlText;
+                    propertyGrid.LineColor = SystemColors.InactiveBorder;
                     return;
                 }
 
@@ -227,6 +265,33 @@ namespace FreelancerModStudio
 
             static void ApplyThemeToControl(Control control)
             {
+                if (!IsDarkTheme)
+                {
+                    if (control is TextBoxBase || control is ListView || control is TreeView || control is DataGridView || control is PropertyGrid)
+                    {
+                        control.BackColor = SystemColors.Window;
+                        control.ForeColor = SystemColors.WindowText;
+                        return;
+                    }
+
+                    if (control is Button)
+                    {
+                        control.BackColor = SystemColors.Control;
+                        control.ForeColor = SystemColors.ControlText;
+                        return;
+                    }
+
+                    if (control is ToolStrip)
+                    {
+                        ApplyToolStripColors((ToolStrip)control);
+                        return;
+                    }
+
+                    control.BackColor = SystemColors.Control;
+                    control.ForeColor = SystemColors.ControlText;
+                    return;
+                }
+
                 if (control is TextBoxBase || control is ListView || control is TreeView || control is DataGridView || control is PropertyGrid)
                 {
                     control.BackColor = DarkBackground;
@@ -253,13 +318,13 @@ namespace FreelancerModStudio
 
             public static void ApplyToolStripColors(ToolStrip toolStrip)
             {
-                if (toolStrip == null || !IsDarkTheme)
+                if (toolStrip == null)
                 {
                     return;
                 }
 
-                toolStrip.BackColor = DarkSurface;
-                toolStrip.ForeColor = DarkText;
+                toolStrip.BackColor = IsDarkTheme ? DarkSurface : SystemColors.Control;
+                toolStrip.ForeColor = IsDarkTheme ? DarkText : SystemColors.ControlText;
 
                 foreach (ToolStripItem item in toolStrip.Items)
                 {
@@ -269,8 +334,8 @@ namespace FreelancerModStudio
 
             static void ApplyToolStripItemColors(ToolStripItem item)
             {
-                item.BackColor = DarkSurface;
-                item.ForeColor = DarkText;
+                item.BackColor = IsDarkTheme ? DarkSurface : SystemColors.Control;
+                item.ForeColor = IsDarkTheme ? DarkText : SystemColors.ControlText;
 
                 ToolStripMenuItem menuItem = item as ToolStripMenuItem;
                 if (menuItem == null)

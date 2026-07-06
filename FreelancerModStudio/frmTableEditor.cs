@@ -132,6 +132,10 @@ namespace FreelancerModStudio
         {
             if (!Helper.UI.IsDarkTheme)
             {
+                objectListView1.BackColor = SystemColors.Window;
+                objectListView1.ForeColor = SystemColors.WindowText;
+                objectListView1.BorderStyle = BorderStyle.Fixed3D;
+                objectListView1.GridLines = true;
                 return;
             }
 
@@ -182,6 +186,9 @@ namespace FreelancerModStudio
 
         public void RefreshSettings()
         {
+            Helper.UI.ApplyTheme(this);
+            SetTheme();
+
             objectListView1.EmptyListMsg = Strings.FileEditorEmpty;
 
             //display modified rows in different color

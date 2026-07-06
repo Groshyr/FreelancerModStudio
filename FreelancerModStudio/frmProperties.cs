@@ -35,6 +35,9 @@ namespace FreelancerModStudio
 
         public void RefreshSettings()
         {
+            Helper.UI.ApplyTheme(this);
+            Helper.UI.ApplyPropertyGridTheme(propertyGrid);
+
             TabText = Strings.PropertiesText;
 
             propertyGrid.PropertySort = Helper.Settings.Data.Data.General.PropertiesSortType;
