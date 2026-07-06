@@ -21,7 +21,7 @@ namespace FreelancerModStudio
                                 "Copyright © DiscoveryGC 2024;\r\n" +
                                 "Copyright © Groshlancer 2026";
             lblCompanyName.Text = string.Empty;
-            txtDescription.Text = "Dedicated to the Freelancer community";
+            txtDescription.Text = "Vibecoded with dedication to the Freelancer community";
         }
 
         void FixLayout()
