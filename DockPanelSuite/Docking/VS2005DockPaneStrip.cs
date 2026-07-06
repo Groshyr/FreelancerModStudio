@@ -876,7 +876,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             int height = GetTabRectangle_Document(index).Height;
 
-            Size sizeText = TextRenderer.MeasureText(content.DockHandler.TabText, BoldFont, new Size(DocumentTabMaxWidth, height), DocumentTextFormat);
+            Size sizeText = TextRenderer.MeasureText(content.DockHandler.TabText, TextFont, new Size(DocumentTabMaxWidth, height), DocumentTextFormat);
 
             if (DockPane.DockPanel.ShowDocumentIcon)
                 return sizeText.Width + DocumentIconWidth + DocumentIconGapLeft + DocumentIconGapRight + DocumentTextGapRight;
@@ -1260,10 +1260,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 g.DrawPath(PenDocumentTabActiveBorder, path);
 
                 Color textColor = DockPane.DockPanel.Skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.TextColor;
-                if (DockPane.IsActiveDocumentPane)
-                    TextRenderer.DrawText(g, tab.Content.DockHandler.TabText, BoldFont, rectText, textColor, DocumentTextFormat);
-                else
-                    TextRenderer.DrawText(g, tab.Content.DockHandler.TabText, TextFont, rectText, textColor, DocumentTextFormat);
+                TextRenderer.DrawText(g, tab.Content.DockHandler.TabText, TextFont, rectText, textColor, DocumentTextFormat);
             }
             else
             {
