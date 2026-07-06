@@ -159,7 +159,7 @@ namespace FreelancerModStudio
             {
                 if (IsDarkTheme)
                 {
-                    ToolStripManager.Renderer = new ToolStripProfessionalRenderer(new DarkColorTable());
+                    ToolStripManager.Renderer = new DarkToolStripRenderer(new DarkColorTable());
                     return;
                 }
 
@@ -322,6 +322,32 @@ namespace FreelancerModStudio
                 public override Color MenuStripGradientEnd { get { return DarkSurface; } }
                 public override Color SeparatorDark { get { return DarkBorder; } }
                 public override Color SeparatorLight { get { return DarkSurfaceAlt; } }
+            }
+
+            sealed class DarkToolStripRenderer : ToolStripProfessionalRenderer
+            {
+                public DarkToolStripRenderer(ProfessionalColorTable colorTable)
+                    : base(colorTable)
+                {
+                }
+
+                protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+                {
+                    if (!e.Item.Enabled)
+                    {
+                        e.TextColor = DarkMutedText;
+                    }
+                    else if (e.Item.Selected || e.Item.Pressed)
+                    {
+                        e.TextColor = Color.White;
+                    }
+                    else
+                    {
+                        e.TextColor = DarkText;
+                    }
+
+                    base.OnRenderItemText(e);
+                }
             }
 
         }
