@@ -15,6 +15,15 @@ namespace FreelancerModStudio
 
         public OptionsChangedType OptionsChanged;
 
+        readonly ToolTip parameterDescriptionToolTip = new ToolTip
+        {
+            AutomaticDelay = 0,
+            AutoPopDelay = 10000,
+            InitialDelay = 0,
+            ReshowDelay = 0,
+            ShowAlways = true
+        };
+
         void OnOptionsChanged(PropertyBlock[] blocks)
         {
             if (OptionsChanged != null)
@@ -216,10 +225,11 @@ namespace FreelancerModStudio
             string description = selectedItem.PropertyDescriptor.Description;
             if (string.IsNullOrEmpty(description))
             {
-                description = "No local Starport-derived description is available for this parameter yet.";
+                description = "No description provided yet.";
             }
 
-            MessageBox.Show(this, description, selectedItem.Label, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            parameterDescriptionToolTip.Hide(propertyGrid);
+            parameterDescriptionToolTip.Show(description, propertyGrid, propertyGrid.PointToClient(Cursor.Position), 10000);
         }
 
         void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

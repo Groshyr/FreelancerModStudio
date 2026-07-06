@@ -106,7 +106,7 @@ namespace FreelancerModStudio.Data
                 return description;
             }
 
-            return "No local Starport-derived description is available for this parameter yet.";
+            return "No description provided yet.";
         }
 
         static string NormalizeName(string name)
