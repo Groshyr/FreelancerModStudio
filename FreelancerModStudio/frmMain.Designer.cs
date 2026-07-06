@@ -157,7 +157,6 @@
             this.mnuFile,
             this.mnuEdit,
             this.mnuView,
-            this.mnuOptions,
             this.mnuWindows,
             this.mnuHelp});
             this.menuStrip1.MdiWindowListItem = this.mnuWindows;
@@ -685,7 +684,6 @@
             resources.ApplyResources(this.mnuOptions, "mnuOptions");
             this.mnuOptions.BackgroundImage = null;
             this.mnuOptions.Image = global::FreelancerModStudio.Properties.Resources.Settings;
-            this.mnuOptions.MergeIndex = 3;
             this.mnuOptions.Name = "mnuOptions";
             this.mnuOptions.ShortcutKeyDisplayString = null;
             this.mnuOptions.Click += new System.EventHandler(this.mnuOptions_Click);
@@ -758,6 +756,7 @@
             resources.ApplyResources(this.mnuHelp, "mnuHelp");
             this.mnuHelp.BackgroundImage = null;
             this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuOptions,
             this.mnuCheckUpdate,
             this.toolStripMenuItem10,
             this.mnuAbout});
