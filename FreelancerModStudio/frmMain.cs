@@ -781,7 +781,7 @@ namespace FreelancerModStudio
                     _mnuThemeLight,
                     _mnuThemeDark
                 });
-            ToolStripMenuItem iniColorsMenuItem = new ToolStripMenuItem("INI Colors...", Resources.Filter, mnuIniColors_Click);
+            ToolStripMenuItem iniColorsMenuItem = new ToolStripMenuItem("INI Colors...", CreateIniColorsIcon(), mnuIniColors_Click);
 
             mnuHelp.Text = "Options";
             mnuCheckUpdate.Text = "Check for updates...";
@@ -792,12 +792,37 @@ namespace FreelancerModStudio
                     _mnuRestorePreviousFiles,
                     iniColorsMenuItem,
                     toolStripMenuItem10,
-                    mnuOptions,
                     mnuCheckUpdate,
                     mnuAbout
                 });
 
             UpdateOptionsMenuChecks();
+        }
+
+        static Image CreateIniColorsIcon()
+        {
+            Bitmap icon = new Bitmap(16, 16);
+            using (Graphics graphics = Graphics.FromImage(icon))
+            {
+                graphics.Clear(Color.Transparent);
+                using (Pen border = new Pen(Color.FromArgb(64, 64, 64)))
+                {
+                    graphics.DrawRectangle(border, 1, 1, 14, 14);
+                }
+
+                using (Brush blue = new SolidBrush(Color.RoyalBlue))
+                using (Brush red = new SolidBrush(Color.MediumVioletRed))
+                using (Brush green = new SolidBrush(Color.ForestGreen))
+                using (Brush gray = new SolidBrush(Color.Gray))
+                {
+                    graphics.FillRectangle(blue, 3, 3, 4, 4);
+                    graphics.FillRectangle(red, 9, 3, 4, 4);
+                    graphics.FillRectangle(green, 3, 9, 4, 4);
+                    graphics.FillRectangle(gray, 9, 9, 4, 4);
+                }
+            }
+
+            return icon;
         }
 
         void UpdateOptionsMenuChecks()

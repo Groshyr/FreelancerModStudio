@@ -8,13 +8,12 @@ namespace FreelancerModStudio
     public partial class frmOptions : Form
     {
         public frmOptions()
-            : this(new GeneralOptions(Helper.Settings.Data.Data.General), "Options")
+            : this(true)
         {
         }
 
         public frmOptions(bool iniColorsOnly)
-            : this(iniColorsOnly ? (object)new IniColorOptions(Helper.Settings.Data.Data.General) : new GeneralOptions(Helper.Settings.Data.Data.General),
-                iniColorsOnly ? "INI Colors" : "Options")
+            : this(new IniColorOptions(Helper.Settings.Data.Data.General), "INI Colors")
         {
         }
 
@@ -25,32 +24,6 @@ namespace FreelancerModStudio
             Text = title;
             propertyGrid.SelectedObject = selectedObject;
             propertyGrid.ExpandAllGridItems();
-        }
-
-        class GeneralOptions
-        {
-            readonly Settings.General _settings;
-
-            public GeneralOptions(Settings.General settings)
-            {
-                _settings = settings;
-            }
-
-            [Category("Properties")]
-            [DisplayName("Sort type")]
-            public PropertySort PropertiesSortType
-            {
-                get { return _settings.PropertiesSortType; }
-                set { _settings.PropertiesSortType = value; }
-            }
-
-            [Category("Properties")]
-            [DisplayName("Show description")]
-            public bool PropertiesShowHelp
-            {
-                get { return _settings.PropertiesShowHelp; }
-                set { _settings.PropertiesShowHelp = value; }
-            }
         }
 
         class IniColorOptions

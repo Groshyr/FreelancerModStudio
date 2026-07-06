@@ -205,6 +205,8 @@ namespace FreelancerModStudio.Data
 
             public void CheckValidData()
             {
+                PropertiesSortType = PropertySort.NoSort;
+                PropertiesShowHelp = false;
                 AutomaticallyOpen3DEditor = true;
                 FormattingSpaces = true;
                 FormattingEmptyLine = true;
