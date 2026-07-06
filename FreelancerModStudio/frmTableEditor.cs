@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
@@ -353,6 +354,13 @@ namespace FreelancerModStudio
                 addItem.Click += mnuAddItem_Click;
                 mnuAdd.DropDownItems.Add(addItem);
             }
+
+            if (ViewerType == ViewerType.System)
+            {
+                mnuAdd.DropDownItems.Add(new ToolStripSeparator());
+                ToolStripMenuItem pathItem = new ToolStripMenuItem("Path", Resources.ZonePath, mnuAddPath_Click);
+                mnuAdd.DropDownItems.Add(pathItem);
+            }
 #if DEBUG
             st.Stop();
             Debug.WriteLine("display " + objectListView1.Items.Count + " data: " + st.ElapsedMilliseconds + "ms");
@@ -590,6 +598,159 @@ namespace FreelancerModStudio
                 {
                     new TableBlock(GetNewBlockId(), Data.MaxId++, editorBlock, Data.TemplateIndex)
                 });
+        }
+
+        void AddPath(frmPathDialog pathDialog)
+        {
+            int zoneTemplateIndex = GetTemplateBlockIndex("zone");
+            if (zoneTemplateIndex == -1)
+            {
+                MessageBox.Show("The current template does not define zone blocks.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Template.Block zoneTemplate = Helper.Template.Data.Files[Data.TemplateIndex].Blocks.Values[zoneTemplateIndex];
+            string nickname = GetUniquePathNickname(pathDialog.RouteName, pathDialog.LegNumber);
+            EditorINIBlock editorBlock = new EditorINIBlock("zone", zoneTemplateIndex);
+            editorBlock.MainOptionIndex = AddPathOption(editorBlock, zoneTemplate, "nickname", nickname);
+
+            PathGeometry geometry = GetPathGeometry(pathDialog);
+            AddPathOption(editorBlock, zoneTemplate, "pos", FormatVector(geometry.X, geometry.Y, geometry.Z));
+            AddPathOption(editorBlock, zoneTemplate, "rotate", FormatVector(-90, geometry.Yaw, 0));
+            AddPathOption(editorBlock, zoneTemplate, "shape", "CYLINDER");
+            AddPathOption(editorBlock, zoneTemplate, "size", FormatVector(pathDialog.Radius, geometry.Length));
+            AddPathOption(editorBlock, zoneTemplate, "pop_type", pathDialog.Usage == "trade" ? "trade_path" : "field_patrol");
+            AddPathOption(editorBlock, zoneTemplate, "path_label", pathDialog.RouteName + ", " + pathDialog.LegNumber.ToString(CultureInfo.InvariantCulture));
+            AddPathOption(editorBlock, zoneTemplate, "usage", pathDialog.Usage);
+
+            TableBlock block = new TableBlock(GetNewBlockId(), Data.MaxId++, editorBlock, Data.TemplateIndex);
+            AddBlocks(new List<TableBlock> { block });
+        }
+
+        int AddPathOption(EditorINIBlock block, Template.Block templateBlock, string optionName, object value)
+        {
+            int templateIndex = GetTemplateOptionIndex(templateBlock, optionName);
+            EditorINIOption option = new EditorINIOption(optionName, templateIndex);
+            option.Values.Add(new EditorINIEntry(value));
+            block.Options.Add(option);
+            return block.Options.Count - 1;
+        }
+
+        int GetTemplateBlockIndex(string blockName)
+        {
+            for (int i = 0; i < Helper.Template.Data.Files[Data.TemplateIndex].Blocks.Count; ++i)
+            {
+                if (Helper.Template.Data.Files[Data.TemplateIndex].Blocks.Values[i].Name.Equals(blockName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        static int GetTemplateOptionIndex(Template.Block templateBlock, string optionName)
+        {
+            for (int i = 0; i < templateBlock.Options.Count; ++i)
+            {
+                if (templateBlock.Options[i].Name.Equals(optionName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        string GetUniquePathNickname(string routeName, int legNumber)
+        {
+            string systemName = Path.GetFileNameWithoutExtension(File);
+            if (string.IsNullOrEmpty(systemName))
+            {
+                systemName = "system";
+            }
+
+            string baseName = "zone_" + systemName.ToLowerInvariant() + "_path_" + routeName.ToLowerInvariant() + "_" + legNumber.ToString("00", CultureInfo.InvariantCulture);
+            string nickname = baseName;
+            int suffix = 2;
+            while (BlockNicknameExists(nickname))
+            {
+                nickname = baseName + "_" + suffix.ToString(CultureInfo.InvariantCulture);
+                suffix++;
+            }
+
+            return nickname;
+        }
+
+        bool BlockNicknameExists(string nickname)
+        {
+            foreach (TableBlock block in Data.Blocks)
+            {
+                if (block.Name != null && block.Name.Equals(nickname, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        int GetNextPathLeg(string routeName)
+        {
+            int highestLeg = 0;
+            foreach (TableBlock block in Data.Blocks)
+            {
+                foreach (EditorINIOption option in block.Block.Options)
+                {
+                    if (!option.Name.Equals("path_label", StringComparison.OrdinalIgnoreCase) || option.Values.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    string[] parts = option.Values[0].ToString().Split(',');
+                    if (parts.Length < 2 || !parts[0].Trim().Equals(routeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    int leg;
+                    if (int.TryParse(parts[1].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out leg))
+                    {
+                        highestLeg = Math.Max(highestLeg, leg);
+                    }
+                }
+            }
+
+            return highestLeg + 1;
+        }
+
+        static PathGeometry GetPathGeometry(frmPathDialog pathDialog)
+        {
+            if (!pathDialog.HasPoints)
+            {
+                return new PathGeometry(0, 0, 0, 0, 10000);
+            }
+
+            PathPoint start = pathDialog.StartPoint;
+            PathPoint end = pathDialog.EndPoint;
+            double x = (start.X + end.X) / 2;
+            double y = (start.Y + end.Y) / 2;
+            double z = (start.Z + end.Z) / 2;
+            double deltaX = end.X - start.X;
+            double deltaZ = end.Z - start.Z;
+            double yaw = Math.Atan2(deltaX, deltaZ) * 180 / Math.PI;
+            return new PathGeometry(x, y, z, yaw, start.DistanceTo(end));
+        }
+
+        static string FormatVector(params double[] values)
+        {
+            string[] formattedValues = new string[values.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                formattedValues[i] = Math.Round(values[i], 2).ToString("0.##", CultureInfo.InvariantCulture);
+            }
+
+            return string.Join(", ", formattedValues);
         }
 
         public List<TableBlock> GetSelectedBlocks()
@@ -837,6 +998,23 @@ namespace FreelancerModStudio
         {
             ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
             AddBlock(menuItem.Text, (int)menuItem.Tag);
+        }
+
+        void mnuAddPath_Click(object sender, EventArgs e)
+        {
+            string systemName = Path.GetFileNameWithoutExtension(File);
+            if (string.IsNullOrEmpty(systemName))
+            {
+                systemName = "system";
+            }
+
+            frmPathDialog pathDialog = new frmPathDialog(systemName + "_path01", GetNextPathLeg(systemName + "_path01"));
+            if (pathDialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            AddPath(pathDialog);
         }
 
         void mnuDelete_Click(object sender, EventArgs e)
@@ -1313,6 +1491,24 @@ namespace FreelancerModStudio
             }
 
             return Data.Blocks.Count;
+        }
+
+        struct PathGeometry
+        {
+            public readonly double X;
+            public readonly double Y;
+            public readonly double Z;
+            public readonly double Yaw;
+            public readonly double Length;
+
+            public PathGeometry(double x, double y, double z, double yaw, double length)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+                Yaw = yaw;
+                Length = length;
+            }
         }
     }
 }

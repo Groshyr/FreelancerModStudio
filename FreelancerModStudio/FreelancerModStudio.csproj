@@ -170,6 +170,9 @@
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPathDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmProperties.cs">
       <SubType>Form</SubType>
     </Compile>
