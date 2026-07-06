@@ -11,7 +11,7 @@ namespace FreelancerModStudio.Data
 {
     public class Settings
     {
-        const int CURRENT_VERSION = 1;
+        const int CURRENT_VERSION = 2;
         //const string FREELANCER_REGISTRY_KEY = "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Microsoft Games\\Freelancer\\1.0";
         //const string FREELANCER_REGISTRY_VALUE = "AppPath";
 
@@ -61,15 +61,11 @@ namespace FreelancerModStudio.Data
             public ushort RecentFilesCount { get; set; }
 
             [Category("General")]
-            [DisplayName("Language")]
-            public LanguageType Language { get; set; }
-
-            [Category("General")]
             [DisplayName("Default Freelancer DATA folder")]
             public string DefaultDataDirectory { get; set; }
 
             [Category("General")]
-            [DisplayName("Mod Studio Theme")]
+            [DisplayName("Theme")]
             public Theme Theme { get; set; }
 
             [Category("Properties")]
@@ -174,16 +170,15 @@ namespace FreelancerModStudio.Data
             {
                 // set default values
                 RecentFilesCount = 4;
-                Language = LanguageType.English;
                 Theme = Theme.Dark;
 
                 PropertiesSortType = PropertySort.NoSort;
                 PropertiesShowHelp = false;
 
-                EditorModifiedAddedColor = Color.FromArgb(255, 255, 164);
-                EditorModifiedColor = Color.FromArgb(255, 227, 164);
-                EditorModifiedSavedColor = Color.FromArgb(192, 255, 192);
-                EditorHiddenColor = Color.FromArgb(128, 128, 128);
+                EditorModifiedAddedColor = Color.RoyalBlue;
+                EditorModifiedColor = Color.MediumVioletRed;
+                EditorModifiedSavedColor = Color.ForestGreen;
+                EditorHiddenColor = Color.Gray;
                 AutomaticallyOpen3DEditor = true;
 
                 FormattingSpaces = true;
@@ -224,7 +219,7 @@ namespace FreelancerModStudio.Data
             {
                 AutoUpdate.CheckInterval = 28;
                 AutoUpdate.SilentDownload = false;
-                AutoUpdate.UpdateFile = @"http://freelancermodstudio.googlecode.com/svn/trunk/updates.txt";
+                AutoUpdate.UpdateFile = @"https://raw.githubusercontent.com/Groshyr/FreelancerModStudio/master/updates.txt";
             }
         }
 
@@ -309,12 +304,6 @@ namespace FreelancerModStudio.Data
             public string File;
             public int TemplateIndex = -1;
         }
-    }
-
-    public enum LanguageType
-    {
-        English,
-        German
     }
 
     public class SettingsConverter : ExpandableObjectConverter

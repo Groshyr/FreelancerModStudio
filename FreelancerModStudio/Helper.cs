@@ -323,6 +323,7 @@ namespace FreelancerModStudio
                 public override Color SeparatorDark { get { return DarkBorder; } }
                 public override Color SeparatorLight { get { return DarkSurfaceAlt; } }
             }
+
         }
 
         internal struct Template
@@ -557,29 +558,6 @@ namespace FreelancerModStudio
                 Data.Data.General.CheckValidData();
             }
 
-            public static string ShortLanguage
-            {
-                get
-                {
-                    if (Data.Data.General.Language == LanguageType.German)
-                    {
-                        return "de";
-                    }
-
-                    return "en";
-                }
-                set
-                {
-                    if (value.Equals("de", StringComparison.OrdinalIgnoreCase))
-                    {
-                        Data.Data.General.Language = LanguageType.German;
-                    }
-                    else
-                    {
-                        Data.Data.General.Language = LanguageType.English;
-                    }
-                }
-            }
         }
 
         internal struct Thread

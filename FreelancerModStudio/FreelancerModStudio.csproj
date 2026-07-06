@@ -185,10 +185,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmMain.de.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -202,11 +198,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Strings.de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.de.resx</DependentUpon>
     </Compile>
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="Properties\Strings.Designer.cs">
@@ -256,21 +247,12 @@
     <EmbeddedResource Include="frmSystemEditor.resx">
       <DependentUpon>frmSystemEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTableEditor.de.resx">
-      <DependentUpon>frmTableEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmTableEditor.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmTableEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmFileType.de.resx">
-      <DependentUpon>frmFileType.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmFileType.resx">
       <DependentUpon>frmFileType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmOptions.de.resx">
-      <DependentUpon>frmOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
@@ -278,11 +260,6 @@
     <EmbeddedResource Include="frmProperties.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmProperties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Strings.de.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Strings.resx">
       <SubType>Designer</SubType>

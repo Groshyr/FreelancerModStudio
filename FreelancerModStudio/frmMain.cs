@@ -846,7 +846,7 @@ namespace FreelancerModStudio
 
         void SettingsChanged()
         {
-            _uiCultureChanger.ApplyCulture(new CultureInfo(Helper.Settings.ShortLanguage));
+            _uiCultureChanger.ApplyCulture(new CultureInfo("en"));
             _uiCultureChanger.ApplyCultureToForm(this);
 
             foreach (IDockContent dockContent in dockPanel1.Contents)
