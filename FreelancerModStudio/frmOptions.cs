@@ -8,18 +8,30 @@ namespace FreelancerModStudio
     public partial class frmOptions : Form
     {
         public frmOptions()
+            : this(new GeneralOptions(Helper.Settings.Data.Data.General), "Options")
+        {
+        }
+
+        public frmOptions(bool iniColorsOnly)
+            : this(iniColorsOnly ? (object)new IniColorOptions(Helper.Settings.Data.Data.General) : new GeneralOptions(Helper.Settings.Data.Data.General),
+                iniColorsOnly ? "INI Colors" : "Options")
+        {
+        }
+
+        frmOptions(object selectedObject, string title)
         {
             InitializeComponent();
             Helper.UI.ApplyFont(this);
-            propertyGrid.SelectedObject = new EditorOptions(Helper.Settings.Data.Data.General);
+            Text = title;
+            propertyGrid.SelectedObject = selectedObject;
             propertyGrid.ExpandAllGridItems();
         }
 
-        class EditorOptions
+        class GeneralOptions
         {
             readonly Settings.General _settings;
 
-            public EditorOptions(Settings.General settings)
+            public GeneralOptions(Settings.General settings)
             {
                 _settings = settings;
             }
@@ -39,8 +51,18 @@ namespace FreelancerModStudio
                 get { return _settings.PropertiesShowHelp; }
                 set { _settings.PropertiesShowHelp = value; }
             }
+        }
 
-            [Category("INI Editor")]
+        class IniColorOptions
+        {
+            readonly Settings.General _settings;
+
+            public IniColorOptions(Settings.General settings)
+            {
+                _settings = settings;
+            }
+
+            [Category("INI Colors")]
             [DisplayName("Added row color")]
             public Color EditorModifiedAddedColor
             {
@@ -48,7 +70,7 @@ namespace FreelancerModStudio
                 set { _settings.EditorModifiedAddedColor = value; }
             }
 
-            [Category("INI Editor")]
+            [Category("INI Colors")]
             [DisplayName("Modified row color")]
             public Color EditorModifiedColor
             {
@@ -56,7 +78,7 @@ namespace FreelancerModStudio
                 set { _settings.EditorModifiedColor = value; }
             }
 
-            [Category("INI Editor")]
+            [Category("INI Colors")]
             [DisplayName("Saved row color")]
             public Color EditorModifiedSavedColor
             {
@@ -64,14 +86,13 @@ namespace FreelancerModStudio
                 set { _settings.EditorModifiedSavedColor = value; }
             }
 
-            [Category("INI Editor")]
+            [Category("INI Colors")]
             [DisplayName("Hidden text color")]
             public Color EditorHiddenColor
             {
                 get { return _settings.EditorHiddenColor; }
                 set { _settings.EditorHiddenColor = value; }
             }
-
         }
     }
 }

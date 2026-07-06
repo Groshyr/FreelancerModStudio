@@ -781,6 +781,7 @@ namespace FreelancerModStudio
                     _mnuThemeLight,
                     _mnuThemeDark
                 });
+            ToolStripMenuItem iniColorsMenuItem = new ToolStripMenuItem("INI Colors...", null, mnuIniColors_Click);
 
             mnuHelp.Text = "Options";
             mnuCheckUpdate.Text = "Check for updates...";
@@ -789,6 +790,7 @@ namespace FreelancerModStudio
                 {
                     themeMenu,
                     _mnuRestorePreviousFiles,
+                    iniColorsMenuItem,
                     toolStripMenuItem10,
                     mnuOptions,
                     mnuCheckUpdate,
@@ -834,6 +836,13 @@ namespace FreelancerModStudio
         void mnuRestorePreviousFiles_Click(object sender, EventArgs e)
         {
             Helper.Settings.Data.Data.General.RestorePreviousFiles = _mnuRestorePreviousFiles.Checked;
+        }
+
+        void mnuIniColors_Click(object sender, EventArgs e)
+        {
+            frmOptions optionsForm = new frmOptions(true);
+            optionsForm.ShowDialog();
+            SettingsChanged();
         }
 
         void AutoUpdate_RestartingApplication(object sender, CancelEventArgs e)
