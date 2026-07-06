@@ -34,10 +34,10 @@ namespace FreelancerModStudio
             InitializeComponent();
             parameterDescriptionToolTip = new ToolTip(components)
             {
-                AutomaticDelay = 2000,
+                AutomaticDelay = 1000,
                 AutoPopDelay = 10000,
-                InitialDelay = 2000,
-                ReshowDelay = 200,
+                InitialDelay = 1000,
+                ReshowDelay = 100,
                 ShowAlways = true
             };
             ConfigureParameterDescriptionToolTip();
@@ -209,6 +209,17 @@ namespace FreelancerModStudio
             propertyGrid.HelpVisible = descriptionToolStripMenuItem.Checked;
         }
 
+        void parameterDescriptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSelectedParameterDescriptionAtCursor();
+        }
+
+        void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            ShowSelectedParameterDescriptionAtCursor();
+        }
+
         void ConfigureParameterDescriptionToolTip()
         {
             FieldInfo gridViewField = propertyGrid.GetType().GetField("_gridView", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -274,6 +285,24 @@ namespace FreelancerModStudio
             PropertyInfo propertyDescriptionProperty = gridEntry.GetType().GetProperty("PropertyDescription", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             string description = propertyDescriptionProperty != null ? propertyDescriptionProperty.GetValue(gridEntry, null) as string : null;
             return string.IsNullOrEmpty(description) ? "No description provided yet." : description;
+        }
+
+        void ShowSelectedParameterDescriptionAtCursor()
+        {
+            GridItem selectedItem = propertyGrid.SelectedGridItem;
+            if (selectedItem == null || selectedItem.PropertyDescriptor == null)
+            {
+                return;
+            }
+
+            string description = selectedItem.PropertyDescriptor.Description;
+            if (string.IsNullOrEmpty(description))
+            {
+                description = "No description provided yet.";
+            }
+
+            parameterDescriptionToolTip.Hide(propertyGrid);
+            parameterDescriptionToolTip.Show(description, propertyGridView ?? propertyGrid, (propertyGridView ?? propertyGrid).PointToClient(Cursor.Position), 10000);
         }
 
         void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
