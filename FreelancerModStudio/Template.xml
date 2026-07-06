@@ -9,36 +9,36 @@
         <Block name="Data">
           <Options>
             <Option>solar</Option>
+            <Option multiple="true">equipment</Option>
+            <Option multiple="true">loadouts</Option>
+            <Option>effect_shapes</Option>
+            <Option>explosions</Option>
+            <Option multiple="true">effects</Option>
+            <Option multiple="true">fuses</Option>
+            <Option multiple="true">sounds</Option>
+            <Option multiple="true">markets</Option>
+            <Option>gate_tunnels</Option>
+            <Option>jump_effect</Option>
             <Option>universe</Option>
             <Option>constants</Option>
             <Option>fonts</Option>
             <Option>fonts_dir</Option>
             <Option>rich_fonts</Option>
-            <Option multiple="true">sounds</Option>
             <Option multiple="true">voices</Option>
-            <Option>explosions</Option>
             <Option>debris</Option>
             <Option>asteroids</Option>
-            <Option multiple="true">equipment</Option>
             <Option multiple="true">ships</Option>
             <Option multiple="true">goods</Option>
-            <Option multiple="true">loadouts</Option>
             <Option>bodyparts</Option>
             <Option>costumes</Option>
             <Option>PetalDB</Option>
-            <Option multiple="true">effects</Option>
-            <Option>effect_shapes</Option>
-            <Option multiple="true">fuses</Option>
             <Option>concave</Option>
             <Option>intro</Option>
-            <Option>gate_tunnels</Option>
             <Option>groups</Option>
             <Option>HUD</Option>
-            <Option>jump_effect</Option>
             <Option>stars</Option>
             <Option>igraph</Option>
             <Option>bases</Option>
-            <Option multiple="true">markets</Option>
             <Option>NewCharDB</Option>
             <Option>WeaponModDB</Option>
             <Option>rtcslider</Option>
@@ -46,9 +46,9 @@
         </Block>
         <Block name="Display">
           <Options>
-            <Option>fullscreen</Option>
             <Option>size</Option>
             <Option>color_bpp</Option>
+            <Option>fullscreen</Option>
             <Option>depth_bpp</Option>
           </Options>
         </Block>
@@ -159,24 +159,24 @@
         </Block>
         <Block name="Constants">
           <Options>
+            <Option>PLAYER_COLLISION_GROUP_HIT_PTS_SCALE</Option>
+            <Option>PLAYER_ATTACHED_EQUIP_HIT_PTS_SCALE</Option>
             <Option>COLLISION_DAMAGE_FACTOR</Option>
             <Option>MUSIC_CROSS_FADE_DELAY</Option>
             <Option>MUZZLE_CONE_ANGLE</Option>
-            <Option>PLAYER_COLLISION_GROUP_HIT_PTS_SCALE</Option>
-            <Option>PLAYER_ATTACHED_EQUIP_HIT_PTS_SCALE</Option>
           </Options>
         </Block>
         <Block name="EngineEquipConsts">
           <Options>
             <Option>CRUISE_DISRUPT_TIME</Option>
-            <Option>MAX_DELTA_FX_THROTTLE</Option>
             <Option>THROTTLE_STEADY_TIME</Option>
             <Option>THROTTLE_ATTEN_MOD_RANGE</Option>
+            <Option>CRUISE_STEADY_TIME</Option>
+            <Option>CRUISE_ATTEN_MOD_RANGE</Option>
+            <Option>MAX_DELTA_FX_THROTTLE</Option>
             <Option>DELTA_THROTTLE_ATTEN_MOD_CHANGING</Option>
             <Option>DELTA_THROTTLE_ATTEN_MOD_STEADY</Option>
-            <Option>CRUISE_STEADY_TIME</Option>
             <Option>DELTA_CRUISE_ATTEN_MOD_STEADY</Option>
-            <Option>CRUISE_ATTEN_MOD_RANGE</Option>
           </Options>
         </Block>
         <Block name="PhySysConsts">
@@ -238,12 +238,12 @@
         <Block name="Cursor" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>anim</Option>
-            <Option>hotspot</Option>
-            <Option>blend</Option>
             <Option>spin</Option>
+            <Option>hotspot</Option>
             <Option>scale</Option>
             <Option>color</Option>
+            <Option>anim</Option>
+            <Option>blend</Option>
           </Options>
         </Block>
         <Block name="Shape" multiple="true" identifier="name">
@@ -257,8 +257,8 @@
         </Block>
         <Block name="Texture">
           <Options>
-            <Option>file</Option>
             <Option>name</Option>
+            <Option>file</Option>
           </Options>
         </Block>
       </Blocks>
@@ -288,8 +288,8 @@
             <Option>nickname</Option>
             <Option>type</Option>
             <Option>file</Option>
-            <Option>attenuation</Option>
             <Option>range</Option>
+            <Option>attenuation</Option>
             <Option>crv_pitch</Option>
             <Option>pitch_bendable</Option>
             <Option>is_2d</Option>
@@ -306,22 +306,22 @@
       <Blocks>
         <Block name="CFG">
           <Options>
-            <Option>ear_doppler_factor</Option>
-            <Option>ducking_rtc_down_by</Option>
             <Option>ducking_rtc_down_time</Option>
-            <Option>default_crv_pitch</Option>
-            <Option>default_crv_attenuation</Option>
             <Option>music_fade_time</Option>
-            <Option>cross_fade_silence</Option>
-            <Option>cockpit_attenuation</Option>
-            <Option>ducking_spaceflight_down_by</Option>
             <Option>ducking_spaceflight_down_time</Option>
             <Option>ducking_spaceflight_up_time</Option>
             <Option>spaceflight_dialogue_pan_range</Option>
-            <Option>ducking_comm_down_by</Option>
             <Option>ducking_comm_down_time</Option>
             <Option>ducking_comm_up_time</Option>
             <Option>master_music</Option>
+            <Option>ear_doppler_factor</Option>
+            <Option>ducking_rtc_down_by</Option>
+            <Option>default_crv_pitch</Option>
+            <Option>default_crv_attenuation</Option>
+            <Option>cross_fade_silence</Option>
+            <Option>cockpit_attenuation</Option>
+            <Option>ducking_spaceflight_down_by</Option>
+            <Option>ducking_comm_down_by</Option>
             <Option>master_ambient</Option>
             <Option>master_interface</Option>
             <Option>master_sfx</Option>
@@ -448,10 +448,10 @@
         <Block name="Faction">
           <Options>
             <Option>nickname</Option>
-            <Option>rep_group</Option>
-            <Option>base</Option>
             <Option>Package</Option>
             <Option>Pilot</Option>
+            <Option>base</Option>
+            <Option>rep_group</Option>
           </Options>
         </Block>
         <Block name="Package">
@@ -467,9 +467,9 @@
         <Block name="Pilot">
           <Options>
             <Option>nickname</Option>
+            <Option>voice</Option>
             <Option>body</Option>
             <Option>comm</Option>
-            <Option>voice</Option>
             <Option>body.anim</Option>
             <Option>comm.anim</Option>
           </Options>
@@ -500,9 +500,9 @@
         </Block>
         <Block name="TurretCamera">
           <Options>
-            <Option>tether</Option>
             <Option>yaw_rotate_speed</Option>
             <Option>pitch_rotate_speed</Option>
+            <Option>tether</Option>
             <Option>accel_speed</Option>
           </Options>
         </Block>
@@ -542,16 +542,16 @@
         <Block name="CargoPod" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>LODranges</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>HP_child</Option>
+            <Option>LODranges</Option>
             <Option>hit_pts</Option>
             <Option>mass</Option>
-            <Option>explosion_arch</Option>
             <Option>parent_impulse</Option>
             <Option>child_impulse</Option>
             <Option>debris_type</Option>
+            <Option>HP_child</Option>
+            <Option>explosion_arch</Option>
           </Options>
         </Block>
         <Block name="CloakingDevice" multiple="true" identifier="nickname">
@@ -559,18 +559,18 @@
             <Option>nickname</Option>
             <Option>ids_name</Option>
             <Option>ids_info</Option>
-            <Option>hit_pts</Option>
             <Option>DA_archetype</Option>
             <Option multiple="true">material_library</Option>
-            <Option>HP_child</Option>
+            <Option>hit_pts</Option>
             <Option>mass</Option>
             <Option>volume</Option>
+            <Option>debris_type</Option>
+            <Option>HP_child</Option>
             <Option>power_usage</Option>
             <Option>cloakin_time</Option>
             <Option>cloakout_time</Option>
             <Option>cloakin_fx</Option>
             <Option>cloakout_fx</Option>
-            <Option>debris_type</Option>
           </Options>
         </Block>
         <Block name="Commodity" multiple="true" identifier="nickname">
@@ -578,34 +578,34 @@
             <Option>nickname</Option>
             <Option>ids_name</Option>
             <Option>ids_info</Option>
+            <Option>volume</Option>
+            <Option>hit_pts</Option>
             <Option>units_per_container</Option>
             <Option>pod_appearance</Option>
             <Option>loot_appearance</Option>
             <Option>decay_per_second</Option>
-            <Option>volume</Option>
-            <Option>hit_pts</Option>
           </Options>
         </Block>
         <Block name="CounterMeasure" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>hit_pts</Option>
-            <Option>loot_appearance</Option>
-            <Option>units_per_container</Option>
-            <Option>one_shot_sound</Option>
-            <Option>const_effect</Option>
-            <Option>lifetime</Option>
-            <Option>DA_archetype</Option>
-            <Option>material_library</Option>
             <Option>ids_name</Option>
             <Option>ids_info</Option>
+            <Option>DA_archetype</Option>
+            <Option>material_library</Option>
+            <Option>hit_pts</Option>
             <Option>mass</Option>
             <Option>volume</Option>
+            <Option>linear_drag</Option>
+            <Option>lifetime</Option>
             <Option>owner_safe_time</Option>
             <Option>force_gun_ori</Option>
             <Option>requires_ammo</Option>
-            <Option>linear_drag</Option>
             <Option>range</Option>
+            <Option>const_effect</Option>
+            <Option>one_shot_sound</Option>
+            <Option>loot_appearance</Option>
+            <Option>units_per_container</Option>
             <Option>diversion_pctg</Option>
           </Options>
         </Block>
@@ -616,7 +616,6 @@
             <Option>ids_info</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>HP_child</Option>
             <Option>hit_pts</Option>
             <Option>explosion_resistance</Option>
             <Option>debris_type</Option>
@@ -624,17 +623,18 @@
             <Option>child_impulse</Option>
             <Option>volume</Option>
             <Option>mass</Option>
+            <Option>HP_child</Option>
             <Option>power_usage</Option>
             <Option>refire_delay</Option>
             <Option>muzzle_velocity</Option>
+            <Option>projectile_archetype</Option>
+            <Option>AI_range</Option>
             <Option>flash_particle_name</Option>
             <Option>flash_radius</Option>
             <Option>light_anim</Option>
-            <Option>projectile_archetype</Option>
             <Option>separation_explosion</Option>
-            <Option>AI_range</Option>
-            <Option>lootable</Option>
             <Option>tractored_explosion</Option>
+            <Option>lootable</Option>
           </Options>
         </Block>
         <Block name="Engine" multiple="true" identifier="nickname">
@@ -646,27 +646,27 @@
             <Option>mass</Option>
             <Option>max_force</Option>
             <Option>linear_drag</Option>
-            <Option>power_usage</Option>
             <Option>reverse_fraction</Option>
+            <Option>indestructible</Option>
+            <Option>power_usage</Option>
+            <Option>cruise_charge_time</Option>
+            <Option>cruise_power_usage</Option>
+            <Option>character_pitch_range</Option>
+            <Option>rumble_pitch_range</Option>
+            <Option>rumble_atten_range</Option>
             <Option>flame_effect</Option>
             <Option>trail_effect</Option>
             <Option>trail_effect_player</Option>
             <Option>cruise_disrupt_effect</Option>
-            <Option>cruise_charge_time</Option>
-            <Option>cruise_power_usage</Option>
             <Option>character_start_sound</Option>
             <Option>character_loop_sound</Option>
-            <Option>character_pitch_range</Option>
             <Option>rumble_sound</Option>
-            <Option>rumble_pitch_range</Option>
-            <Option>rumble_atten_range</Option>
             <Option>engine_kill_sound</Option>
             <Option>cruise_start_sound</Option>
             <Option>cruise_loop_sound</Option>
             <Option>cruise_stop_sound</Option>
             <Option>cruise_disrupt_sound</Option>
             <Option>cruise_backfire_sound</Option>
-            <Option>indestructible</Option>
             <Option>inside_sound_cone</Option>
             <Option>outside_sound_cone</Option>
             <Option>outside_cone_attenuation</Option>
@@ -675,13 +675,13 @@
         <Block name="Explosion" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>effect</Option>
-            <Option>lifetime</Option>
-            <Option>process</Option>
-            <Option>strength</Option>
             <Option>radius</Option>
+            <Option>lifetime</Option>
             <Option>hull_damage</Option>
             <Option>energy_damage</Option>
+            <Option>effect</Option>
+            <Option>process</Option>
+            <Option>strength</Option>
             <Option>impulse</Option>
           </Options>
         </Block>
@@ -692,7 +692,7 @@
             <Option>ids_info</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>HP_child</Option>
+            <Option>LODranges</Option>
             <Option>hit_pts</Option>
             <Option>explosion_resistance</Option>
             <Option>debris_type</Option>
@@ -700,25 +700,25 @@
             <Option>child_impulse</Option>
             <Option>volume</Option>
             <Option>mass</Option>
+            <Option>HP_child</Option>
             <Option>hp_gun_type</Option>
             <Option>damage_per_fire</Option>
             <Option>power_usage</Option>
             <Option>refire_delay</Option>
             <Option>muzzle_velocity</Option>
-            <Option>use_animation</Option>
-            <Option>toughness</Option>
+            <Option>projectile_archetype</Option>
+            <Option>dispersion_angle</Option>
             <Option>flash_particle_name</Option>
             <Option>flash_radius</Option>
             <Option>light_anim</Option>
-            <Option>projectile_archetype</Option>
-            <Option>dry_fire_sound</Option>
             <Option>separation_explosion</Option>
+            <Option>tractored_explosion</Option>
+            <Option>dry_fire_sound</Option>
+            <Option>toughness</Option>
+            <Option>lootable</Option>
+            <Option>use_animation</Option>
             <Option>auto_turret</Option>
             <Option>turn_rate</Option>
-            <Option>lootable</Option>
-            <Option>tractored_explosion</Option>
-            <Option>dispersion_angle</Option>
-            <Option>LODranges</Option>
           </Options>
         </Block>
         <Block name="InternalFX" multiple="true" identifier="nickname">
@@ -731,18 +731,18 @@
         <Block name="Light" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>inherit</Option>
-            <Option>always_on</Option>
-            <Option>docking_light</Option>
             <Option>min_color</Option>
             <Option>glow_color</Option>
             <Option>color</Option>
             <Option>bulb_size</Option>
             <Option>glow_size</Option>
-            <Option>flare_cone</Option>
-            <Option>avg_delay</Option>
-            <Option>blink_duration</Option>
             <Option>intensity</Option>
+            <Option>avg_delay</Option>
+            <Option>inherit</Option>
+            <Option>always_on</Option>
+            <Option>docking_light</Option>
+            <Option>flare_cone</Option>
+            <Option>blink_duration</Option>
             <Option>lightsource_cone</Option>
           </Options>
         </Block>
@@ -766,28 +766,28 @@
         <Block name="Mine" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>explosion_arch</Option>
-            <Option>loot_appearance</Option>
-            <Option>units_per_container</Option>
-            <Option>requires_ammo</Option>
+            <Option>ids_name</Option>
+            <Option>ids_info</Option>
+            <Option>DA_archetype</Option>
+            <Option>material_library</Option>
             <Option>hit_pts</Option>
-            <Option>one_shot_sound</Option>
+            <Option>mass</Option>
+            <Option>volume</Option>
+            <Option>linear_drag</Option>
+            <Option>requires_ammo</Option>
             <Option>detonation_dist</Option>
             <Option>lifetime</Option>
             <Option>force_gun_ori</Option>
-            <Option>DA_archetype</Option>
-            <Option>material_library</Option>
-            <Option>ids_name</Option>
-            <Option>ids_info</Option>
-            <Option>mass</Option>
-            <Option>volume</Option>
             <Option>owner_safe_time</Option>
-            <Option>linear_drag</Option>
-            <Option>seek_dist</Option>
             <Option>top_speed</Option>
             <Option>acceleration</Option>
-            <Option>const_effect</Option>
             <Option>dispersion_angle</Option>
+            <Option>explosion_arch</Option>
+            <Option>const_effect</Option>
+            <Option>one_shot_sound</Option>
+            <Option>loot_appearance</Option>
+            <Option>units_per_container</Option>
+            <Option>seek_dist</Option>
           </Options>
         </Block>
         <Block name="MineDropper" multiple="true" identifier="nickname">
@@ -797,7 +797,7 @@
             <Option>ids_info</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>HP_child</Option>
+            <Option>LODranges</Option>
             <Option>hit_pts</Option>
             <Option>explosion_resistance</Option>
             <Option>debris_type</Option>
@@ -805,61 +805,61 @@
             <Option>child_impulse</Option>
             <Option>volume</Option>
             <Option>mass</Option>
+            <Option>HP_child</Option>
             <Option>damage_per_fire</Option>
             <Option>power_usage</Option>
             <Option>refire_delay</Option>
             <Option>muzzle_velocity</Option>
-            <Option>toughness</Option>
             <Option>projectile_archetype</Option>
-            <Option>dry_fire_sound</Option>
-            <Option>separation_explosion</Option>
-            <Option>lootable</Option>
-            <Option>tractored_explosion</Option>
             <Option>dispersion_angle</Option>
-            <Option>LODranges</Option>
+            <Option>separation_explosion</Option>
+            <Option>tractored_explosion</Option>
+            <Option>dry_fire_sound</Option>
+            <Option>toughness</Option>
+            <Option>lootable</Option>
           </Options>
         </Block>
         <Block name="Motor" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
             <Option>lifetime</Option>
-            <Option>accel</Option>
             <Option>delay</Option>
+            <Option>accel</Option>
           </Options>
         </Block>
         <Block name="Munition" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>explosion_arch</Option>
-            <Option>loot_appearance</Option>
-            <Option>units_per_container</Option>
-            <Option>hp_type</Option>
-            <Option>requires_ammo</Option>
+            <Option>ids_name</Option>
+            <Option>ids_info</Option>
+            <Option>DA_archetype</Option>
+            <Option>material_library</Option>
             <Option>hit_pts</Option>
+            <Option>mass</Option>
+            <Option>volume</Option>
+            <Option>hp_type</Option>
+            <Option>HP_trail_parent</Option>
+            <Option>requires_ammo</Option>
             <Option>hull_damage</Option>
             <Option>energy_damage</Option>
             <Option>weapon_type</Option>
-            <Option>one_shot_sound</Option>
-            <Option>munition_hit_effect</Option>
-            <Option>const_effect</Option>
-            <Option>const_effect_delay</Option>
             <Option>detonation_dist</Option>
             <Option>lifetime</Option>
-            <Option>Motor</Option>
             <Option>force_gun_ori</Option>
-            <Option>HP_trail_parent</Option>
             <Option>seeker</Option>
             <Option>time_to_lock</Option>
             <Option>seeker_range</Option>
             <Option>seeker_fov_deg</Option>
             <Option>max_angular_velocity</Option>
+            <Option>explosion_arch</Option>
+            <Option>munition_hit_effect</Option>
+            <Option>const_effect</Option>
+            <Option>const_effect_delay</Option>
+            <Option>one_shot_sound</Option>
+            <Option>loot_appearance</Option>
+            <Option>units_per_container</Option>
+            <Option>Motor</Option>
             <Option>cruise_disruptor</Option>
-            <Option>DA_archetype</Option>
-            <Option>material_library</Option>
-            <Option>ids_name</Option>
-            <Option>ids_info</Option>
-            <Option>mass</Option>
-            <Option>volume</Option>
           </Options>
         </Block>
         <Block name="Power" multiple="true" identifier="nickname">
@@ -876,8 +876,8 @@
             <Option>charge_rate</Option>
             <Option>thrust_capacity</Option>
             <Option>thrust_charge_rate</Option>
-            <Option>lootable</Option>
             <Option>tractored_explosion</Option>
+            <Option>lootable</Option>
           </Options>
         </Block>
         <Block name="RepairKit">
@@ -888,10 +888,10 @@
             <Option>volume</Option>
             <Option>mass</Option>
             <Option>hit_pts</Option>
+            <Option>tractored_explosion</Option>
             <Option>loot_appearance</Option>
             <Option>units_per_container</Option>
             <Option>lootable</Option>
-            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="Scanner" multiple="true" identifier="nickname">
@@ -904,8 +904,8 @@
             <Option>range</Option>
             <Option>cargo_scan_range</Option>
             <Option>power_usage</Option>
-            <Option>lootable</Option>
             <Option>tractored_explosion</Option>
+            <Option>lootable</Option>
           </Options>
         </Block>
         <Block name="Shield" multiple="true" identifier="nickname">
@@ -923,44 +923,44 @@
             <Option>volume</Option>
             <Option>mass</Option>
             <Option>hit_pts</Option>
+            <Option>tractored_explosion</Option>
             <Option>loot_appearance</Option>
             <Option>units_per_container</Option>
             <Option>lootable</Option>
-            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="ShieldGenerator" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>ids_name</Option>
+            <Option>ids_info</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
             <Option>LODranges</Option>
-            <Option>ids_name</Option>
-            <Option>ids_info</Option>
             <Option>mass</Option>
             <Option>volume</Option>
             <Option>hit_pts</Option>
-            <Option>HP_child</Option>
             <Option>debris_type</Option>
-            <Option>regeneration_rate</Option>
+            <Option>explosion_resistance</Option>
+            <Option>parent_impulse</Option>
+            <Option>child_impulse</Option>
+            <Option>HP_child</Option>
+            <Option>hp_type</Option>
             <Option>constant_power_draw</Option>
             <Option>rebuild_power_draw</Option>
-            <Option>max_capacity</Option>
-            <Option>hp_type</Option>
             <Option>offline_rebuild_time</Option>
-            <Option>offline_threshold</Option>
             <Option multiple="true">shield_hit_effects</Option>
             <Option>shield_collapse_sound</Option>
             <Option>shield_collapse_particle</Option>
             <Option>shield_rebuilt_sound</Option>
-            <Option>explosion_resistance</Option>
-            <Option>parent_impulse</Option>
-            <Option>child_impulse</Option>
-            <Option>toughness</Option>
             <Option>separation_explosion</Option>
-            <Option>shield_type</Option>
-            <Option>lootable</Option>
             <Option>tractored_explosion</Option>
+            <Option>toughness</Option>
+            <Option>lootable</Option>
+            <Option>regeneration_rate</Option>
+            <Option>max_capacity</Option>
+            <Option>offline_threshold</Option>
+            <Option>shield_type</Option>
           </Options>
         </Block>
         <Block name="Thruster" multiple="true" identifier="nickname">
@@ -970,7 +970,7 @@
             <Option>ids_info</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>HP_child</Option>
+            <Option>LODranges</Option>
             <Option>hit_pts</Option>
             <Option>explosion_resistance</Option>
             <Option>debris_type</Option>
@@ -979,13 +979,13 @@
             <Option>volume</Option>
             <Option>mass</Option>
             <Option>max_force</Option>
-            <Option>particles</Option>
+            <Option>HP_child</Option>
             <Option>hp_particles</Option>
             <Option>power_usage</Option>
-            <Option>lootable</Option>
+            <Option>particles</Option>
             <Option>tractored_explosion</Option>
             <Option>separation_explosion</Option>
-            <Option>LODranges</Option>
+            <Option>lootable</Option>
           </Options>
         </Block>
         <Block name="Tractor">
@@ -993,20 +993,22 @@
             <Option>nickname</Option>
             <Option>ids_name</Option>
             <Option>ids_info</Option>
+            <Option>color</Option>
             <Option>volume</Option>
             <Option>mass</Option>
-            <Option>max_length</Option>
-            <Option>reach_speed</Option>
-            <Option>color</Option>
             <Option>operating_effect</Option>
+            <Option>tractored_explosion</Option>
             <Option>tractor_complete_snd</Option>
             <Option>lootable</Option>
-            <Option>tractored_explosion</Option>
+            <Option>max_length</Option>
+            <Option>reach_speed</Option>
           </Options>
         </Block>
         <Block name="TradeLane">
           <Options>
             <Option>nickname</Option>
+            <Option>spin_max</Option>
+            <Option>spin_accel</Option>
             <Option>tl_ship_enter</Option>
             <Option>tl_ship_travel</Option>
             <Option>tl_ship_exit</Option>
@@ -1017,8 +1019,6 @@
             <Option>secs_before_splash</Option>
             <Option>secs_before_exit</Option>
             <Option>tl_ring_active</Option>
-            <Option>spin_max</Option>
-            <Option>spin_accel</Option>
             <Option>activation_start</Option>
             <Option>activation_end</Option>
           </Options>
@@ -1033,22 +1033,22 @@
         <Block name="Good" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>msg_id_prefix</Option>
+            <Option>ids_name</Option>
+            <Option>ids_info</Option>
             <Option>equipment</Option>
-            <Option>category</Option>
             <Option>ship</Option>
+            <Option>shop_archetype</Option>
+            <Option>material_library</Option>
             <Option>price</Option>
-            <Option>item_icon</Option>
-            <Option>combinable</Option>
-            <Option>free_ammo</Option>
             <Option>good_sell_price</Option>
             <Option>bad_buy_price</Option>
             <Option>bad_sell_price</Option>
             <Option>good_buy_price</Option>
-            <Option>ids_name</Option>
-            <Option>ids_info</Option>
-            <Option>shop_archetype</Option>
-            <Option>material_library</Option>
+            <Option>msg_id_prefix</Option>
+            <Option>category</Option>
+            <Option>item_icon</Option>
+            <Option>combinable</Option>
+            <Option>free_ammo</Option>
             <Option>jump_dist</Option>
             <Option>hull</Option>
             <Option multiple="true">addon</Option>
@@ -1104,11 +1104,11 @@
         <Block name="Style" multiple="true" identifier="name">
           <Options>
             <Option>name</Option>
+            <Option>color</Option>
             <Option>font</Option>
             <Option>bold</Option>
             <Option>italic</Option>
             <Option>underline</Option>
-            <Option>color</Option>
             <Option>justify</Option>
           </Options>
         </Block>
@@ -1129,41 +1129,41 @@
         <Block name="BeamBolt" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>tip_length</Option>
-            <Option>tail_length</Option>
-            <Option>core_length</Option>
-            <Option>head_width</Option>
-            <Option>core_width</Option>
-            <Option>sec_core_width</Option>
+            <Option>flash_size</Option>
+            <Option>head_texture</Option>
+            <Option>trail_texture</Option>
             <Option>tip_color</Option>
             <Option>core_color</Option>
             <Option>outter_color</Option>
             <Option>sec_core_color</Option>
             <Option>sec_outter_color</Option>
             <Option>tail_color</Option>
+            <Option>tip_length</Option>
+            <Option>tail_length</Option>
+            <Option>core_length</Option>
+            <Option>head_width</Option>
+            <Option>core_width</Option>
+            <Option>sec_core_width</Option>
             <Option>head_brightness</Option>
             <Option>trail_brightness</Option>
-            <Option>head_texture</Option>
-            <Option>trail_texture</Option>
-            <Option>flash_size</Option>
           </Options>
         </Block>
         <Block name="BeamSpear" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>tip_length</Option>
-            <Option>tail_length</Option>
-            <Option>head_width</Option>
-            <Option>core_width</Option>
+            <Option>flash_size</Option>
+            <Option>head_texture</Option>
+            <Option>trail_texture</Option>
             <Option>tip_color</Option>
             <Option>core_color</Option>
             <Option>outter_color</Option>
             <Option>tail_color</Option>
+            <Option>tip_length</Option>
+            <Option>tail_length</Option>
+            <Option>head_width</Option>
+            <Option>core_width</Option>
             <Option>head_brightness</Option>
             <Option>trail_brightness</Option>
-            <Option>head_texture</Option>
-            <Option>trail_texture</Option>
-            <Option>flash_size</Option>
           </Options>
         </Block>
         <Block name="Effect" multiple="true" identifier="nickname">
@@ -1182,22 +1182,22 @@
         </Block>
         <Block name="EffectLOD" multiple="true" identifier="type">
           <Options>
-            <Option>type</Option>
             <Option>max_lod_screen_size</Option>
             <Option>min_lod_screen_size</Option>
             <Option>min_screen_size</Option>
+            <Option>type</Option>
           </Options>
         </Block>
         <Block name="EffectType" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>radius</Option>
+            <Option>run_time</Option>
             <Option>priority</Option>
             <Option>generic_priority</Option>
             <Option>lod_type</Option>
-            <Option>radius</Option>
             <Option>visibility</Option>
             <Option>update</Option>
-            <Option>run_time</Option>
             <Option>pbubble</Option>
           </Options>
         </Block>
@@ -1232,30 +1232,30 @@
         <Block name="Debris" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>death_method</Option>
-            <Option>lifetime</Option>
             <Option>linear_drag</Option>
             <Option>angular_drag</Option>
             <Option>rotation_inertia</Option>
-            <Option>trail</Option>
+            <Option>lifetime</Option>
             <Option>explosion</Option>
+            <Option>death_method</Option>
+            <Option>trail</Option>
           </Options>
         </Block>
         <Block name="explosion" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>innards_debris_radius</Option>
+            <Option>radius</Option>
+            <Option multiple="true">debris_type</Option>
             <Option>lifetime</Option>
-            <Option>process</Option>
+            <Option>innards_debris_start_time</Option>
+            <Option>hull_damage</Option>
             <Option>effect</Option>
+            <Option>process</Option>
             <Option>num_child_pieces</Option>
             <Option>debris_impulse</Option>
-            <Option multiple="true">debris_type</Option>
-            <Option>innards_debris_start_time</Option>
             <Option>innards_debris_num</Option>
-            <Option>innards_debris_radius</Option>
             <Option multiple="true">innards_debris_object</Option>
-            <Option>radius</Option>
-            <Option>hull_damage</Option>
           </Options>
         </Block>
         <Block name="Simple" multiple="true" identifier="nickname">
@@ -1276,22 +1276,22 @@
         <Block name="damage_group" multiple="true" identifier="group_name">
           <Options>
             <Option>group_name</Option>
-            <Option>at_t</Option>
             <Option>damage_type</Option>
+            <Option>at_t</Option>
             <Option>hitpoints</Option>
           </Options>
         </Block>
         <Block name="damage_root" multiple="true">
           <Options>
-            <Option>at_t</Option>
             <Option>damage_type</Option>
+            <Option>at_t</Option>
             <Option>hitpoints</Option>
           </Options>
         </Block>
         <Block name="destroy_group" multiple="true" identifier="group_name">
           <Options>
-            <Option>at_t</Option>
             <Option>group_name</Option>
+            <Option>at_t</Option>
             <Option>fate</Option>
           </Options>
         </Block>
@@ -1322,19 +1322,19 @@
         </Block>
         <Block name="ignite_fuse" multiple="true" identifier="fuse">
           <Options>
-            <Option>at_t</Option>
             <Option>fuse</Option>
             <Option>fuse_t</Option>
+            <Option>at_t</Option>
           </Options>
         </Block>
         <Block name="impulse" multiple="true" identifier="hardpoint">
           <Options>
-            <Option>at_t</Option>
-            <Option>hardpoint</Option>
-            <Option>pos_offset</Option>
             <Option>radius</Option>
+            <Option>pos_offset</Option>
             <Option>force</Option>
+            <Option>hardpoint</Option>
             <Option>damage</Option>
+            <Option>at_t</Option>
           </Options>
         </Block>
         <Block name="make_invincible">
@@ -1344,27 +1344,27 @@
         </Block>
         <Block name="start_cam_particles" multiple="true" identifier="effect">
           <Options>
+            <Option>pos_offset</Option>
             <Option>effect</Option>
             <Option>at_t</Option>
-            <Option>pos_offset</Option>
             <Option>ori_offset</Option>
           </Options>
         </Block>
         <Block name="start_effect" multiple="true" identifier="effect">
           <Options>
+            <Option>pos_offset</Option>
+            <Option multiple="true">hardpoint</Option>
             <Option>effect</Option>
             <Option>particles</Option>
-            <Option multiple="true">hardpoint</Option>
             <Option>at_t</Option>
-            <Option>pos_offset</Option>
             <Option>ori_offset</Option>
             <Option>attached</Option>
           </Options>
         </Block>
         <Block name="tumble">
           <Options>
-            <Option>at_t</Option>
             <Option>ang_drag_scale</Option>
+            <Option>at_t</Option>
             <Option>turn_throttle_z</Option>
             <Option>turn_throttle_x</Option>
             <Option>turn_throttle_y</Option>
@@ -1381,40 +1381,40 @@
         <Block name="gate_tunnel" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>write_depth_buffer</Option>
-            <Option>num_spline_control_points</Option>
-            <Option>x_range</Option>
-            <Option>y_range</Option>
-            <Option>z_range</Option>
             <Option>min_radius</Option>
             <Option>max_radius</Option>
             <Option>far_radius_factor</Option>
+            <Option>min_rotation</Option>
+            <Option>max_rotation</Option>
+            <Option>x_range</Option>
+            <Option>y_range</Option>
+            <Option>z_range</Option>
+            <Option>time_to_max_speed</Option>
+            <Option>write_depth_buffer</Option>
+            <Option>num_spline_control_points</Option>
             <Option>min_speed</Option>
             <Option>max_speed</Option>
-            <Option>time_to_max_speed</Option>
             <Option>fade_distance</Option>
             <Option>near_alpha</Option>
             <Option>far_alpha</Option>
             <Option>num_t_steps</Option>
             <Option>num_s_steps</Option>
-            <Option>min_rotation</Option>
-            <Option>max_rotation</Option>
             <Option>min_rgb</Option>
             <Option>max_rgb</Option>
           </Options>
         </Block>
         <Block name="layer" multiple="true" identifier="texture">
           <Options>
+            <Option>radius_factor</Option>
+            <Option>v_scale</Option>
             <Option>texture</Option>
             <Option>color</Option>
             <Option>near_alpha_factor</Option>
             <Option>far_alpha_factor</Option>
-            <Option>radius_factor</Option>
             <Option>u_offset</Option>
             <Option>v_offset</Option>
             <Option>du</Option>
             <Option>dv</Option>
-            <Option>v_scale</Option>
           </Options>
         </Block>
       </Blocks>
@@ -1427,18 +1427,18 @@
         <Block name="JumpGateEffect" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>glow_ring_effect</Option>
-            <Option>glow_ring_hp</Option>
             <Option>glow_create_time</Option>
             <Option>jump_out_time</Option>
             <Option>jump_out_tunnel_time</Option>
             <Option>jump_in_tunnel_time</Option>
             <Option>jump_in_time</Option>
             <Option>kill_time_before_done</Option>
+            <Option>glow_ring_effect</Option>
             <Option>jump_tunnel_effect</Option>
             <Option>jump_tunnel</Option>
             <Option>jump_ambient</Option>
             <Option>jump_background_color</Option>
+            <Option>glow_ring_hp</Option>
           </Options>
         </Block>
         <Block name="JumpShipEffect">
@@ -1472,8 +1472,12 @@
         <Block name="Montage" multiple="true">
           <Options>
             <Option>size</Option>
-            <Option>num_pages</Option>
             <Option>texture</Option>
+            <Option>LootArrow</Option>
+            <Option>LootArrowBackground</Option>
+            <Option>interface\HUD\HUD_contactlootabledepot.3db</Option>
+            <Option>interface\HUD\HUD_contactloot.3db</Option>
+            <Option>num_pages</Option>
             <Option>CurrentTargetCorner</Option>
             <Option>NSArrowBackground</Option>
             <Option>CurrentTargetArrow</Option>
@@ -1484,10 +1488,8 @@
             <Option>NSTargetHat</Option>
             <Option>NSTargetArrow</Option>
             <Option>WaypointTarget</Option>
-            <Option>LootArrow</Option>
             <Option>WaypointArrow</Option>
             <Option>PlayerArrow</Option>
-            <Option>LootArrowBackground</Option>
             <Option>PlayerArrowBackground</Option>
             <Option>WaypointArrowBackground</Option>
             <Option>Dummy1</Option>
@@ -1499,7 +1501,6 @@
             <Option>interface\HUD\HUD_contactgroup.3db</Option>
             <Option>interface\HUD\HUD_contactimportant.3db</Option>
             <Option>interface\HUD\HUD_contactjumpgate.3db</Option>
-            <Option>interface\HUD\HUD_contactlootabledepot.3db</Option>
             <Option>interface\HUD\HUD_contactnomad.3db</Option>
             <Option>interface\HUD\HUD_contactplanet.3db</Option>
             <Option>interface\HUD\HUD_contactship.3db</Option>
@@ -1534,7 +1535,6 @@
             <Option>interface\hud\hud_ShipTarget.3db</Option>
             <Option>interface\HUD\HUD_chat.3db</Option>
             <Option>interface\HUD\HUD_contactbattleship.3db</Option>
-            <Option>interface\HUD\HUD_contactloot.3db</Option>
             <Option>interface\HUD\HUD_contactotherplayers.3db</Option>
             <Option>interface\HUD\MNVR_dock.3db</Option>
             <Option>interface\HUD\MNVR_dock_gray.3db</Option>
@@ -1592,20 +1592,20 @@
         </Block>
         <Block name="Receiver">
           <Options>
+            <Option>win_size</Option>
+            <Option>win_pos</Option>
+            <Option>btn_pos</Option>
+            <Option>speaker_rotate</Option>
+            <Option>delay</Option>
+            <Option>fly_time</Option>
             <Option>action</Option>
             <Option>shut</Option>
             <Option>open</Option>
-            <Option>delay</Option>
             <Option>video_fovx</Option>
-            <Option>speaker_rotate</Option>
             <Option>male_speaker_offset</Option>
             <Option>female_speaker_offset</Option>
             <Option>backdrop</Option>
             <Option>static</Option>
-            <Option>win_pos</Option>
-            <Option>win_size</Option>
-            <Option>btn_pos</Option>
-            <Option>fly_time</Option>
             <Option>tool_tip_id</Option>
           </Options>
         </Block>
@@ -1615,9 +1615,9 @@
         <Block name="Steer">
           <Options>
             <Option>radius</Option>
-            <Option>range</Option>
-            <Option>color</Option>
             <Option>size</Option>
+            <Option>color</Option>
+            <Option>range</Option>
           </Options>
         </Block>
         <Block name="Target">
@@ -1666,8 +1666,8 @@
       <Blocks>
         <Block name="Group" multiple="true">
           <Options>
-            <Option>group_num</Option>
             <Option>name</Option>
+            <Option>group_num</Option>
           </Options>
         </Block>
         <Block name="key" multiple="true" identifier="id">
@@ -1755,8 +1755,8 @@
       <Blocks>
         <Block name="BaseFrame">
           <Options>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
+            <Option>offset</Option>
             <Option>mouse_offset</Option>
             <Option>no_z_enable</Option>
             <Option>z_order</Option>
@@ -1766,75 +1766,71 @@
         </Block>
         <Block name="ButtonControl1">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="ButtonControl2">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="ButtonControl3">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="ButtonControl4">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="ButtonControl5">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="NavBar">
           <Options>
-            <Option>Equipment</Option>
-            <Option>Bar</Option>
-            <Option>Cityscape</Option>
-            <Option>Deck</Option>
             <Option>IDS_DEALER_FRONT_DESK</Option>
             <Option>IDS_HOTSPOT_COMMODITYTRADER</Option>
             <Option>IDS_HOTSPOT_DECK</Option>
@@ -1847,6 +1843,10 @@
             <Option>IDS_EQUIPMENT_ROOM_LEFT</Option>
             <Option>IDS_EQUIPMENT_ROOM_RIGHT</Option>
             <Option>IDS_NN_REPAIR_YOUR_SHIP</Option>
+            <Option>Equipment</Option>
+            <Option>Bar</Option>
+            <Option>Cityscape</Option>
+            <Option>Deck</Option>
             <Option>Launch</Option>
             <Option>Planetscape</Option>
             <Option>ShipDealer</Option>
@@ -1855,93 +1855,93 @@
         </Block>
         <Block name="RoomControl1">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl2">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl3">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl4">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl5">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl6">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
         <Block name="RoomControl7">
           <Options>
-            <Option>class_name</Option>
             <Option>mesh</Option>
-            <Option>offset</Option>
             <Option>mouse_size</Option>
-            <Option>action_button</Option>
             <Option>no_color_change</Option>
+            <Option>button_sound</Option>
+            <Option>class_name</Option>
+            <Option>offset</Option>
+            <Option>action_button</Option>
             <Option>no_z_enable</Option>
             <Option>tooltip</Option>
-            <Option>button_sound</Option>
           </Options>
         </Block>
       </Blocks>
@@ -2006,13 +2006,13 @@
       <Blocks>
         <Block name="FactionProps" multiple="true" identifier="affiliation">
           <Options>
+            <Option multiple="true">voice</Option>
             <Option>affiliation</Option>
             <Option>legality</Option>
             <Option>nickname_plurality</Option>
             <Option>msg_id_prefix</Option>
             <Option>jump_preference</Option>
             <Option multiple="true">npc_ship</Option>
-            <Option multiple="true">voice</Option>
             <Option>mc_costume</Option>
             <Option multiple="true">space_costume</Option>
             <Option>firstname_male</Option>
@@ -2073,14 +2073,16 @@
         <Block name="BaseFaction" multiple="true" identifier="faction">
           <Options>
             <Option>faction</Option>
-            <Option>weight</Option>
             <Option>mission_type</Option>
+            <Option>weight</Option>
             <Option multiple="true">npc</Option>
           </Options>
         </Block>
         <Block name="GF_NPC" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>room</Option>
+            <Option>voice</Option>
             <Option>base_appr</Option>
             <Option>body</Option>
             <Option>head</Option>
@@ -2088,16 +2090,14 @@
             <Option>righthand</Option>
             <Option>individual_name</Option>
             <Option>affiliation</Option>
-            <Option>voice</Option>
             <Option>misn</Option>
-            <Option>room</Option>
             <Option multiple="true">bribe</Option>
             <Option multiple="true">rumor</Option>
-            <Option parent="rumor">rumorknowdb</Option>
             <Option multiple="true">rumor_type2</Option>
             <Option multiple="true">know</Option>
-            <Option parent="know">knowdb</Option>
             <Option>accessory</Option>
+            <Option parent="rumor">rumorknowdb</Option>
+            <Option parent="know">knowdb</Option>
           </Options>
         </Block>
         <Block name="MBase" multiple="true" identifier="nickname">
@@ -2129,6 +2129,7 @@
       <Blocks>
         <Block name="NewsItem" multiple="true" identifier="rank">
           <Options>
+            <Option multiple="true">base</Option>
             <Option>rank</Option>
             <Option>autoselect</Option>
             <Option>icon</Option>
@@ -2136,7 +2137,6 @@
             <Option>category</Option>
             <Option>headline</Option>
             <Option>text</Option>
-            <Option multiple="true">base</Option>
           </Options>
         </Block>
       </Blocks>
@@ -2150,10 +2150,10 @@
         <Block name="NPCShipArch" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>loadout</Option>
-            <Option>level</Option>
             <Option>ship_archetype</Option>
+            <Option>loadout</Option>
             <Option>pilot</Option>
+            <Option>level</Option>
             <Option>state_graph</Option>
             <Option>npc_class</Option>
           </Options>
@@ -2168,23 +2168,23 @@
         <Block name="BuzzHeadTowardBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>buzz_max_time_to_head_away</Option>
+            <Option>buzz_slide_interval_time</Option>
+            <Option>buzz_slide_interval_time_variance_percent</Option>
+            <Option>buzz_dodge_interval_time</Option>
+            <Option>buzz_dodge_interval_time_variance_percent</Option>
             <Option>buzz_min_distance_to_head_toward</Option>
             <Option>buzz_min_distance_to_head_toward_variance_percent</Option>
-            <Option>buzz_max_time_to_head_away</Option>
             <Option>buzz_head_toward_engine_throttle</Option>
             <Option>buzz_head_toward_turn_throttle</Option>
             <Option>buzz_head_toward_roll_throttle</Option>
             <Option>buzz_head_toward_roll_flip_direction</Option>
             <Option>buzz_slide_throttle</Option>
-            <Option>buzz_slide_interval_time</Option>
-            <Option>buzz_slide_interval_time_variance_percent</Option>
             <Option>buzz_dodge_turn_throttle</Option>
             <Option>buzz_dodge_cone_angle</Option>
             <Option>buzz_dodge_cone_angle_variance_percent</Option>
             <Option>buzz_dodge_waggle_axis_cone_angle</Option>
             <Option>buzz_dodge_roll_angle</Option>
-            <Option>buzz_dodge_interval_time</Option>
-            <Option>buzz_dodge_interval_time_variance_percent</Option>
             <Option multiple="true">buzz_dodge_direction_weight</Option>
             <Option multiple="true">buzz_head_toward_style_weight</Option>
           </Options>
@@ -2192,8 +2192,8 @@
         <Block name="BuzzPassByBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>buzz_distance_to_pass_by</Option>
             <Option>buzz_pass_by_time</Option>
+            <Option>buzz_distance_to_pass_by</Option>
             <Option>buzz_break_direction_cone_angle</Option>
             <Option>buzz_break_turn_throttle</Option>
             <Option>buzz_pass_by_roll_throttle</Option>
@@ -2234,20 +2234,20 @@
             <Option>nickname</Option>
             <Option>engine_kill_search_time</Option>
             <Option>engine_kill_face_time</Option>
-            <Option>engine_kill_use_afterburner</Option>
             <Option>engine_kill_afterburner_time</Option>
+            <Option>engine_kill_use_afterburner</Option>
             <Option>engine_kill_max_target_distance</Option>
           </Options>
         </Block>
         <Block name="EvadeBreakBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>evade_break_roll_throttle</Option>
             <Option>evade_break_time</Option>
             <Option>evade_break_interval_time</Option>
             <Option>evade_break_afterburner_delay</Option>
             <Option>evade_break_afterburner_delay_variance_percent</Option>
             <Option>evade_break_attempt_reverse_time</Option>
+            <Option>evade_break_roll_throttle</Option>
             <Option>evade_break_reverse_distance</Option>
             <Option>evade_break_turn_throttle</Option>
             <Option multiple="true">evade_break_direction_weight</Option>
@@ -2257,12 +2257,13 @@
         <Block name="EvadeDodgeBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>evade_dodge_style_weight</Option>
-            <Option>evade_dodge_cone_angle</Option>
             <Option>evade_dodge_interval_time</Option>
             <Option>evade_dodge_time</Option>
-            <Option>evade_dodge_distance</Option>
             <Option>evade_activate_range</Option>
+            <Option>evade_dodge_interval_time_variance_percent</Option>
+            <Option>evade_dodge_style_weight</Option>
+            <Option>evade_dodge_cone_angle</Option>
+            <Option>evade_dodge_distance</Option>
             <Option>evade_dodge_roll_angle</Option>
             <Option>evade_dodge_waggle_axis_cone_angle</Option>
             <Option>evade_dodge_slide_throttle</Option>
@@ -2270,7 +2271,6 @@
             <Option>evade_dodge_corkscrew_turn_throttle</Option>
             <Option>evade_dodge_corkscrew_roll_throttle</Option>
             <Option>evade_dodge_corkscrew_roll_flip_direction</Option>
-            <Option>evade_dodge_interval_time_variance_percent</Option>
             <Option>evade_dodge_cone_angle_variance_percent</Option>
             <Option multiple="true">evade_dodge_direction_weight</Option>
           </Options>
@@ -2284,49 +2284,49 @@
             <Option>break_formation_damage_trigger_time</Option>
             <Option>break_formation_missile_reaction_time</Option>
             <Option>break_apart_formation_missile_reaction_time</Option>
-            <Option>break_apart_formation_on_evade_break</Option>
             <Option>break_formation_on_evade_break_time</Option>
+            <Option>formation_exit_max_time</Option>
+            <Option>break_apart_formation_on_evade_break</Option>
             <Option>formation_exit_top_turn_break_away_throttle</Option>
             <Option>formation_exit_roll_outrun_throttle</Option>
-            <Option>formation_exit_max_time</Option>
           </Options>
         </Block>
         <Block name="GunBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
             <Option>gun_fire_interval_time</Option>
-            <Option>gun_fire_interval_variance_percent</Option>
             <Option>gun_fire_burst_interval_time</Option>
-            <Option>gun_fire_burst_interval_variance_percent</Option>
             <Option>gun_fire_no_burst_interval_time</Option>
-            <Option>gun_fire_accuracy_cone_angle</Option>
             <Option>gun_fire_accuracy_power</Option>
             <Option>gun_range_threshold</Option>
             <Option>gun_target_point_switch_time</Option>
-            <Option>fire_style</Option>
             <Option>auto_turret_interval_time</Option>
             <Option>auto_turret_burst_interval_time</Option>
             <Option>auto_turret_no_burst_interval_time</Option>
-            <Option>auto_turret_burst_interval_variance_percent</Option>
             <Option>gun_range_threshold_variance_percent</Option>
             <Option>gun_fire_accuracy_power_npc</Option>
+            <Option>gun_fire_interval_variance_percent</Option>
+            <Option>gun_fire_burst_interval_variance_percent</Option>
+            <Option>gun_fire_accuracy_cone_angle</Option>
+            <Option>fire_style</Option>
+            <Option>auto_turret_burst_interval_variance_percent</Option>
           </Options>
         </Block>
         <Block name="JobBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>force_attack_formation</Option>
+            <Option>flee_when_hull_damaged_percent</Option>
+            <Option>loot_flee_threshold</Option>
+            <Option>loot_preference</Option>
             <Option>wait_for_leader_target</Option>
             <Option>maximum_leader_target_distance</Option>
             <Option>flee_when_leader_flees_style</Option>
             <Option>scene_toughness_threshold</Option>
             <Option>flee_scene_threat_style</Option>
-            <Option>flee_when_hull_damaged_percent</Option>
             <Option>flee_no_weapons_style</Option>
-            <Option>loot_flee_threshold</Option>
             <Option>attack_subtarget_order</Option>
             <Option>field_targeting</Option>
-            <Option>loot_preference</Option>
-            <Option>force_attack_formation</Option>
             <Option>combat_drift_distance</Option>
             <Option multiple="true">attack_preference</Option>
             <Option>allow_player_targeting</Option>
@@ -2335,33 +2335,34 @@
         <Block name="MineBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>mine_launch_range</Option>
             <Option>mine_launch_interval</Option>
             <Option>mine_launch_cone_angle</Option>
-            <Option>mine_launch_range</Option>
           </Options>
         </Block>
         <Block name="MissileBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
             <Option>missile_launch_interval_time</Option>
-            <Option>missile_launch_interval_variance_percent</Option>
             <Option>missile_launch_range</Option>
-            <Option>missile_launch_cone_angle</Option>
             <Option>missile_launch_allow_out_of_range</Option>
+            <Option>missile_launch_interval_variance_percent</Option>
+            <Option>missile_launch_cone_angle</Option>
           </Options>
         </Block>
         <Block name="MissileReactionBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>evade_missile_distance</Option>
             <Option>evade_break_missile_reaction_time</Option>
             <Option>evade_slide_missile_reaction_time</Option>
             <Option>evade_afterburn_missile_reaction_time</Option>
+            <Option>evade_missile_distance</Option>
           </Options>
         </Block>
         <Block name="Pilot" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>damage_reaction_id</Option>
             <Option>inherit</Option>
             <Option>gun_id</Option>
             <Option>missile_id</Option>
@@ -2374,7 +2375,6 @@
             <Option>engine_kill_id</Option>
             <Option>mine_id</Option>
             <Option>countermeasure_id</Option>
-            <Option>damage_reaction_id</Option>
             <Option>missile_reaction_id</Option>
             <Option>formation_id</Option>
             <Option>repair_id</Option>
@@ -2384,11 +2384,11 @@
         <Block name="RepairBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>use_shield_repair_pre_delay</Option>
             <Option>use_shield_repair_post_delay</Option>
+            <Option>use_hull_repair_post_delay</Option>
+            <Option>use_shield_repair_pre_delay</Option>
             <Option>use_shield_repair_at_damage_percent</Option>
             <Option>use_hull_repair_pre_delay</Option>
-            <Option>use_hull_repair_post_delay</Option>
             <Option>use_hull_repair_at_damage_percent</Option>
           </Options>
         </Block>
@@ -2403,9 +2403,9 @@
         <Block name="TrailBlock" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>trail_lock_cone_angle</Option>
             <Option>trail_break_time</Option>
             <Option>trail_min_no_lock_time</Option>
+            <Option>trail_lock_cone_angle</Option>
             <Option>trail_break_roll_throttle</Option>
             <Option>trail_break_afterburner</Option>
             <Option>trail_max_turn_throttle</Option>
@@ -2459,9 +2459,9 @@
         <Block name="NPC" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>voice</Option>
             <Option>base_appr</Option>
             <Option>individual_name</Option>
-            <Option>voice</Option>
             <Option>affiliation</Option>
           </Options>
         </Block>
@@ -2492,15 +2492,15 @@
         </Block>
         <Block name="EncounterFormation" multiple="true">
           <Options>
-            <Option multiple="true">ship_by_class</Option>
-            <Option parent="ship_by_class">pilot_job</Option>
-            <Option multiple="true">make_class</Option><!--actual parent="ship_by_class"-->
-            <Option>formation_by_class</Option>
+            <Option>times_to_create</Option>
             <Option>behavior</Option>
+            <Option multiple="true">ship_by_class</Option>
+            <Option>formation_by_class</Option>
             <Option>arrival</Option>
             <Option>allow_simultaneous_creation</Option>
             <Option>zone_creation_distance</Option>
-            <Option>times_to_create</Option>
+            <Option parent="ship_by_class">pilot_job</Option>
+            <Option multiple="true">make_class</Option><!--actual parent="ship_by_class"-->
           </Options>
         </Block>
       </Blocks>
@@ -2514,16 +2514,17 @@
       <Blocks>
         <Block name="Char" multiple="true" identifier="actor">
           <Options>
-            <Option>npc</Option>
             <Option>actor</Option>
+            <Option>npc</Option>
             <Option>fidget</Option>
             <Option>spot</Option>
           </Options>
         </Block>
         <Block name="CharacterEncounter">
           <Options>
-            <Option>Location</Option>
             <Option>start_room</Option>
+            <Option>mission_text_id</Option>
+            <Option>Location</Option>
             <Option>action</Option>
             <Option>offer</Option>
             <Option>accept</Option>
@@ -2531,7 +2532,6 @@
             <Option>reject</Option>
             <Option>decision</Option>
             <Option>autoplay</Option>
-            <Option>mission_text_id</Option>
             <Option>nooffer_text_id</Option>
             <Option>relocate_player</Option>
           </Options>
@@ -2557,40 +2557,40 @@
         </Block>
         <Block name="MetaBehavior" multiple="true" identifier="nickname">
           <Options>
-            <Option>MB_GotoGuide</Option>
             <Option>nickname</Option>
+            <Option>MB_GotoGuide</Option>
           </Options>
         </Block>
         <Block name="Mission">
           <Options>
+            <Option>npc_ship_file</Option>
             <Option>mission_title</Option>
             <Option>mission_offer</Option>
             <Option>reward</Option>
-            <Option>npc_ship_file</Option>
           </Options>
         </Block>
         <Block name="MsnFormation" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option multiple="true">ship</Option>
             <Option>position</Option>
+            <Option>rel_pos</Option>
             <Option>orientation</Option>
             <Option>formation</Option>
-            <Option multiple="true">ship</Option>
-            <Option>rel_pos</Option>
           </Options>
         </Block>
         <Block name="MsnLoot">
           <Options>
             <Option>nickname</Option>
             <Option>archetype</Option>
-            <Option>string_id</Option>
             <Option>rel_pos_obj</Option>
             <Option>rel_pos_offset</Option>
-            <Option>velocity</Option>
-            <Option>equip_amount</Option>
-            <Option>health</Option>
-            <Option>Can_Jettison</Option>
             <Option>position</Option>
+            <Option>health</Option>
+            <Option>velocity</Option>
+            <Option>string_id</Option>
+            <Option>equip_amount</Option>
+            <Option>Can_Jettison</Option>
           </Options>
         </Block>
         <Block name="MsnRandEnc" multiple="true" identifier="nickname">
@@ -2608,81 +2608,93 @@
         <Block name="MsnShip" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>NPC</Option>
-            <Option>position</Option>
-            <Option multiple="true">label</Option>
-            <Option>orientation</Option>
-            <Option>random_name</Option>
             <Option>radius</Option>
-            <Option>arrival_obj</Option>
+            <Option>position</Option>
             <Option>rel_pos</Option>
+            <Option>orientation</Option>
+            <Option>system</Option>
+            <Option>NPC</Option>
+            <Option multiple="true">label</Option>
+            <Option>random_name</Option>
+            <Option>arrival_obj</Option>
             <Option>jumper</Option>
             <Option>init_objectives</Option>
             <Option multiple="true">cargo</Option>
-            <Option>system</Option>
           </Options>
         </Block>
         <Block name="MsnSolar" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>faction</Option>
-            <Option>system</Option>
-            <Option>position</Option>
-            <Option>orientation</Option>
             <Option>archetype</Option>
-            <Option>base</Option>
-            <Option multiple="true">label</Option>
-            <Option>radius</Option>
-            <Option>string_id</Option>
             <Option>loadout</Option>
             <Option>pilot</Option>
+            <Option>radius</Option>
+            <Option>position</Option>
+            <Option>orientation</Option>
             <Option>visit</Option>
+            <Option>system</Option>
+            <Option>base</Option>
+            <Option>faction</Option>
             <Option>voice</Option>
+            <Option multiple="true">label</Option>
+            <Option>string_id</Option>
             <Option>costume</Option>
           </Options>
         </Block>
         <Block name="NNObjective" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>state</Option>
             <Option>type</Option>
+            <Option>state</Option>
           </Options>
         </Block>
         <Block name="NPC" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>voice</Option>
             <Option>individual_name</Option>
             <Option>affiliation</Option>
             <Option>npc_ship_arch</Option>
-            <Option>voice</Option>
             <Option>space_costume</Option>
           </Options>
         </Block>
         <Block name="ObjList" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option multiple="true">Avoidance</Option>
             <Option>Delay</Option>
-            <Option multiple="true">GotoVec</Option>
             <Option>SetLifetime</Option>
+            <Option multiple="true">StayInRange</Option>
+            <Option>StayOutOfRange</Option>
+            <Option>system</Option>
+            <Option multiple="true">Avoidance</Option>
+            <Option multiple="true">GotoVec</Option>
             <Option multiple="true">GotoSpline</Option>
             <Option>MakeNewFormation</Option>
             <Option>BreakFormation</Option>
             <Option>Follow</Option>
-            <Option multiple="true">StayInRange</Option>
             <Option multiple="true">GotoShip</Option>
             <Option>SetPriority</Option>
             <Option multiple="true">Dock</Option>
-            <Option>system</Option>
             <Option>Idle</Option>
             <Option>FollowPlayer</Option>
-            <Option>StayOutOfRange</Option>
           </Options>
         </Block>
         <Block name="Trigger" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>Act_SetShipAndLoadout</Option>
+            <Option>Act_SetInitialPlayerPos</Option>
+            <Option>Cnd_HealthDec</Option>
+            <Option multiple="true">Act_AdjHealth</Option>
+            <Option>Act_ForceLand</Option>
+            <Option>Cnd_Timer</Option>
+            <Option multiple="true">Act_SetLifeTime</Option>
+            <Option multiple="true">Act_LightFuse</Option>
+            <Option>Act_PlaySoundEffect</Option>
+            <Option>Act_PlayMusic</Option>
             <Option>system</Option>
+            <Option>Cnd_LootAcquired</Option>
+            <Option>Act_SpawnLoot</Option>
             <Option>InitState</Option>
             <Option>repeatable</Option>
             <Option>Cnd_BaseEnter</Option>
@@ -2697,7 +2709,6 @@
             <Option>Cnd_DistVecLbL</Option>
             <Option>Cnd_EncLaunched</Option>
             <Option>Cnd_HasMsn</Option>
-            <Option>Cnd_HealthDec</Option>
             <Option>Cnd_InSpace</Option>
             <Option>Cnd_InTradelane</Option>
             <Option>Cnd_InZone</Option>
@@ -2705,7 +2716,6 @@
             <Option>Cnd_LaunchComplete</Option>
             <Option>Cnd_LocEnter</Option>
             <Option>Cnd_LocExit</Option>
-            <Option>Cnd_LootAcquired</Option>
             <Option>Cnd_MsnResponse</Option>
             <Option>Cnd_NPCSystemEnter</Option>
             <Option>Cnd_PlayerLaunch</Option>
@@ -2719,7 +2729,6 @@
             <Option>Cnd_SystemEnter</Option>
             <Option>Cnd_SystemExit</Option>
             <Option>Cnd_TetherBroke</Option>
-            <Option>Cnd_Timer</Option>
             <Option>Cnd_TLEntered</Option>
             <Option>Cnd_TLExited</Option>
             <Option>Cnd_True</Option>
@@ -2729,7 +2738,6 @@
             <Option>Act_AddAmbient</Option>
             <Option>Act_AddRTC</Option>
             <Option>Act_AdjAcct</Option>
-            <Option multiple="true">Act_AdjHealth</Option>
             <Option>Act_CallThorn</Option>
             <Option>Act_ChangeState</Option>
             <Option>Act_Cloak</Option>
@@ -2743,7 +2751,6 @@
             <Option>Act_EnableEnc</Option>
             <Option multiple="true">Act_EnableManeuver</Option>
             <Option>Act_EtherComm</Option>
-            <Option>Act_ForceLand</Option>
             <Option>Act_GCSClamp</Option>
             <Option>Act_GiveMB</Option>
             <Option>Act_GiveNNObjs</Option>
@@ -2751,7 +2758,6 @@
             <Option>Act_HostileClamp</Option>
             <Option multiple="true">Act_Invulnerable</Option>
             <Option multiple="true">Act_Jumper</Option>
-            <Option multiple="true">Act_LightFuse</Option>
             <Option multiple="true">Act_LockDock</Option>
             <Option>Act_LockManeuvers</Option>
             <Option multiple="true">Act_MarkObj</Option>
@@ -2766,8 +2772,6 @@
             <Option>Act_PlayerCanDock</Option>
             <Option>Act_PlayerCanTradelane</Option>
             <Option>Act_PlayerEnemyClamp</Option>
-            <Option>Act_PlayMusic</Option>
-            <Option>Act_PlaySoundEffect</Option>
             <Option>Act_PObjIdle</Option>
             <Option>Act_Popupdialog</Option>
             <Option>Act_RandomPop</Option>
@@ -2781,8 +2785,6 @@
             <Option>Act_RpopTLAttacksEnabled</Option>
             <Option>Act_Save</Option>
             <Option>Act_SendComm</Option>
-            <Option>Act_SetInitialPlayerPos</Option>
-            <Option multiple="true">Act_SetLifeTime</Option>
             <Option>Act_SetNNHidden</Option>
             <Option>Act_SetNNObj</Option>
             <Option multiple="true">Act_SetNNState</Option>
@@ -2790,7 +2792,6 @@
             <Option>Act_SetOrient</Option>
             <Option>Act_SetPriority</Option>
             <Option multiple="true">Act_SetRep</Option>
-            <Option>Act_SetShipAndLoadout</Option>
             <Option>Act_SetTitle</Option>
             <Option multiple="true">Act_SetVibe</Option>
             <Option multiple="true">Act_SetVibeLbl</Option>
@@ -2798,7 +2799,6 @@
             <Option>Act_SetVibeOfferBaseHack</Option>
             <Option multiple="true">Act_SetVibeShiptoLbl</Option>
             <Option multiple="true">Act_SpawnFormation</Option>
-            <Option>Act_SpawnLoot</Option>
             <Option multiple="true">Act_SpawnShip</Option>
             <Option multiple="true">Act_SpawnSolar</Option>
             <Option>Act_StartDialog</Option>
@@ -2827,12 +2827,12 @@
         <Block name="KillableSolar" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>archetype</Option>
+            <Option>loadout</Option>
+            <Option>faction</Option>
             <Option>solar_type</Option>
             <Option>string_id</Option>
-            <Option>faction</Option>
-            <Option>archetype</Option>
             <Option>only_allowed_in_zone_type</Option>
-            <Option>loadout</Option>
             <Option>hitpoints</Option>
             <Option>difficulty</Option>
             <Option>pilot_choices</Option>
@@ -2865,9 +2865,9 @@
         <Block name="RMBonusLoot" multiple="true" identifier="archetype">
           <Options>
             <Option>archetype</Option>
-            <Option>num_to_drop</Option>
-            <Option>faction</Option>
             <Option>difficulty_range</Option>
+            <Option>faction</Option>
+            <Option>num_to_drop</Option>
             <Option>weight</Option>
           </Options>
         </Block>
@@ -2881,8 +2881,8 @@
         <Block name="SolarFormation" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>type</Option>
             <Option multiple="true">pos</Option>
+            <Option>type</Option>
           </Options>
         </Block>
       </Blocks>
@@ -2894,10 +2894,10 @@
       <Blocks>
         <Block name="critical_loot" multiple="true" identifier="archetype">
           <Options>
-            <Option>faction</Option>
-            <Option>archetype</Option>
             <Option>name</Option>
+            <Option>archetype</Option>
             <Option>type</Option>
+            <Option>faction</Option>
           </Options>
         </Block>
       </Blocks>
@@ -2973,9 +2973,9 @@
       <Blocks>
         <Block name="GenericScripts">
           <Options>
+            <Option multiple="true">set_posture</Option>
             <Option multiple="true">set_segment</Option>
             <Option multiple="true">set_gender</Option>
-            <Option multiple="true">set_posture</Option>
             <Option multiple="true">script</Option>
           </Options>
         </Block>
@@ -3007,21 +3007,21 @@
         <Block name="CollisionGroup" multiple="true" identifier="obj">
           <Options>
             <Option>obj</Option>
+            <Option>type</Option>
             <Option>separable</Option>
             <Option>parent_impulse</Option>
             <Option>child_impulse</Option>
             <Option>debris_type</Option>
+            <Option>mass</Option>
+            <Option>hit_pts</Option>
+            <Option>root_health_proxy</Option>
+            <Option>separation_explosion</Option>
+            <Option multiple="true">fuse</Option>
             <Option>dmg_hp</Option>
             <Option>dmg_obj</Option>
             <Option>group_dmg_hp</Option>
             <Option>group_dmg_obj</Option>
-            <Option>separation_explosion</Option>
-            <Option>mass</Option>
-            <Option>type</Option>
-            <Option>hit_pts</Option>
-            <Option>root_health_proxy</Option>
             <Option>destoy_parent</Option>
-            <Option multiple="true">fuse</Option>
           </Options>
         </Block>
         <Block name="Ship" multiple="true" identifier="nickname">
@@ -3032,21 +3032,38 @@
             <Option>ids_info1</Option>
             <Option>ids_info2</Option>
             <Option>ids_info3</Option>
-            <Option>ship_class</Option>
-            <Option>LODranges</Option>
-            <Option>msg_id_prefix</Option>
-            <Option>mission_property</Option>
-            <Option>type</Option>
             <Option>DA_archetype</Option>
             <Option multiple="true">material_library</Option>
             <Option>envmap_material</Option>
-            <Option>nomad</Option>
+            <Option>cockpit</Option>
+            <Option>pilot_mesh</Option>
+            <Option>LODranges</Option>
+            <Option>camera_offset</Option>
+            <Option>ship_class</Option>
+            <Option>type</Option>
             <Option>linear_drag</Option>
             <Option>mass</Option>
             <Option>hold_size</Option>
+            <Option>hit_pts</Option>
+            <Option>steering_torque</Option>
+            <Option>angular_drag</Option>
+            <Option>rotation_inertia</Option>
+            <Option>nudge_force</Option>
+            <Option>strafe_force</Option>
+            <Option>HP_bay_surface</Option>
+            <Option>HP_bay_external</Option>
+            <Option>HP_tractor_source</Option>
+            <Option multiple="true">hp_type</Option>
+            <Option>strafe_power_usage</Option>
             <Option multiple="true">fuse</Option>
+            <Option>explosion_arch</Option>
+            <Option multiple="true">surface_hit_effects</Option>
+            <Option>bay_doors_open_snd</Option>
+            <Option>bay_doors_close_snd</Option>
+            <Option>mission_property</Option>
+            <Option>msg_id_prefix</Option>
+            <Option>nomad</Option>
             <Option>max_bank_angle</Option>
-            <Option>camera_offset</Option>
             <Option>camera_angular_acceleration</Option>
             <Option>camera_horizontal_turn_angle</Option>
             <Option>camera_vertical_turn_up_angle</Option>
@@ -3054,26 +3071,9 @@
             <Option>camera_turn_look_ahead_slerp_amount</Option>
             <Option>nanobot_limit</Option>
             <Option>shield_battery_limit</Option>
-            <Option>hit_pts</Option>
-            <Option>cockpit</Option>
-            <Option>pilot_mesh</Option>
-            <Option>explosion_arch</Option>
-            <Option multiple="true">surface_hit_effects</Option>
-            <Option>steering_torque</Option>
-            <Option>angular_drag</Option>
-            <Option>rotation_inertia</Option>
-            <Option>nudge_force</Option>
-            <Option>strafe_force</Option>
-            <Option>strafe_power_usage</Option>
             <Option>bay_door_anim</Option>
-            <Option>bay_doors_open_snd</Option>
-            <Option>bay_doors_close_snd</Option>
-            <Option>HP_bay_surface</Option>
-            <Option>HP_bay_external</Option>
-            <Option>HP_tractor_source</Option>
             <Option>num_exhaust_nozzles</Option>
             <Option>shield_link</Option>
-            <Option multiple="true">hp_type</Option>
           </Options>
         </Block>
         <Block name="Simple" multiple="true" identifier="nickname">
@@ -3082,9 +3082,9 @@
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
             <Option>LODranges</Option>
-            <Option>MinSpecLOD</Option>
             <Option>mass</Option>
             <Option>hit_pts</Option>
+            <Option>MinSpecLOD</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3099,8 +3099,8 @@
             <Option>nickname</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
-            <Option>explosion_arch</Option>
             <Option>recharge_time</Option>
+            <Option>explosion_arch</Option>
           </Options>
         </Block>
         <Block name="AsteroidMine" multiple="true" identifier="nickname">
@@ -3108,11 +3108,11 @@
             <Option>nickname</Option>
             <Option>DA_archetype</Option>
             <Option>material_library</Option>
+            <Option>detect_radius</Option>
+            <Option>recharge_time</Option>
             <Option>explosion_arch</Option>
             <Option>explosion_impulse</Option>
-            <Option>detect_radius</Option>
             <Option>explosion_offset</Option>
-            <Option>recharge_time</Option>
             <Option>phantom_physics</Option>
           </Options>
         </Block>
@@ -3135,18 +3135,18 @@
         <Block name="CollisionGroup" multiple="true" identifier="obj">
           <Options>
             <Option>obj</Option>
-            <Option>dmg_hp</Option>
-            <Option>dmg_obj</Option>
             <Option>separable</Option>
             <Option>parent_impulse</Option>
             <Option>child_impulse</Option>
             <Option>debris_type</Option>
             <Option>mass</Option>
-            <Option>fuse</Option>
-            <Option>group_dmg_hp</Option>
-            <Option>group_dmg_obj</Option>
             <Option>hit_pts</Option>
             <Option>root_health_proxy</Option>
+            <Option>fuse</Option>
+            <Option>dmg_hp</Option>
+            <Option>dmg_obj</Option>
+            <Option>group_dmg_hp</Option>
+            <Option>group_dmg_obj</Option>
             <Option>destoy_parent</Option>
           </Options>
         </Block>
@@ -3155,30 +3155,30 @@
             <Option>nickname</Option>
             <Option>ids_name</Option>
             <Option>ids_info</Option>
-            <Option>type</Option>
-            <Option>animated_textures</Option>
             <Option>DA_archetype</Option>
             <Option multiple="true">material_library</Option>
-            <Option>distance_render</Option>
             <Option>envmap_material</Option>
             <Option>LODranges</Option>
-            <Option>surface_hit_effects</Option>
-            <Option>mass</Option>
             <Option>loadout</Option>
-            <Option>nomad</Option>
-            <Option>open_anim</Option>
+            <Option>solar_radius</Option>
+            <Option>type</Option>
+            <Option>animated_textures</Option>
+            <Option>shape_name</Option>
+            <Option>mass</Option>
+            <Option>hit_pts</Option>
+            <Option>surface_hit_effects</Option>
+            <Option>explosion_arch</Option>
+            <Option multiple="true">fuse</Option>
             <Option>open_sound</Option>
             <Option>close_sound</Option>
+            <Option>distance_render</Option>
+            <Option>nomad</Option>
+            <Option>open_anim</Option>
             <Option multiple="true">docking_sphere</Option>
             <Option>docking_camera</Option>
             <Option>jump_out_hp</Option>
-            <Option>solar_radius</Option>
-            <Option>shape_name</Option>
             <Option>shield_link</Option>
-            <Option>explosion_arch</Option>
             <Option>destructible</Option>
-            <Option>hit_pts</Option>
-            <Option multiple="true">fuse</Option>
             <Option>phantom_physics</Option>
           </Options>
         </Block>
@@ -3212,8 +3212,8 @@
         <Block name="spines" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>radius_scale</Option>
             <Option>shape</Option>
+            <Option>radius_scale</Option>
             <Option>min_radius</Option>
             <Option>max_radius</Option>
             <Option multiple="true">spine</Option>
@@ -3222,16 +3222,16 @@
         <Block name="star" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
+            <Option>radius</Option>
+            <Option>spines</Option>
             <Option>star_glow</Option>
             <Option>star_center</Option>
             <Option>lens_flare</Option>
             <Option>lens_glow</Option>
-            <Option>spines</Option>
             <Option>intensity_fade_in</Option>
             <Option>intensity_fade_out</Option>
             <Option>zone_occlusion_fade_in</Option>
             <Option>zone_occlusion_fade_out</Option>
-            <Option>radius</Option>
           </Options>
         </Block>
         <Block name="star_glow" multiple="true" identifier="nickname">
@@ -3258,24 +3258,24 @@
       <Blocks>
         <Block name="AsteroidBillboards">
           <Options>
+            <Option>shape</Option>
+            <Option>size</Option>
+            <Option>color_shift</Option>
             <Option>count</Option>
             <Option>start_dist</Option>
             <Option>fade_dist_percent</Option>
-            <Option>shape</Option>
-            <Option>color_shift</Option>
             <Option>ambient_intensity</Option>
-            <Option>size</Option>
           </Options>
         </Block>
         <Block name="Band">
           <Options>
-            <Option>render_parts</Option>
             <Option>shape</Option>
+            <Option>texture_aspect</Option>
+            <Option>color_shift</Option>
+            <Option>render_parts</Option>
             <Option>height</Option>
             <Option>offset_dist</Option>
             <Option>fade</Option>
-            <Option>texture_aspect</Option>
-            <Option>color_shift</Option>
             <Option>ambient_intensity</Option>
             <Option>vert_increase</Option>
           </Options>
@@ -3290,13 +3290,13 @@
         </Block>
         <Block name="DynamicAsteroids">
           <Options>
-            <Option>asteroid</Option>
-            <Option>count</Option>
             <Option>placement_radius</Option>
-            <Option>placement_offset</Option>
+            <Option>color_shift</Option>
             <Option>max_velocity</Option>
             <Option>max_angular_velocity</Option>
-            <Option>color_shift</Option>
+            <Option>asteroid</Option>
+            <Option>count</Option>
+            <Option>placement_offset</Option>
           </Options>
         </Block>
         <Block name="Exclusion Zones">
@@ -3310,14 +3310,14 @@
         </Block>
         <Block name="ExclusionBand">
           <Options>
+            <Option>shape</Option>
+            <Option>texture_aspect</Option>
+            <Option>color_shift</Option>
             <Option>zone</Option>
             <Option>render_parts</Option>
-            <Option>shape</Option>
             <Option>height</Option>
             <Option>offset_dist</Option>
             <Option>fade</Option>
-            <Option>texture_aspect</Option>
-            <Option>color_shift</Option>
             <Option>ambient_intensity</Option>
             <Option>cull_mode</Option>
             <Option>vert_increase</Option>
@@ -3326,10 +3326,10 @@
         <Block name="Field">
           <Options>
             <Option>cube_size</Option>
-            <Option>fill_dist</Option>
             <Option>tint_field</Option>
             <Option>diffuse_color</Option>
             <Option>ambient_color</Option>
+            <Option>fill_dist</Option>
             <Option>ambient_increase</Option>
             <Option>empty_cube_frequency</Option>
             <Option>max_alpha</Option>
@@ -3376,29 +3376,29 @@
       <Blocks>
         <Block name="Clouds">
           <Options>
-            <Option>max_distance</Option>
-            <Option>puff_density</Option>
-            <Option>puff_cloud_size</Option>
-            <Option>puff_colora</Option>
             <Option multiple="true">puff_shape</Option>
-            <Option>puff_weights</Option>
-            <Option>puff_particles</Option>
+            <Option>puff_cloud_size</Option>
             <Option>puff_size</Option>
-            <Option>puff_drift</Option>
+            <Option>puff_colora</Option>
             <Option>puff_opacity</Option>
+            <Option>puff_particles</Option>
+            <Option>puff_density</Option>
+            <Option>max_distance</Option>
+            <Option>puff_weights</Option>
+            <Option>puff_drift</Option>
           </Options>
         </Block>
         <Block name="Exterior">
           <Options>
             <Option>shape</Option>
-            <Option>opacity</Option>
-            <Option>thickness_edge</Option>
-            <Option>fade_range</Option>
-            <Option>ball_scale</Option>
-            <Option>flash</Option>
-            <Option>flash_radius</Option>
             <Option>flash_size</Option>
+            <Option>ball_scale</Option>
             <Option>spin</Option>
+            <Option>opacity</Option>
+            <Option>fade_range</Option>
+            <Option>flash_radius</Option>
+            <Option>thickness_edge</Option>
+            <Option>flash</Option>
           </Options>
         </Block>
         <Block name="Fog">
@@ -3418,8 +3418,8 @@
         </Block>
         <Block name="Texture" multiple="true" identifier="name">
           <Options>
-            <Option>file</Option>
             <Option>name</Option>
+            <Option>file</Option>
           </Options>
         </Block>
         <Block name="TexturePanels">
@@ -3436,34 +3436,34 @@
       <Blocks>
         <Block name="BackgroundLightning">
           <Options>
+            <Option>color</Option>
             <Option>duration</Option>
             <Option>gap</Option>
-            <Option>color</Option>
           </Options>
         </Block>
         <Block name="Clouds">
           <Options>
-            <Option>max_distance</Option>
-            <Option>puff_count</Option>
+            <Option multiple="true">puff_shape</Option>
             <Option>puff_radius</Option>
             <Option>puff_colora</Option>
             <Option>puff_colorb</Option>
+            <Option>lightning_color</Option>
+            <Option>max_distance</Option>
+            <Option>puff_count</Option>
             <Option>puff_max_alpha</Option>
-            <Option multiple="true">puff_shape</Option>
             <Option>puff_weights</Option>
             <Option>puff_drift</Option>
             <Option>near_fade_distance</Option>
             <Option>lightning_intensity</Option>
-            <Option>lightning_color</Option>
             <Option>lightning_gap</Option>
             <Option>lightning_duration</Option>
           </Options>
         </Block>
         <Block name="DynamicLightning">
           <Options>
+            <Option>color</Option>
             <Option>gap</Option>
             <Option>duration</Option>
-            <Option>color</Option>
             <Option>ambient_intensity</Option>
             <Option>intensity_increase</Option>
           </Options>
@@ -3483,29 +3483,29 @@
             <Option multiple="true">shape</Option>
             <Option>shape_weights</Option>
             <Option>fill_shape</Option>
-            <Option>plane_slices</Option>
             <Option>bit_radius</Option>
             <Option>bit_radius_random_variation</Option>
+            <Option>color</Option>
+            <Option>plane_slices</Option>
             <Option>min_bits</Option>
             <Option>max_bits</Option>
             <Option>move_bit_percent</Option>
             <Option>equator_bias</Option>
-            <Option>color</Option>
           </Options>
         </Block>
         <Block name="Fog">
           <Options>
+            <Option>color</Option>
             <Option>fog_enabled</Option>
             <Option>near</Option>
             <Option>distance</Option>
-            <Option>color</Option>
           </Options>
         </Block>
         <Block name="NebulaLight">
           <Options>
+            <Option>sun_burnthrough_scaler</Option>
             <Option>ambient</Option>
             <Option>sun_burnthrough_intensity</Option>
-            <Option>sun_burnthrough_scaler</Option>
           </Options>
         </Block>
         <Block name="properties">
@@ -3518,8 +3518,8 @@
             <Option>file</Option>
             <Option multiple="true">texture_name</Option>
             <Option multiple="true">shape_name</Option>
-            <Option multiple="true" parent="shape_name">dim</Option>
             <Option>tex_shape</Option>
+            <Option multiple="true" parent="shape_name">dim</Option>
           </Options>
         </Block>
         <Block name="TexturePanels">
@@ -3536,13 +3536,13 @@
       <Blocks>
         <Block name="Clouds">
           <Options>
-            <Option>max_distance</Option>
-            <Option>puff_count</Option>
+            <Option multiple="true">puff_shape</Option>
             <Option>puff_radius</Option>
             <Option>puff_colora</Option>
             <Option>puff_colorb</Option>
+            <Option>max_distance</Option>
+            <Option>puff_count</Option>
             <Option>puff_max_alpha</Option>
-            <Option multiple="true">puff_shape</Option>
             <Option>puff_weights</Option>
             <Option>puff_drift</Option>
             <Option>near_fade_distance</Option>
@@ -3552,11 +3552,11 @@
           <Options>
             <Option>shape</Option>
             <Option>detail_shape</Option>
-            <Option>detail_tile</Option>
             <Option>color</Option>
             <Option>opacity</Option>
-            <Option>thickness_edge</Option>
             <Option>fade_range</Option>
+            <Option>detail_tile</Option>
+            <Option>thickness_edge</Option>
             <Option>outer_edge</Option>
             <Option>inner_edge</Option>
             <Option>num_segments</Option>
@@ -3577,17 +3577,17 @@
       <Blocks>
         <Block name="Shape" multiple="true" identifier="name">
           <Options>
+            <Option>name</Option>
             <Option>x</Option>
             <Option>y</Option>
             <Option>w</Option>
             <Option>h</Option>
-            <Option>name</Option>
           </Options>
         </Block>
         <Block name="Texture" multiple="true" identifier="name">
           <Options>
-            <Option>file</Option>
             <Option>name</Option>
+            <Option>file</Option>
             <Option>texture_name</Option>
             <Option multiple="true">shape_name</Option>
             <Option parent="shape_name">dim</Option>
@@ -3602,9 +3602,9 @@
       <Blocks>
         <Block name="MissionCreatedSolar" multiple="true" identifier="base">
           <Options>
-            <Option>base</Option>
-            <Option>pos</Option>
             <Option>ids_info</Option>
+            <Option>pos</Option>
+            <Option>base</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3631,9 +3631,9 @@
         <Block name="Base" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>system</Option>
             <Option>strid_name</Option>
             <Option>file</Option>
+            <Option>system</Option>
             <Option>autosave_forbidden</Option>
             <Option>BGCS_base_run_by</Option>
             <Option>terrain_tiny</Option>
@@ -3647,13 +3647,13 @@
         <Block name="system" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
-            <Option>file</Option>
-            <Option>pos</Option>
-            <Option>msg_id_prefix</Option>
-            <Option>visit</Option>
             <Option>strid_name</Option>
             <Option>ids_info</Option>
+            <Option>pos</Option>
             <Option>NavMapScale</Option>
+            <Option>file</Option>
+            <Option>visit</Option>
+            <Option>msg_id_prefix</Option>
           </Options>
         </Block>
         <Block name="Time">
@@ -3679,8 +3679,8 @@
         </Block>
         <Block name="Texture" multiple="true" identifier="name">
           <Options>
-            <Option>file</Option>
             <Option>name</Option>
+            <Option>file</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3723,8 +3723,8 @@
           <Options>
             <Option multiple="true">solar</Option>
             <Option multiple="true">ship</Option>
-            <Option multiple="true" parent="ship">simple</Option>
             <Option multiple="true">equipment</Option>
+            <Option multiple="true" parent="ship">simple</Option>
             <Option multiple="true">snd</Option>
             <Option multiple="true">voice</Option>
           </Options>
@@ -3758,13 +3758,13 @@
             <Option>nickname</Option>
             <Option>pos</Option>
             <Option>rotate</Option>
-            <Option>color</Option>
-            <Option>range</Option>
             <Option>type</Option>
+            <Option>color</Option>
+            <Option>color_curve</Option>
+            <Option>range</Option>
             <Option>direction</Option>
             <Option>atten_curve</Option>
             <Option>attenuation</Option>
-            <Option>color_curve</Option>
           </Options>
         </Block>
         <Block name="Music">
@@ -3784,35 +3784,35 @@
           <Options>
             <Option>nickname</Option>
             <Option>ids_name</Option>
+            <Option renameFrom="info_ids,info_card,info_card_ids">ids_info</Option>
+            <Option>archetype</Option>
+            <Option>loadout</Option>
+            <Option>pilot</Option>
             <Option>pos</Option>
             <Option>rotate</Option>
-            <Option>ambient_color</Option>
-            <Option>archetype</Option>
-            <Option>star</Option>
             <Option>spin</Option>
-            <Option>msg_id_prefix</Option>
-            <Option>jump_effect</Option>
-            <Option>atmosphere_range</Option>
+            <Option>ambient_color</Option>
             <Option>burn_color</Option>
+            <Option>visit</Option>
+            <Option>atmosphere_range</Option>
+            <Option>Ambient</Option>
             <Option>prev_ring</Option>
             <Option>next_ring</Option>
-            <Option renameFrom="info_ids,info_card,info_card_ids">ids_info</Option>
             <Option>ring</Option>
             <Option>base</Option>
             <Option>dock_with</Option>
-            <Option>Ambient</Option>
-            <Option>visit</Option>
+            <Option>goto</Option>
+            <Option>parent</Option>
             <Option>reputation</Option>
-            <Option>tradelane_space_name</Option>
             <Option>behavior</Option>
             <Option>voice</Option>
-            <Option>space_costume</Option>
             <Option>faction</Option>
             <Option>difficulty_level</Option>
-            <Option>goto</Option>
-            <Option>loadout</Option>
-            <Option>pilot</Option>
-            <Option>parent</Option>
+            <Option>jump_effect</Option>
+            <Option>star</Option>
+            <Option>msg_id_prefix</Option>
+            <Option>tradelane_space_name</Option>
+            <Option>space_costume</Option>
           </Options>
         </Block>
         <Block name="SystemInfo">
@@ -3832,28 +3832,18 @@
           <Options>
             <Option>nickname</Option>
             <Option>ids_name</Option>
-            <Option>pos</Option>
-            <Option>rotate</Option>
+            <Option>ids_info</Option>
             <Option>shape</Option>
             <Option>size</Option>
+            <Option>pos</Option>
+            <Option>rotate</Option>
             <Option>spin</Option>
             <Option>property_flags</Option>
             <Option>property_fog_color</Option>
-            <Option>damage</Option>
             <Option>visit</Option>
-            <Option renameFrom="pacedust">spacedust</Option>
-            <Option renameFrom="spacedust_masparticles,spacedusr_maxparticles,spacedust _maxparticles,spacedust_maxdust">spacedust_maxparticles</Option>
-            <Option>interference</Option>
-            <Option>drag_modifier</Option>
-            <Option>edge_fraction</Option>
-            <Option>ids_info</Option>
-            <Option>attack_ids</Option>
+            <Option>damage</Option>
+            <Option>Music</Option>
             <Option>mission_type</Option>
-            <Option>comment</Option>
-            <Option>lane_id</Option>
-            <Option>tradelane_attack</Option>
-            <Option>tradelane_down</Option>
-            <Option>sort</Option>
             <Option>vignette_type</Option>
             <Option>toughness</Option>
             <Option>density</Option>
@@ -3868,7 +3858,17 @@
             <Option multiple="true">density_restriction</Option>
             <Option multiple="true">encounter</Option>
             <Option multiple="true" parent="encounter">faction</Option>
-            <Option>Music</Option>
+            <Option renameFrom="pacedust">spacedust</Option>
+            <Option renameFrom="spacedust_masparticles,spacedusr_maxparticles,spacedust _maxparticles,spacedust_maxdust">spacedust_maxparticles</Option>
+            <Option>interference</Option>
+            <Option>drag_modifier</Option>
+            <Option>edge_fraction</Option>
+            <Option>comment</Option>
+            <Option>sort</Option>
+            <Option>attack_ids</Option>
+            <Option>lane_id</Option>
+            <Option>tradelane_attack</Option>
+            <Option>tradelane_down</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3891,24 +3891,24 @@
         </Block>
         <Block name="FlashlightLine" multiple="true">
           <Options>
-            <Option>icolor</Option>
             <Option>scale</Option>
+            <Option>icolor</Option>
+            <Option multiple="true">hardpoint</Option>
             <Option>gap</Option>
             <Option>blink</Option>
             <Option>endpause</Option>
             <Option>numlights</Option>
-            <Option multiple="true">hardpoint</Option>
           </Options>
         </Block>
         <Block name="FlashlightSet" multiple="true">
           <Options>
-            <Option>icolor</Option>
             <Option>scale</Option>
+            <Option>icolor</Option>
+            <Option multiple="true">hardpoint</Option>
             <Option>gap</Option>
             <Option>blink</Option>
             <Option>endpause</Option>
             <Option>numlights</Option>
-            <Option multiple="true">hardpoint</Option>
           </Options>
         </Block>
         <Block name="ForSaleShipPlacement">
@@ -3921,10 +3921,10 @@
             <Option>name</Option>
             <Option>behavior</Option>
             <Option>room_switch</Option>
-            <Option>state_read</Option>
-            <Option>state_send</Option>
             <Option>set_virtual_room</Option>
             <Option>virtual_room</Option>
+            <Option>state_read</Option>
+            <Option>state_send</Option>
           </Options>
         </Block>
         <Block name="PlayerShipPlacement">
