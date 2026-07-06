@@ -634,6 +634,7 @@
             <Option>separation_explosion</Option>
             <Option>AI_range</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="Engine" multiple="true" identifier="nickname">
@@ -715,6 +716,8 @@
             <Option>auto_turret</Option>
             <Option>turn_rate</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
+            <Option>dispersion_angle</Option>
             <Option>LODranges</Option>
           </Options>
         </Block>
@@ -784,6 +787,7 @@
             <Option>top_speed</Option>
             <Option>acceleration</Option>
             <Option>const_effect</Option>
+            <Option>dispersion_angle</Option>
           </Options>
         </Block>
         <Block name="MineDropper" multiple="true" identifier="nickname">
@@ -810,6 +814,8 @@
             <Option>dry_fire_sound</Option>
             <Option>separation_explosion</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
+            <Option>dispersion_angle</Option>
             <Option>LODranges</Option>
           </Options>
         </Block>
@@ -836,6 +842,7 @@
             <Option>one_shot_sound</Option>
             <Option>munition_hit_effect</Option>
             <Option>const_effect</Option>
+            <Option>const_effect_delay</Option>
             <Option>detonation_dist</Option>
             <Option>lifetime</Option>
             <Option>Motor</Option>
@@ -870,6 +877,7 @@
             <Option>thrust_capacity</Option>
             <Option>thrust_charge_rate</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="RepairKit">
@@ -883,6 +891,7 @@
             <Option>loot_appearance</Option>
             <Option>units_per_container</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="Scanner" multiple="true" identifier="nickname">
@@ -894,7 +903,9 @@
             <Option>mass</Option>
             <Option>range</Option>
             <Option>cargo_scan_range</Option>
+            <Option>power_usage</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="Shield" multiple="true" identifier="nickname">
@@ -915,6 +926,7 @@
             <Option>loot_appearance</Option>
             <Option>units_per_container</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="ShieldGenerator" multiple="true" identifier="nickname">
@@ -948,6 +960,7 @@
             <Option>separation_explosion</Option>
             <Option>shield_type</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="Thruster" multiple="true" identifier="nickname">
@@ -970,6 +983,7 @@
             <Option>hp_particles</Option>
             <Option>power_usage</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
             <Option>separation_explosion</Option>
             <Option>LODranges</Option>
           </Options>
@@ -987,6 +1001,7 @@
             <Option>operating_effect</Option>
             <Option>tractor_complete_snd</Option>
             <Option>lootable</Option>
+            <Option>tractored_explosion</Option>
           </Options>
         </Block>
         <Block name="TradeLane">
@@ -1162,6 +1177,7 @@
             <Option>lgt_effect</Option>
             <Option>lgt_range_scale</Option>
             <Option>lgt_radius</Option>
+            <Option>lgt_time_scale</Option>
           </Options>
         </Block>
         <Block name="EffectLOD" multiple="true" identifier="type">
@@ -1429,6 +1445,8 @@
           <Options>
             <Option>jump_out_effect</Option>
             <Option>jump_in_effect</Option>
+            <Option>jump_done_effect_player</Option>
+            <Option>jump_done_effect_nonplayer</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3002,6 +3020,7 @@
             <Option>type</Option>
             <Option>hit_pts</Option>
             <Option>root_health_proxy</Option>
+            <Option>destoy_parent</Option>
             <Option multiple="true">fuse</Option>
           </Options>
         </Block>
@@ -3128,6 +3147,7 @@
             <Option>group_dmg_obj</Option>
             <Option>hit_pts</Option>
             <Option>root_health_proxy</Option>
+            <Option>destoy_parent</Option>
           </Options>
         </Block>
         <Block name="Solar" multiple="true" identifier="nickname">
@@ -3676,12 +3696,15 @@
           <Options>
             <Option>nickname</Option>
             <Option>start_room</Option>
+            <Option>ship_repair_cost</Option>
+            <Option>price_variance</Option>
           </Options>
         </Block>
         <Block name="Room" multiple="true" identifier="nickname">
           <Options>
             <Option>nickname</Option>
             <Option>file</Option>
+            <Option>animation_oneshot</Option>
           </Options>
         </Block>
       </Blocks>
@@ -3797,6 +3820,7 @@
             <Option>space_color</Option>
             <Option>local_faction</Option>
             <Option>rpop_solar_detection</Option>
+            <Option>space_farclip</Option>
           </Options>
         </Block>
         <Block name="TexturePanels">
