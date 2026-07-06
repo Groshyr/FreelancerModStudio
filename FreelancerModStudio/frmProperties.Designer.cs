@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.parameterDescriptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.descriptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,33 +53,24 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.parameterDescriptionToolStripMenuItem,
             this.resetToolStripMenuItem,
             this.toolStripMenuItem1,
             this.descriptionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(193, 76);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // parameterDescriptionToolStripMenuItem
-            // 
-            this.parameterDescriptionToolStripMenuItem.Name = "parameterDescriptionToolStripMenuItem";
-            this.parameterDescriptionToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.parameterDescriptionToolStripMenuItem.Text = "Parameter description";
-            this.parameterDescriptionToolStripMenuItem.Click += new System.EventHandler(this.parameterDescriptionToolStripMenuItem_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(128, 54);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Enabled = false;
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Visible = false;
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(189, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
             this.toolStripMenuItem1.Visible = false;
             // 
             // descriptionToolStripMenuItem
@@ -89,7 +79,7 @@
             this.descriptionToolStripMenuItem.CheckOnClick = true;
             this.descriptionToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.descriptionToolStripMenuItem.Name = "descriptionToolStripMenuItem";
-            this.descriptionToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.descriptionToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.descriptionToolStripMenuItem.Text = "Description";
             this.descriptionToolStripMenuItem.Visible = false;
             this.descriptionToolStripMenuItem.Click += new System.EventHandler(this.descriptionToolStripMenuItem_Click);
@@ -119,7 +109,6 @@
 
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem parameterDescriptionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem descriptionToolStripMenuItem;
