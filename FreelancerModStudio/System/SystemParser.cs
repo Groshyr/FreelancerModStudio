@@ -536,11 +536,11 @@ namespace FreelancerModStudio.SystemPresenter
         {
             Helper.String.StringBuilder.Length = 0;
 
-            WriteDouble(Math.Round(value.X));
+            WriteDouble(Math.Round(value.X, 2));
             Helper.String.StringBuilder.Append(", ");
-            WriteDouble(Math.Round(value.Z));
+            WriteDouble(Math.Round(value.Z, 2));
             Helper.String.StringBuilder.Append(", ");
-            WriteDouble(Math.Round(-value.Y));
+            WriteDouble(Math.Round(-value.Y, 2));
 
             return Helper.String.StringBuilder.ToString();
         }
@@ -597,7 +597,7 @@ namespace FreelancerModStudio.SystemPresenter
 
         static void WriteDouble(double value)
         {
-            Helper.String.StringBuilder.Append(value.ToString(CultureInfo.InvariantCulture));
+            Helper.String.StringBuilder.Append(value.ToString("0.##", CultureInfo.InvariantCulture));
         }
 
         static bool IsZeroRounded(Vector3D value)

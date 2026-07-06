@@ -61,10 +61,6 @@ namespace FreelancerModStudio.Data
             public ushort RecentFilesCount { get; set; }
 
             [Category("General")]
-            [DisplayName("Default Freelancer DATA folder")]
-            public string DefaultDataDirectory { get; set; }
-
-            [Category("General")]
             [DisplayName("Theme")]
             public Theme Theme { get; set; }
 
@@ -198,21 +194,12 @@ namespace FreelancerModStudio.Data
                 if (Version < CURRENT_VERSION)
                 {
                     SetDefaultAutoUpdate();
-                    //DefaultDataDirectory = Registry.GetValue(FREELANCER_REGISTRY_KEY, FREELANCER_REGISTRY_VALUE, null) as string;
-
                     Version = CURRENT_VERSION;
                 }
             }
 
             public void CheckValidData()
             {
-                if (DefaultDataDirectory != null)
-                {
-                    if (!Directory.Exists(DefaultDataDirectory))
-                    {
-                        DefaultDataDirectory = null;
-                    }
-                }
             }
 
             void SetDefaultAutoUpdate()

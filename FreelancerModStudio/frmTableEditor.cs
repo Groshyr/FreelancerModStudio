@@ -240,16 +240,9 @@ namespace FreelancerModStudio
         {
             string archetypeFile = ArchetypeManager.GetRelativeArchetype(File, Data.TemplateIndex);
 
-            // try to fallback to default DATA path
             if (archetypeFile == null)
             {
-                archetypeFile = ArchetypeManager.GetRelativeArchetype(Helper.Settings.Data.Data.General.DefaultDataDirectory);
-
-                //user interaction required to get the path of the archetype file
-                if (archetypeFile == null)
-                {
-                    archetypeFile = ShowSolarArchetypeSelector();
-                }
+                archetypeFile = ShowSolarArchetypeSelector();
             }
 
             //set data path based on archetype file and not system file
