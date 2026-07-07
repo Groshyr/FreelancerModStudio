@@ -15,6 +15,10 @@ namespace FreelancerModStudio
 
         public OptionsChangedType OptionsChanged;
 
+        List<TableBlock> _encounterParameterSource;
+        int _encounterParameterSourceCount;
+        Dictionary<string, bool> _encounterParameterCache;
+
         void OnOptionsChanged(PropertyBlock[] blocks)
         {
             if (OptionsChanged != null)
@@ -47,6 +51,7 @@ namespace FreelancerModStudio
 
         public void ClearData()
         {
+            ClearEncounterParameterCache();
             if (propertyGrid.SelectedObject != null)
             {
                 propertyGrid.SelectedObject = null;
@@ -80,30 +85,15 @@ namespace FreelancerModStudio
             propertyGrid.SelectedGridItem.Select();
         }
 
-        static Dictionary<string, bool> BuildEncounterParameterStatus(List<TableBlock> selectedBlocks, List<TableBlock> allBlocks)
+        Dictionary<string, bool> BuildEncounterParameterStatus(List<TableBlock> selectedBlocks, List<TableBlock> allBlocks)
         {
             if (!ContainsEncounterOption(selectedBlocks))
             {
                 return null;
             }
 
-            Dictionary<string, bool> status = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
-            if (allBlocks != null)
-            {
-                foreach (TableBlock block in allBlocks)
-                {
-                    if (block == null || block.Block == null || !block.Block.Name.Equals("EncounterParameters", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-
-                    string nickname = GetOptionValue(block.Block, "nickname");
-                    if (!string.IsNullOrEmpty(nickname) && !status.ContainsKey(nickname))
-                    {
-                        status.Add(nickname, true);
-                    }
-                }
-            }
+            Dictionary<string, bool> status = GetEncounterParameterCache(allBlocks);
+            status = new Dictionary<string, bool>(status, StringComparer.OrdinalIgnoreCase);
 
             foreach (TableBlock block in selectedBlocks)
             {
@@ -131,6 +121,46 @@ namespace FreelancerModStudio
             }
 
             return status;
+        }
+
+        Dictionary<string, bool> GetEncounterParameterCache(List<TableBlock> allBlocks)
+        {
+            int sourceCount = allBlocks != null ? allBlocks.Count : 0;
+            if (ReferenceEquals(allBlocks, _encounterParameterSource) &&
+                sourceCount == _encounterParameterSourceCount &&
+                _encounterParameterCache != null)
+            {
+                return _encounterParameterCache;
+            }
+
+            _encounterParameterSource = allBlocks;
+            _encounterParameterSourceCount = sourceCount;
+            _encounterParameterCache = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            if (allBlocks != null)
+            {
+                foreach (TableBlock block in allBlocks)
+                {
+                    if (block == null || block.Block == null || !block.Block.Name.Equals("EncounterParameters", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    string nickname = GetOptionValue(block.Block, "nickname");
+                    if (!string.IsNullOrEmpty(nickname) && !_encounterParameterCache.ContainsKey(nickname))
+                    {
+                        _encounterParameterCache.Add(nickname, true);
+                    }
+                }
+            }
+
+            return _encounterParameterCache;
+        }
+
+        void ClearEncounterParameterCache()
+        {
+            _encounterParameterSource = null;
+            _encounterParameterSourceCount = 0;
+            _encounterParameterCache = null;
         }
 
         static bool ContainsEncounterOption(List<TableBlock> blocks)
@@ -198,6 +228,7 @@ namespace FreelancerModStudio
         {
             if (e.ChangedItem.Value != e.OldValue)
             {
+                ClearEncounterParameterCache();
                 OnOptionsChanged((PropertyBlock[])propertyGrid.SelectedObjects);
             }
         }

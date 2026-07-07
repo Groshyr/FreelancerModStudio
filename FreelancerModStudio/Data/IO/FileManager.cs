@@ -118,7 +118,14 @@ namespace FreelancerModStudio.Data.IO
                                 List<INIOption> alternativeOptions;
                                 if (iniBlock.Options.TryGetValue(namesFromRename[nameIndex], out alternativeOptions))
                                 {
-                                    iniOptions.AddRange(alternativeOptions);
+                                    if (iniOptions == null)
+                                    {
+                                        iniOptions = alternativeOptions;
+                                    }
+                                    else
+                                    {
+                                        iniOptions.AddRange(alternativeOptions);
+                                    }
 
                                     //stop searching after we found the first option group with the correct name
                                     break;
