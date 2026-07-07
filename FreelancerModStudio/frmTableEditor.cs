@@ -246,19 +246,28 @@ namespace FreelancerModStudio
 
         void LoadArchetypes()
         {
-            string archetypeFile = ArchetypeManager.GetRelativeArchetype(File, Data.TemplateIndex);
+            // Collect every solar archetype file listed in the mod's freelancer.ini so that
+            // mods with multiple "solar =" entries (e.g. Discovery) have all archetypes merged.
+            List<string> archetypeFiles = ArchetypeManager.GetAllRelativeArchetypes(File, Data.TemplateIndex);
 
-            if (archetypeFile == null)
+            // Primary file drives DataPath and is used in the manual selector fallback.
+            string primaryArchetypeFile = archetypeFiles.Count > 0 ? archetypeFiles[0] : null;
+
+            if (primaryArchetypeFile == null)
             {
-                archetypeFile = ShowSolarArchetypeSelector();
+                primaryArchetypeFile = ShowSolarArchetypeSelector();
+                if (primaryArchetypeFile != null)
+                {
+                    archetypeFiles = new List<string> { primaryArchetypeFile };
+                }
             }
 
             //set data path based on archetype file and not system file
-            DataPath = Helper.Template.Data.GetDataPath(archetypeFile, Helper.Template.Data.SolarArchetypeFile);
+            DataPath = Helper.Template.Data.GetDataPath(primaryArchetypeFile, Helper.Template.Data.SolarArchetypeFile);
 
             if (Archetype == null)
             {
-                Archetype = new ArchetypeManager(archetypeFile, Helper.Template.Data.SolarArchetypeFile);
+                Archetype = new ArchetypeManager(archetypeFiles, Helper.Template.Data.SolarArchetypeFile);
             }
 
             SetAllBlockTypes();

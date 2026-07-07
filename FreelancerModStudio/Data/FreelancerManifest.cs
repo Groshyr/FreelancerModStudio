@@ -12,7 +12,9 @@ namespace FreelancerModStudio.Data
 
         readonly string _dataPath;
         readonly string _freelancerIni;
-        readonly Dictionary<string, string> _dataFiles = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        // Stores all values per key (e.g. multiple "solar =" lines) in load order.
+        readonly Dictionary<string, List<string>> _dataFiles = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
         readonly HashSet<string> _systemFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         FreelancerManifest(string rootPath)
@@ -59,15 +61,30 @@ namespace FreelancerModStudio.Data
                 return -1;
             }
 
-            string manifestFile;
-            if (_dataFiles.TryGetValue("universe", out manifestFile) && SamePath(fullPath, manifestFile))
+            // Check universe file
+            List<string> universeFiles;
+            if (_dataFiles.TryGetValue("universe", out universeFiles))
             {
-                return Helper.Template.Data.UniverseFile;
+                foreach (string uf in universeFiles)
+                {
+                    if (SamePath(fullPath, uf))
+                    {
+                        return Helper.Template.Data.UniverseFile;
+                    }
+                }
             }
 
-            if (_dataFiles.TryGetValue("solar", out manifestFile) && SamePath(fullPath, manifestFile))
+            // Check all solar archetype files (mods may list multiple)
+            List<string> solarFiles;
+            if (_dataFiles.TryGetValue("solar", out solarFiles))
             {
-                return Helper.Template.Data.SolarArchetypeFile;
+                foreach (string sf in solarFiles)
+                {
+                    if (SamePath(fullPath, sf))
+                    {
+                        return Helper.Template.Data.SolarArchetypeFile;
+                    }
+                }
             }
 
             if (_systemFiles.Contains(fullPath))
@@ -78,15 +95,48 @@ namespace FreelancerModStudio.Data
             return -1;
         }
 
+        /// <summary>
+        /// Returns the first existing solar archetype file listed in freelancer.ini.
+        /// Use <see cref="GetAllSolarArchetypeFiles"/> when you need to load all of them.
+        /// </summary>
         public string GetSolarArchetypeFile()
         {
-            string file;
-            if (_dataFiles.TryGetValue("solar", out file) && File.Exists(file))
+            List<string> files;
+            if (_dataFiles.TryGetValue("solar", out files))
             {
-                return file;
+                foreach (string file in files)
+                {
+                    if (File.Exists(file))
+                    {
+                        return file;
+                    }
+                }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns every existing solar archetype file listed in freelancer.ini, in load order.
+        /// Mods such as Discovery list multiple "solar =" entries whose archetypes must all be
+        /// merged to resolve object types correctly.
+        /// </summary>
+        public List<string> GetAllSolarArchetypeFiles()
+        {
+            List<string> result = new List<string>();
+            List<string> files;
+            if (_dataFiles.TryGetValue("solar", out files))
+            {
+                foreach (string file in files)
+                {
+                    if (File.Exists(file))
+                    {
+                        result.Add(file);
+                    }
+                }
+            }
+
+            return result;
         }
 
         void Load()
@@ -110,7 +160,16 @@ namespace FreelancerModStudio.Data
                         string path = ResolveDataPath(value.Value);
                         if (path != null)
                         {
-                            _dataFiles[option.Key] = path;
+                            // Append rather than overwrite so that every entry is preserved
+                            // (e.g. multiple "solar =" lines in Discovery's freelancer.ini).
+                            List<string> existing;
+                            if (!_dataFiles.TryGetValue(option.Key, out existing))
+                            {
+                                existing = new List<string>();
+                                _dataFiles[option.Key] = existing;
+                            }
+
+                            existing.Add(path);
                         }
                     }
                 }
@@ -121,8 +180,15 @@ namespace FreelancerModStudio.Data
 
         void LoadUniverseSystems()
         {
-            string universeFile;
-            if (!_dataFiles.TryGetValue("universe", out universeFile) || !File.Exists(universeFile))
+            List<string> universeFiles;
+            if (!_dataFiles.TryGetValue("universe", out universeFiles) || universeFiles.Count == 0)
+            {
+                return;
+            }
+
+            // Use the first universe file (there is only ever one in standard FL).
+            string universeFile = universeFiles[0];
+            if (!File.Exists(universeFile))
             {
                 return;
             }
