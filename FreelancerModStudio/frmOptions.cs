@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -25,6 +26,14 @@ namespace FreelancerModStudio
             propertyGrid.PropertySort = PropertySort.Categorized;
             propertyGrid.SelectedObject = selectedObject;
             propertyGrid.ExpandAllGridItems();
+
+            Panel opacityPanel = new Panel { Dock = DockStyle.Bottom, Height = 48 };
+            Label opacityLabel = new Label { Text = "3D overlay transparency", Dock = DockStyle.Top, AutoSize = true };
+            TrackBar opacitySlider = new TrackBar { Dock = DockStyle.Bottom, Minimum = 5, Maximum = 90, TickFrequency = 5, Value = Helper.Settings.Data.Data.General.OverlayOpacity * 100 / 255 };
+            opacitySlider.ValueChanged += (sender, args) => Helper.Settings.Data.Data.General.OverlayOpacity = (byte)(opacitySlider.Value * 255 / 100);
+            opacityPanel.Controls.Add(opacitySlider);
+            opacityPanel.Controls.Add(opacityLabel);
+            Controls.Add(opacityPanel);
         }
 
         class IniColorOptions
@@ -68,51 +77,82 @@ namespace FreelancerModStudio
                 set { _settings.EditorHiddenColor = value; }
             }
 
+            static string ToWeb(Color color)
+            {
+                return ColorTranslator.ToHtml(color);
+            }
+
+            static bool TrySetWebColor(string value, out Color color)
+            {
+                color = Color.Empty;
+                if (string.IsNullOrEmpty(value))
+                    return false;
+                try
+                {
+                    Color parsed = ColorTranslator.FromHtml(value.Trim());
+                    if (parsed.IsSystemColor)
+                        return false;
+                    color = parsed;
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            void SetWebColor(string value, Action<Color> set)
+            {
+                Color color;
+                if (TrySetWebColor(value, out color))
+                    set(color);
+            }
+
             [Category("3D View Colors")]
             [DisplayName("Construct")]
-            public Color Construct { get { return _settings.ColorBox.Construct; } set { _settings.ColorBox.Construct = value; } }
+            public string Construct { get { return ToWeb(_settings.ColorBox.Construct); } set { SetWebColor(value, x => _settings.ColorBox.Construct = x); } }
             [Category("3D View Colors")]
             [DisplayName("Depot")]
-            public Color Depot { get { return _settings.ColorBox.Depot; } set { _settings.ColorBox.Depot = value; } }
+            public string Depot { get { return ToWeb(_settings.ColorBox.Depot); } set { SetWebColor(value, x => _settings.ColorBox.Depot = x); } }
             [Category("3D View Colors")]
             [DisplayName("Docking ring")]
-            public Color DockingRing { get { return _settings.ColorBox.DockingRing; } set { _settings.ColorBox.DockingRing = value; } }
+            public string DockingRing { get { return ToWeb(_settings.ColorBox.DockingRing); } set { SetWebColor(value, x => _settings.ColorBox.DockingRing = x); } }
             [Category("3D View Colors")]
             [DisplayName("Jump gate")]
-            public Color JumpGate { get { return _settings.ColorBox.JumpGate; } set { _settings.ColorBox.JumpGate = value; } }
+            public string JumpGate { get { return ToWeb(_settings.ColorBox.JumpGate); } set { SetWebColor(value, x => _settings.ColorBox.JumpGate = x); } }
             [Category("3D View Colors")]
             [DisplayName("Jump hole")]
-            public Color JumpHole { get { return _settings.ColorBox.JumpHole; } set { _settings.ColorBox.JumpHole = value; } }
+            public string JumpHole { get { return ToWeb(_settings.ColorBox.JumpHole); } set { SetWebColor(value, x => _settings.ColorBox.JumpHole = x); } }
             [Category("3D View Colors")]
             [DisplayName("Planet")]
-            public Color Planet { get { return _settings.ColorBox.Planet; } set { _settings.ColorBox.Planet = value; } }
+            public string Planet { get { return ToWeb(_settings.ColorBox.Planet); } set { SetWebColor(value, x => _settings.ColorBox.Planet = x); } }
             [Category("3D View Colors")]
             [DisplayName("Satellite")]
-            public Color Satellite { get { return _settings.ColorBox.Satellite; } set { _settings.ColorBox.Satellite = value; } }
+            public string Satellite { get { return ToWeb(_settings.ColorBox.Satellite); } set { SetWebColor(value, x => _settings.ColorBox.Satellite = x); } }
             [Category("3D View Colors")]
             [DisplayName("Ship")]
-            public Color Ship { get { return _settings.ColorBox.Ship; } set { _settings.ColorBox.Ship = value; } }
+            public string Ship { get { return ToWeb(_settings.ColorBox.Ship); } set { SetWebColor(value, x => _settings.ColorBox.Ship = x); } }
             [Category("3D View Colors")]
             [DisplayName("Station")]
-            public Color Station { get { return _settings.ColorBox.Station; } set { _settings.ColorBox.Station = value; } }
+            public string Station { get { return ToWeb(_settings.ColorBox.Station); } set { SetWebColor(value, x => _settings.ColorBox.Station = x); } }
             [Category("3D View Colors")]
             [DisplayName("Sun")]
-            public Color Sun { get { return _settings.ColorBox.Sun; } set { _settings.ColorBox.Sun = value; } }
+            public string Sun { get { return ToWeb(_settings.ColorBox.Sun); } set { SetWebColor(value, x => _settings.ColorBox.Sun = x); } }
             [Category("3D View Colors")]
             [DisplayName("Trade lane")]
-            public Color TradeLane { get { return _settings.ColorBox.TradeLane; } set { _settings.ColorBox.TradeLane = value; } }
+            public string TradeLane { get { return ToWeb(_settings.ColorBox.TradeLane); } set { SetWebColor(value, x => _settings.ColorBox.TradeLane = x); } }
             [Category("3D View Colors")]
             [DisplayName("Weapons platform")]
-            public Color WeaponsPlatform { get { return _settings.ColorBox.WeaponsPlatform; } set { _settings.ColorBox.WeaponsPlatform = value; } }
+            public string WeaponsPlatform { get { return ToWeb(_settings.ColorBox.WeaponsPlatform); } set { SetWebColor(value, x => _settings.ColorBox.WeaponsPlatform = x); } }
             [Category("3D View Colors")]
             [DisplayName("Mission vignette")]
-            public Color ZoneVignette { get { return _settings.ColorBox.ZoneVignette; } set { _settings.ColorBox.ZoneVignette = value; } }
+            public string ZoneVignette { get { return ToWeb(_settings.ColorBox.ZoneVignette); } set { SetWebColor(value, x => _settings.ColorBox.ZoneVignette = x); } }
             [Category("3D View Colors")]
             [DisplayName("Trade path")]
-            public Color ZonePathTrade { get { return _settings.ColorBox.ZonePathTrade; } set { _settings.ColorBox.ZonePathTrade = value; } }
+            public string ZonePathTrade { get { return ToWeb(_settings.ColorBox.ZonePathTrade); } set { SetWebColor(value, x => _settings.ColorBox.ZonePathTrade = x); } }
             [Category("3D View Colors")]
             [DisplayName("Trade-lane path")]
-            public Color ZonePathTradeLane { get { return _settings.ColorBox.ZonePathTradeLane; } set { _settings.ColorBox.ZonePathTradeLane = value; } }
+            public string ZonePathTradeLane { get { return ToWeb(_settings.ColorBox.ZonePathTradeLane); } set { SetWebColor(value, x => _settings.ColorBox.ZonePathTradeLane = x); } }
         }
     }
 }

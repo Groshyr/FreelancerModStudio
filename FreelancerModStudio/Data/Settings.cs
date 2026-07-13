@@ -103,6 +103,8 @@ namespace FreelancerModStudio.Data
             [XmlElement("ColorBox")]
             public ColorBox ColorBox { get; set; }
 
+            public byte OverlayOpacity { get; set; }
+
             [Category("General")]
             [DisplayName("Restore previous files")]
             public bool RestorePreviousFiles { get; set; }
@@ -189,6 +191,7 @@ namespace FreelancerModStudio.Data
                 AutomaticallyOpen3DEditor = true;
                 IgnoredEditorTypes = new List<ContentType> { ContentType.ZonePath, ContentType.ZoneVignette };
                 ColorBox = new ColorBox();
+                OverlayOpacity = 64;
                 RestorePreviousFiles = true;
 
                 FormattingSpaces = true;
