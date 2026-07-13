@@ -26,6 +26,15 @@ namespace FreelancerModStudio.Data
             {
                 EditorINIBlock block = tableBlock.Block;
                 string nickname = GetValue(block, "nickname");
+
+                foreach (EditorINIOption option in block.Options)
+                {
+                    if (option.TemplateIndex == -1 && option.Values.Count > 0)
+                    {
+                        Add(issues, tableBlock, "Template audit: unsupported option '" + option.Name + "' on " + (nickname ?? block.Name) + ".");
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(nickname))
                 {
                     string previous;
