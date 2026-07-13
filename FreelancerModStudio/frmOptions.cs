@@ -50,6 +50,7 @@ namespace FreelancerModStudio
 
             [Category("INI Colors")]
             [DisplayName("Added row color")]
+            [Editor(typeof(WebColorPickerEditor), typeof(UITypeEditor))]
             public Color EditorModifiedAddedColor
             {
                 get { return _settings.EditorModifiedAddedColor; }
@@ -58,6 +59,7 @@ namespace FreelancerModStudio
 
             [Category("INI Colors")]
             [DisplayName("Modified row color")]
+            [Editor(typeof(WebColorPickerEditor), typeof(UITypeEditor))]
             public Color EditorModifiedColor
             {
                 get { return _settings.EditorModifiedColor; }
@@ -66,6 +68,7 @@ namespace FreelancerModStudio
 
             [Category("INI Colors")]
             [DisplayName("Saved row color")]
+            [Editor(typeof(WebColorPickerEditor), typeof(UITypeEditor))]
             public Color EditorModifiedSavedColor
             {
                 get { return _settings.EditorModifiedSavedColor; }
@@ -74,6 +77,7 @@ namespace FreelancerModStudio
 
             [Category("INI Colors")]
             [DisplayName("Hidden text color")]
+            [Editor(typeof(WebColorPickerEditor), typeof(UITypeEditor))]
             public Color EditorHiddenColor
             {
                 get { return _settings.EditorHiddenColor; }
@@ -176,6 +180,32 @@ namespace FreelancerModStudio
 
     class WebColorEditor : UITypeEditor
     {
+        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            Color color;
+            if (e.Value == null || !TryGetColor(e.Value.ToString(), out color))
+            {
+                return;
+            }
+
+            using (Brush brush = new SolidBrush(color))
+            {
+                e.Graphics.FillRectangle(brush, e.Bounds);
+            }
+
+            using (Pen pen = new Pen(SystemColors.WindowText))
+            {
+                Rectangle border = e.Bounds;
+                border.Width -= 1;
+                border.Height -= 1;
+                e.Graphics.DrawRectangle(pen, border);
+            }
+        }
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
             return UITypeEditorEditStyle.DropDown;
@@ -212,7 +242,7 @@ namespace FreelancerModStudio
             return colors.SelectedItem ?? value;
         }
 
-        static List<string> GetWebColorNames()
+        internal static List<string> GetWebColorNames()
         {
             List<string> names = new List<string>();
             Array values = Enum.GetValues(typeof(KnownColor));
@@ -228,6 +258,59 @@ namespace FreelancerModStudio
 
             names.Sort(StringComparer.OrdinalIgnoreCase);
             return names;
+        }
+
+        internal static bool TryGetColor(string value, out Color color)
+        {
+            color = Color.Empty;
+            try
+            {
+                color = ColorTranslator.FromHtml(value);
+                return !color.IsSystemColor;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+
+    class WebColorPickerEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.DropDown;
+        }
+
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService editorService = provider == null ? null : provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+            if (editorService == null)
+            {
+                return value;
+            }
+
+            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, IntegralHeight = true, Width = 180, Height = 220 };
+            List<string> colorNames = WebColorEditor.GetWebColorNames();
+            for (int i = 0; i < colorNames.Count; ++i)
+            {
+                colors.Items.Add(colorNames[i]);
+                if (value is Color && colorNames[i].Equals(((Color)value).Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    colors.SelectedIndex = i;
+                }
+            }
+
+            colors.Click += delegate
+                {
+                    if (colors.SelectedItem != null)
+                    {
+                        editorService.CloseDropDown();
+                    }
+                };
+            editorService.DropDownControl(colors);
+
+            return colors.SelectedItem == null ? value : Color.FromName(colors.SelectedItem.ToString());
         }
     }
 }
