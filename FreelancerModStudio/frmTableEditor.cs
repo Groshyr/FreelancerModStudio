@@ -495,6 +495,11 @@ namespace FreelancerModStudio
                     WriteEmptyLine = Helper.Settings.Data.Data.General.FormattingEmptyLine,
                     ReadWriteComments = Helper.Settings.Data.Data.General.FormattingComments,
                 };
+
+            if (System.IO.File.Exists(file))
+            {
+                System.IO.File.Copy(file, file + ".bak", true);
+            }
             fileManager.Write(Data.GetEditorData());
 
             SetAsSaved();
