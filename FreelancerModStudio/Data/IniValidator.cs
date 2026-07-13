@@ -8,17 +8,9 @@ namespace FreelancerModStudio.Data
 {
     public static class IniValidator
     {
-        public class Issue
+        public static List<string> Validate(TableData data, string dataPath)
         {
-            public TableBlock Block;
-            public string Message;
-
-            public override string ToString() { return Message; }
-        }
-
-        public static List<Issue> Validate(TableData data, string dataPath)
-        {
-            List<Issue> issues = new List<Issue>();
+            List<string> issues = new List<string>();
             Dictionary<string, string> nicknames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             Dictionary<string, string> pathLegs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -26,20 +18,11 @@ namespace FreelancerModStudio.Data
             {
                 EditorINIBlock block = tableBlock.Block;
                 string nickname = GetValue(block, "nickname");
-
-                foreach (EditorINIOption option in block.Options)
-                {
-                    if (option.TemplateIndex == -1 && option.Values.Count > 0)
-                    {
-                        Add(issues, tableBlock, "Template audit: unsupported option '" + option.Name + "' on " + (nickname ?? block.Name) + ".");
-                    }
-                }
-
                 if (!string.IsNullOrEmpty(nickname))
                 {
                     string previous;
                     if (nicknames.TryGetValue(nickname, out previous))
-                        Add(issues, tableBlock, "Duplicate nickname '" + nickname + "' (also used by " + previous + ").");
+                        issues.Add("Duplicate nickname '" + nickname + "' (also used by " + previous + ").");
                     else
                         nicknames[nickname] = block.Name;
                 }
@@ -49,34 +32,29 @@ namespace FreelancerModStudio.Data
                 {
                     string previous;
                     if (pathLegs.TryGetValue(pathLabel, out previous))
-                        Add(issues, tableBlock, "Duplicate path_label '" + pathLabel + "' (also used by " + previous + ").");
+                        issues.Add("Duplicate path_label '" + pathLabel + "' (also used by " + previous + ").");
                     else
                         pathLegs[pathLabel] = nickname ?? block.Name;
                 }
 
                 string position = GetValue(block, "pos");
                 if (!string.IsNullOrEmpty(position) && !IsVector(position))
-                    Add(issues, tableBlock, "Invalid pos vector on " + (nickname ?? block.Name) + ".");
+                    issues.Add("Invalid pos vector on " + (nickname ?? block.Name) + ".");
 
-                ValidateFileReferences(tableBlock, nickname ?? block.Name, dataPath, issues);
+                ValidateFileReferences(block, nickname ?? block.Name, dataPath, issues);
             }
 
             return issues;
         }
 
-        static void Add(List<Issue> issues, TableBlock block, string message)
-        {
-            issues.Add(new Issue { Block = block, Message = message });
-        }
-
-        static void ValidateFileReferences(TableBlock tableBlock, string blockName, string dataPath, List<Issue> issues)
+        static void ValidateFileReferences(EditorINIBlock block, string blockName, string dataPath, List<string> issues)
         {
             if (string.IsNullOrEmpty(dataPath))
             {
                 return;
             }
 
-            foreach (EditorINIOption option in tableBlock.Block.Options)
+            foreach (EditorINIOption option in block.Options)
             {
                 if (!option.Name.Equals("file", StringComparison.OrdinalIgnoreCase) &&
                     !option.Name.Equals("filename", StringComparison.OrdinalIgnoreCase))
@@ -97,7 +75,7 @@ namespace FreelancerModStudio.Data
                         : Path.Combine(dataPath, reference.Replace('/', Path.DirectorySeparatorChar));
                     if (!File.Exists(path))
                     {
-                        Add(issues, tableBlock, "Missing " + option.Name + " reference '" + reference + "' on " + blockName + ".");
+                        issues.Add("Missing " + option.Name + " reference '" + reference + "' on " + blockName + ".");
                     }
                 }
             }

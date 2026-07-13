@@ -481,10 +481,12 @@ namespace FreelancerModStudio
 
         void Save(string file)
         {
-            List<IniValidator.Issue> validationIssues = IniValidator.Validate(Data, Helper.Template.Data.GetDataPath(file, Data.TemplateIndex));
-            if (validationIssues.Count > 0 && !ShowValidationIssues(validationIssues))
+            List<string> validationIssues = IniValidator.Validate(Data, Helper.Template.Data.GetDataPath(file, Data.TemplateIndex));
+            if (validationIssues.Count > 0)
             {
-                return;
+                string message = "INI validation found:\r\n\r\n- " + string.Join("\r\n- ", validationIssues.ToArray()) + "\r\n\r\nSave anyway?";
+                if (MessageBox.Show(message, Helper.Assembly.Name, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                    return;
             }
 
             FileManager fileManager = new FileManager(file, _isBINI)
@@ -493,11 +495,6 @@ namespace FreelancerModStudio
                     WriteEmptyLine = Helper.Settings.Data.Data.General.FormattingEmptyLine,
                     ReadWriteComments = Helper.Settings.Data.Data.General.FormattingComments,
                 };
-
-            if (System.IO.File.Exists(file))
-            {
-                System.IO.File.Copy(file, file + ".bak", true);
-            }
             fileManager.Write(Data.GetEditorData());
 
             SetAsSaved();
@@ -618,31 +615,6 @@ namespace FreelancerModStudio
                 {
                     new TableBlock(GetNewBlockId(), Data.MaxId++, editorBlock, Data.TemplateIndex)
                 });
-        }
-
-        bool ShowValidationIssues(List<IniValidator.Issue> issues)
-        {
-            using (Form dialog = new Form { Text = "INI validation", Width = 620, Height = 300, StartPosition = FormStartPosition.CenterParent })
-            using (ListBox list = new ListBox { Dock = DockStyle.Fill, DataSource = issues })
-            using (Button cancel = new Button { Text = "Cancel", DialogResult = DialogResult.Cancel, Dock = DockStyle.Right, Width = 90 })
-            using (Button save = new Button { Text = "Save anyway", DialogResult = DialogResult.OK, Dock = DockStyle.Right, Width = 100 })
-            using (Panel buttons = new Panel { Dock = DockStyle.Bottom, Height = 36 })
-            {
-                list.SelectedIndexChanged += delegate
-                    {
-                        IniValidator.Issue issue = list.SelectedItem as IniValidator.Issue;
-                        if (issue != null)
-                        {
-                            objectListView1.SelectedObject = issue.Block;
-                            objectListView1.EnsureVisible(objectListView1.IndexOf(issue.Block));
-                        }
-                    };
-                buttons.Controls.Add(cancel);
-                buttons.Controls.Add(save);
-                dialog.Controls.Add(list);
-                dialog.Controls.Add(buttons);
-                return dialog.ShowDialog(this) == DialogResult.OK;
-            }
         }
 
         void AddPath(frmPathDialog pathDialog)
