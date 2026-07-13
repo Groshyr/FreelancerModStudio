@@ -1,20 +1,23 @@
+﻿using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace FreelancerModStudio.SystemPresenter.Content
 {
     public class Zone : ContentBase
     {
+        public Color? FogColor { get; set; }
+
         protected override Model3D GetShapeModel()
         {
             switch (Block.ObjectType)
             {
                 default:
-                    return SharedGeometries.ZoneSphereOrEllipsoid;
+                    return GetZoneModel(SharedMeshes.Sphere, SharedGeometries.ZoneSphereOrEllipsoid);
                 case ContentType.ZoneCylinder:
                 case ContentType.ZoneRing:
-                    return SharedGeometries.ZoneCylinderOrRing;
+                    return GetZoneModel(SharedMeshes.Cylinder, SharedGeometries.ZoneCylinderOrRing);
                 case ContentType.ZoneBox:
-                    return SharedGeometries.ZoneBox;
+                    return GetZoneModel(SharedMeshes.Box, SharedGeometries.ZoneBox);
 
                 case ContentType.ZoneSphereExclusion:
                 case ContentType.ZoneEllipsoidExclusion:
@@ -33,6 +36,13 @@ namespace FreelancerModStudio.SystemPresenter.Content
                 case ContentType.ZonePathTradeLane:
                     return SharedGeometries.ZonePathTradeLane;
             }
+        }
+
+        Model3D GetZoneModel(Geometry3D geometry, Model3D defaultModel)
+        {
+            return FogColor.HasValue
+                ? SharedGeometries.GetNebulaZoneGeometry(geometry, FogColor.Value)
+                : defaultModel;
         }
 
         public override Rect3D GetShapeBounds()

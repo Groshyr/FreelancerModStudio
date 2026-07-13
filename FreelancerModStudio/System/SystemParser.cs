@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using FreelancerModStudio.Data;
 using FreelancerModStudio.Data.INI;
@@ -262,6 +263,8 @@ namespace FreelancerModStudio.SystemPresenter
             string rotationString = "0,0,0";
             string scaleString = "1,1,1";
             string fileString = string.Empty;
+            int propertyFlags = 0;
+            string fogColorString = null;
 
             //get properties of content
             foreach (EditorINIOption option in block.Block.Options)
@@ -282,6 +285,12 @@ namespace FreelancerModStudio.SystemPresenter
                             break;
                         case "file":
                             fileString = value;
+                            break;
+                        case "property_flags":
+                            propertyFlags = Parser.ParseInt(value, 0);
+                            break;
+                        case "property_fog_color":
+                            fogColorString = value;
                             break;
                     }
                 }
@@ -329,10 +338,46 @@ namespace FreelancerModStudio.SystemPresenter
                 default: // all zones
                     content.Scale = ParseScale(scaleString, block.ObjectType);
                     content.Rotation = ParseRotation(rotationString, IsCylinder(block.ObjectType));
+
+                    Zone zone = content as Zone;
+                    if (zone != null)
+                    {
+                        Color? previousFogColor = zone.FogColor;
+                        zone.FogColor = (propertyFlags & 0x8000) != 0
+                            ? ParseFogColor(fogColorString)
+                            : null;
+
+                        bool fogColorChanged = previousFogColor != zone.FogColor;
+                        return SetBlock(content, block, animate) || fogColorChanged;
+                    }
                     break;
             }
 
             return SetBlock(content, block, animate);
+        }
+
+        static Color? ParseFogColor(string value)
+        {
+            if (string.IsNullOrEmpty(value) || value.Trim().Length == 0)
+            {
+                return null;
+            }
+
+            string[] values = value.Split(new[] { ',' });
+            if (values.Length != 3)
+            {
+                return null;
+            }
+
+            int red = Parser.ParseInt(values[0].Trim(), -1);
+            int green = Parser.ParseInt(values[1].Trim(), -1);
+            int blue = Parser.ParseInt(values[2].Trim(), -1);
+            if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255)
+            {
+                return null;
+            }
+
+            return Color.FromRgb((byte)red, (byte)green, (byte)blue);
         }
 
         public static Vector3D ParseVector(string vector)

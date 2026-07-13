@@ -7,7 +7,7 @@ namespace FreelancerModStudio.SystemPresenter
 {
     public static class SharedMaterials
     {
-        public static readonly Material Zone = MaterialHelper.CreateEmissiveMaterial(Color.FromRgb(30, 30, 30));
+        public static readonly Material Zone = CreateZoneMaterial(Color.FromRgb(30, 30, 30));
         public static readonly Material ZoneExclusion = MaterialHelper.CreateEmissiveMaterial(Color.FromRgb(30, 15, 0));
         public static readonly Material CmpModel = MaterialHelper.CreateMaterial(Brushes.SlateGray);
 
@@ -21,6 +21,13 @@ namespace FreelancerModStudio.SystemPresenter
         public static readonly Color ManipulatorX = Colors.OrangeRed;
         public static readonly Color ManipulatorY = Colors.LawnGreen;
         public static readonly Color ManipulatorZ = Color.FromRgb(0, 120, 255);
+
+        public static Material CreateZoneMaterial(Color color)
+        {
+            // Zone fog colors have no alpha component.  Retain the viewer's existing
+            // zone opacity when replacing only its RGB channels.
+            return MaterialHelper.CreateEmissiveMaterial(Color.FromArgb(255, color.R, color.G, color.B));
+        }
     }
 
     public static class SharedMeshes
@@ -136,6 +143,11 @@ namespace FreelancerModStudio.SystemPresenter
             GeometryModel3D model = new GeometryModel3D(geometry, material);
             model.Freeze();
             return model;
+        }
+
+        public static GeometryModel3D GetNebulaZoneGeometry(Geometry3D geometry, Color fogColor)
+        {
+            return GetGeometry(geometry, SharedMaterials.CreateZoneMaterial(fogColor));
         }
 
         public static void LoadColors(FreelancerModStudio.Data.Settings.ColorBox colors)
