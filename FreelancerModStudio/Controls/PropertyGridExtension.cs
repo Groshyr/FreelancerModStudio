@@ -104,6 +104,14 @@ namespace FreelancerModStudio.Controls
             else
             {
                 Value = options.Count > 0 ? options[0].Value : string.Empty;
+
+                if (Name.Equals("property_flags", StringComparison.OrdinalIgnoreCase))
+                {
+                    Attributes = new Attribute[]
+                        {
+                            new TypeConverterAttribute(typeof(PropertyFlagsConverter))
+                        };
+                }
             }
         }
 
@@ -198,6 +206,64 @@ namespace FreelancerModStudio.Controls
             }
 
             return text.Trim();
+        }
+    }
+
+    public class PropertyFlagsConverter : StringConverter
+    {
+        static readonly string[] Values = new[]
+            {
+                "0 - None",
+                "1 - Object density low",
+                "2 - Object density medium",
+                "4 - Object density high",
+                "8 - Danger density low",
+                "16 - Danger density medium",
+                "32 - Danger density high",
+                "64 - Rock",
+                "128 - Debris",
+                "256 - Ice",
+                "512 - Lava",
+                "1024 - Nomad",
+                "2048 - Crystal",
+                "4096 - Mines",
+                "8192 - Badlands",
+                "16384 - Gas pockets",
+                "32768 - Nebula/Cloud",
+                "65536 - Exclusion",
+                "131072 - Exclusion"
+            };
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string) && value != null)
+            {
+                string text = value.ToString().Trim();
+                for (int i = 0; i < Values.Length; ++i)
+                {
+                    if (Values[i].StartsWith(text + " - ", StringComparison.Ordinal))
+                    {
+                        return Values[i];
+                    }
+                }
+            }
+
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return false;
+        }
+
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            return new StandardValuesCollection(Values);
         }
     }
 

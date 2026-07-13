@@ -841,7 +841,7 @@ namespace FreelancerModStudio
                     }
                     else
                     {
-                        string text = ((string)propertyBlock[j].Value).Trim();
+                        string text = GetOptionValue(newBlock.Block.Options[j].Name, (string)propertyBlock[j].Value);
                         if (text.Length != 0)
                         {
                             if (options.Count > 0)
@@ -884,6 +884,29 @@ namespace FreelancerModStudio
             }
 
             ChangeBlocks(newBlocks, oldBlocks);
+        }
+
+        static string GetOptionValue(string optionName, string value)
+        {
+            string text = value.Trim();
+            if (!optionName.Equals("property_flags", StringComparison.OrdinalIgnoreCase))
+            {
+                return text;
+            }
+
+            int separatorIndex = text.IndexOf(" - ", StringComparison.Ordinal);
+            if (separatorIndex == -1)
+            {
+                return text;
+            }
+
+            int flagValue;
+            if (int.TryParse(text.Substring(0, separatorIndex), NumberStyles.Integer, CultureInfo.InvariantCulture, out flagValue))
+            {
+                return flagValue.ToString(CultureInfo.InvariantCulture);
+            }
+
+            return text;
         }
 
         public void ChangeBlocks(List<TableBlock> newBlocks, List<TableBlock> oldBlocks)
