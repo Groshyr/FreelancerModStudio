@@ -102,6 +102,7 @@
     <Compile Include="Data\INI\INIOption.cs" />
     <Compile Include="Data\INI\INIBlock.cs" />
     <Compile Include="Data\INI\INIOptions.cs" />
+    <Compile Include="Data\IniValidator.cs" />
     <Compile Include="Data\INI\EditorINIBlock.cs" />
     <Compile Include="Data\INI\EditorINIEntry.cs" />
     <Compile Include="Data\INI\EditorINIOption.cs" />

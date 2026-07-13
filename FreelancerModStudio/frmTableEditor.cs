@@ -481,6 +481,14 @@ namespace FreelancerModStudio
 
         void Save(string file)
         {
+            List<string> validationIssues = IniValidator.Validate(Data);
+            if (validationIssues.Count > 0)
+            {
+                string message = "INI validation found:\r\n\r\n- " + string.Join("\r\n- ", validationIssues.ToArray()) + "\r\n\r\nSave anyway?";
+                if (MessageBox.Show(message, Helper.Assembly.Name, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                    return;
+            }
+
             FileManager fileManager = new FileManager(file, _isBINI)
                 {
                     WriteSpaces = Helper.Settings.Data.Data.General.FormattingSpaces,
