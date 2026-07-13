@@ -10,8 +10,14 @@ namespace FreelancerModStudio.Data
     {
         const string FreelancerIniPath = "EXE\\freelancer.ini";
 
+        static readonly object CacheLock = new object();
+        static readonly Dictionary<string, FreelancerManifest> Cache = new Dictionary<string, FreelancerManifest>(StringComparer.OrdinalIgnoreCase);
+
         readonly string _dataPath;
         readonly string _freelancerIni;
+        DateTime _freelancerIniLastWriteUtc;
+        DateTime _universeIniLastWriteUtc;
+        string _universeIni;
 
         // Stores all values per key (e.g. multiple "solar =" lines) in load order.
         readonly Dictionary<string, List<string>> _dataFiles = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
@@ -41,9 +47,7 @@ namespace FreelancerModStudio.Data
                 string freelancerIni = Path.Combine(directory, FreelancerIniPath);
                 if (File.Exists(freelancerIni))
                 {
-                    FreelancerManifest manifest = new FreelancerManifest(directory);
-                    manifest.Load();
-                    return manifest;
+                    return GetCachedManifest(directory);
                 }
 
                 DirectoryInfo parent = Directory.GetParent(directory);
@@ -51,6 +55,36 @@ namespace FreelancerModStudio.Data
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Clears the in-memory manifest cache. Normally this is unnecessary because cached
+        /// manifests are refreshed automatically when freelancer.ini or universe.ini changes.
+        /// </summary>
+        public static void ClearCache()
+        {
+            lock (CacheLock)
+            {
+                Cache.Clear();
+            }
+        }
+
+        static FreelancerManifest GetCachedManifest(string rootPath)
+        {
+            string key = Normalize(rootPath);
+            lock (CacheLock)
+            {
+                FreelancerManifest manifest;
+                if (Cache.TryGetValue(key, out manifest) && manifest.IsCurrent())
+                {
+                    return manifest;
+                }
+
+                manifest = new FreelancerManifest(key);
+                manifest.Load();
+                Cache[key] = manifest;
+                return manifest;
+            }
         }
 
         public int GetTemplateIndex(string file)
@@ -101,19 +135,7 @@ namespace FreelancerModStudio.Data
         /// </summary>
         public string GetSolarArchetypeFile()
         {
-            List<string> files;
-            if (_dataFiles.TryGetValue("solar", out files))
-            {
-                foreach (string file in files)
-                {
-                    if (File.Exists(file))
-                    {
-                        return file;
-                    }
-                }
-            }
-
-            return null;
+            return GetFirstExistingDataFile("solar");
         }
 
         /// <summary>
@@ -123,9 +145,19 @@ namespace FreelancerModStudio.Data
         /// </summary>
         public List<string> GetAllSolarArchetypeFiles()
         {
+            return GetExistingDataFiles("solar");
+        }
+
+        /// <summary>
+        /// Returns every existing file declared for a <c>[Data]</c> key, in the same order as
+        /// freelancer.ini. This is intentionally generic: many keys (for example equipment,
+        /// ships and effects) can occur more than once and must never be collapsed to one path.
+        /// </summary>
+        public List<string> GetExistingDataFiles(string key)
+        {
             List<string> result = new List<string>();
             List<string> files;
-            if (_dataFiles.TryGetValue("solar", out files))
+            if (!string.IsNullOrEmpty(key) && _dataFiles.TryGetValue(key, out files))
             {
                 foreach (string file in files)
                 {
@@ -137,6 +169,15 @@ namespace FreelancerModStudio.Data
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns the first existing file declared for a <c>[Data]</c> key, or null.
+        /// </summary>
+        public string GetFirstExistingDataFile(string key)
+        {
+            List<string> files = GetExistingDataFiles(key);
+            return files.Count > 0 ? files[0] : null;
         }
 
         void Load()
@@ -176,12 +217,35 @@ namespace FreelancerModStudio.Data
             }
 
             LoadUniverseSystems();
+            CaptureFileVersions();
+        }
+
+        bool IsCurrent()
+        {
+            if (!File.Exists(_freelancerIni) || File.GetLastWriteTimeUtc(_freelancerIni) != _freelancerIniLastWriteUtc)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(_universeIni))
+            {
+                return true;
+            }
+
+            return File.Exists(_universeIni) && File.GetLastWriteTimeUtc(_universeIni) == _universeIniLastWriteUtc;
+        }
+
+        void CaptureFileVersions()
+        {
+            _freelancerIniLastWriteUtc = File.GetLastWriteTimeUtc(_freelancerIni);
+            _universeIni = GetFirstExistingDataFile("universe");
+            _universeIniLastWriteUtc = string.IsNullOrEmpty(_universeIni) ? DateTime.MinValue : File.GetLastWriteTimeUtc(_universeIni);
         }
 
         void LoadUniverseSystems()
         {
-            List<string> universeFiles;
-            if (!_dataFiles.TryGetValue("universe", out universeFiles) || universeFiles.Count == 0)
+            List<string> universeFiles = GetExistingDataFiles("universe");
+            if (universeFiles.Count == 0)
             {
                 return;
             }
