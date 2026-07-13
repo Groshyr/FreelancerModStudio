@@ -9,63 +9,6 @@ using FreelancerModStudio.Data;
 
 namespace FreelancerModStudio
 {
-    class WebColorEditor : UITypeEditor
-    {
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
-        {
-            return UITypeEditorEditStyle.DropDown;
-        }
-
-        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        {
-            IWindowsFormsEditorService editorService = provider == null ? null : provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (editorService == null)
-            {
-                return value;
-            }
-
-            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, IntegralHeight = true, Width = 180, Height = 220 };
-            List<string> colorNames = GetWebColorNames();
-            for (int i = 0; i < colorNames.Count; ++i)
-            {
-                colors.Items.Add(colorNames[i]);
-                if (value != null && colorNames[i].Equals(value.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    colors.SelectedIndex = i;
-                }
-            }
-
-            colors.Click += delegate
-                {
-                    if (colors.SelectedItem != null)
-                    {
-                        editorService.CloseDropDown();
-                    }
-                };
-            editorService.DropDownControl(colors);
-
-            return colors.SelectedItem ?? value;
-        }
-
-        static List<string> GetWebColorNames()
-        {
-            List<string> names = new List<string>();
-            Array values = Enum.GetValues(typeof(KnownColor));
-            for (int i = 0; i < values.Length; ++i)
-            {
-                KnownColor knownColor = (KnownColor)values.GetValue(i);
-                Color color = Color.FromKnownColor(knownColor);
-                if (!color.IsSystemColor && color.A == 255)
-                {
-                    names.Add(knownColor.ToString());
-                }
-            }
-
-            names.Sort(StringComparer.OrdinalIgnoreCase);
-            return names;
-        }
-    }
-
     public partial class frmOptions : Form
     {
         public frmOptions()
@@ -228,6 +171,63 @@ namespace FreelancerModStudio
             [DisplayName("Trade-lane path")]
             [Editor(typeof(WebColorEditor), typeof(UITypeEditor))]
             public string ZonePathTradeLane { get { return ToWeb(_settings.ColorBox.ZonePathTradeLane); } set { SetWebColor(value, x => _settings.ColorBox.ZonePathTradeLane = x); } }
+        }
+    }
+
+    class WebColorEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.DropDown;
+        }
+
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService editorService = provider == null ? null : provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+            if (editorService == null)
+            {
+                return value;
+            }
+
+            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, IntegralHeight = true, Width = 180, Height = 220 };
+            List<string> colorNames = GetWebColorNames();
+            for (int i = 0; i < colorNames.Count; ++i)
+            {
+                colors.Items.Add(colorNames[i]);
+                if (value != null && colorNames[i].Equals(value.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    colors.SelectedIndex = i;
+                }
+            }
+
+            colors.Click += delegate
+                {
+                    if (colors.SelectedItem != null)
+                    {
+                        editorService.CloseDropDown();
+                    }
+                };
+            editorService.DropDownControl(colors);
+
+            return colors.SelectedItem ?? value;
+        }
+
+        static List<string> GetWebColorNames()
+        {
+            List<string> names = new List<string>();
+            Array values = Enum.GetValues(typeof(KnownColor));
+            for (int i = 0; i < values.Length; ++i)
+            {
+                KnownColor knownColor = (KnownColor)values.GetValue(i);
+                Color color = Color.FromKnownColor(knownColor);
+                if (!color.IsSystemColor && color.A == 255)
+                {
+                    names.Add(knownColor.ToString());
+                }
+            }
+
+            names.Sort(StringComparer.OrdinalIgnoreCase);
+            return names;
         }
     }
 }
