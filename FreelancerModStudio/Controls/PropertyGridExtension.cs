@@ -112,6 +112,27 @@ namespace FreelancerModStudio.Controls
                             new TypeConverterAttribute(typeof(PropertyFlagsConverter))
                         };
                 }
+                else if (Name.Equals("visit", StringComparison.OrdinalIgnoreCase))
+                {
+                    Attributes = new Attribute[]
+                        {
+                            new TypeConverterAttribute(typeof(VisitConverter))
+                        };
+                }
+                else if (Name.Equals("shape", StringComparison.OrdinalIgnoreCase))
+                {
+                    Attributes = new Attribute[]
+                        {
+                            new TypeConverterAttribute(typeof(ZoneShapeConverter))
+                        };
+                }
+                else if (Name.Equals("vignette_type", StringComparison.OrdinalIgnoreCase))
+                {
+                    Attributes = new Attribute[]
+                        {
+                            new TypeConverterAttribute(typeof(VignetteTypeConverter))
+                        };
+                }
             }
         }
 
@@ -209,30 +230,9 @@ namespace FreelancerModStudio.Controls
         }
     }
 
-    public class PropertyFlagsConverter : StringConverter
+    public abstract class NamedOptionConverter : StringConverter
     {
-        static readonly string[] Values = new[]
-            {
-                "0 - None",
-                "1 - Object density low",
-                "2 - Object density medium",
-                "4 - Object density high",
-                "8 - Danger density low",
-                "16 - Danger density medium",
-                "32 - Danger density high",
-                "64 - Rock",
-                "128 - Debris",
-                "256 - Ice",
-                "512 - Lava",
-                "1024 - Nomad",
-                "2048 - Crystal",
-                "4096 - Mines",
-                "8192 - Badlands",
-                "16384 - Gas pockets",
-                "32768 - Nebula/Cloud",
-                "65536 - Exclusion",
-                "131072 - Exclusion"
-            };
+        protected abstract string[] Values { get; }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
@@ -265,6 +265,50 @@ namespace FreelancerModStudio.Controls
         {
             return new StandardValuesCollection(Values);
         }
+    }
+
+    public class PropertyFlagsConverter : NamedOptionConverter
+    {
+        static readonly string[] OptionValues = new[]
+            {
+                "0 - None", "1 - Object density low", "2 - Object density medium", "4 - Object density high",
+                "8 - Danger density low", "16 - Danger density medium", "32 - Danger density high", "64 - Rock",
+                "128 - Debris", "256 - Ice", "512 - Lava", "1024 - Nomad", "2048 - Crystal", "4096 - Mines",
+                "8192 - Badlands", "16384 - Gas pockets", "32768 - Nebula/Cloud", "65536 - Exclusion", "131072 - Exclusion"
+            };
+
+        protected override string[] Values { get { return OptionValues; } }
+    }
+
+    public class VisitConverter : NamedOptionConverter
+    {
+        static readonly string[] OptionValues = new[]
+            {
+                "0 - Not visited", "1 - Visited", "2 - Unknown", "4 - Mineable zone", "8 - Actively visited",
+                "16 - Wreck", "32 - Zone", "64 - Faction", "128 - Hidden"
+            };
+
+        protected override string[] Values { get { return OptionValues; } }
+    }
+
+    public class ZoneShapeConverter : NamedOptionConverter
+    {
+        static readonly string[] OptionValues = new[]
+            {
+                "SPHERE - Sphere", "BOX - Box", "ELLIPSOID - Ellipsoid", "CYLINDER - Cylinder", "RING - Ring"
+            };
+
+        protected override string[] Values { get { return OptionValues; } }
+    }
+
+    public class VignetteTypeConverter : NamedOptionConverter
+    {
+        static readonly string[] OptionValues = new[]
+            {
+                "field - Field", "exclusion - Exclusion", "open - Open"
+            };
+
+        protected override string[] Values { get { return OptionValues; } }
     }
 
     [AttributeUsage(AttributeTargets.Property)]

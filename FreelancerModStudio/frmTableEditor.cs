@@ -889,7 +889,13 @@ namespace FreelancerModStudio
         static string GetOptionValue(string optionName, string value)
         {
             string text = value.Trim();
-            if (!optionName.Equals("property_flags", StringComparison.OrdinalIgnoreCase))
+            bool numericOption =
+                optionName.Equals("property_flags", StringComparison.OrdinalIgnoreCase) ||
+                optionName.Equals("visit", StringComparison.OrdinalIgnoreCase);
+            bool namedOption =
+                optionName.Equals("shape", StringComparison.OrdinalIgnoreCase) ||
+                optionName.Equals("vignette_type", StringComparison.OrdinalIgnoreCase);
+            if (!numericOption && !namedOption)
             {
                 return text;
             }
@@ -900,11 +906,15 @@ namespace FreelancerModStudio
                 return text;
             }
 
-            int flagValue;
-            if (int.TryParse(text.Substring(0, separatorIndex), NumberStyles.Integer, CultureInfo.InvariantCulture, out flagValue))
+            string optionValue = text.Substring(0, separatorIndex);
+            int numericValue;
+            if (numericOption && int.TryParse(optionValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out numericValue))
             {
-                return flagValue.ToString(CultureInfo.InvariantCulture);
+                return numericValue.ToString(CultureInfo.InvariantCulture);
             }
+
+            if (namedOption && optionValue.Length > 0)
+                return optionValue;
 
             return text;
         }
