@@ -219,7 +219,7 @@ namespace FreelancerModStudio
                 return value;
             }
 
-            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, IntegralHeight = true, Width = 180, Height = 220 };
+            ListBox colors = CreateColorList();
             List<string> colorNames = GetWebColorNames();
             for (int i = 0; i < colorNames.Count; ++i)
             {
@@ -273,10 +273,71 @@ namespace FreelancerModStudio
                 return false;
             }
         }
+
+        internal static ListBox CreateColorList()
+        {
+            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, DrawMode = DrawMode.OwnerDrawFixed, IntegralHeight = true, ItemHeight = 18, Width = 180, Height = 220 };
+            colors.DrawItem += DrawColorItem;
+            return colors;
+        }
+
+        static void DrawColorItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            ListBox colors = (ListBox)sender;
+            string name = colors.Items[e.Index].ToString();
+            Color color;
+
+            e.DrawBackground();
+            if (TryGetColor(name, out color))
+            {
+                Rectangle preview = new Rectangle(e.Bounds.X + 2, e.Bounds.Y + 2, 14, e.Bounds.Height - 4);
+                PaintColorPreview(e.Graphics, preview, color);
+            }
+
+            using (Brush brush = new SolidBrush(e.ForeColor))
+            {
+                e.Graphics.DrawString(name, e.Font, brush, e.Bounds.X + 21, e.Bounds.Y + 1);
+            }
+            e.DrawFocusRectangle();
+        }
+
+        internal static void PaintColorPreview(Graphics graphics, Rectangle bounds, Color color)
+        {
+            using (Brush brush = new SolidBrush(color))
+            {
+                graphics.FillRectangle(brush, bounds);
+            }
+
+            using (Pen pen = new Pen(SystemColors.WindowText))
+            {
+                Rectangle border = bounds;
+                border.Width -= 1;
+                border.Height -= 1;
+                graphics.DrawRectangle(pen, border);
+            }
+        }
     }
 
     class WebColorPickerEditor : UITypeEditor
     {
+        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            if (e.Value is Color)
+            {
+                WebColorEditor.PaintColorPreview(e.Graphics, e.Bounds, (Color)e.Value);
+            }
+        }
+
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
             return UITypeEditorEditStyle.DropDown;
@@ -290,7 +351,7 @@ namespace FreelancerModStudio
                 return value;
             }
 
-            ListBox colors = new ListBox { BorderStyle = BorderStyle.None, IntegralHeight = true, Width = 180, Height = 220 };
+            ListBox colors = WebColorEditor.CreateColorList();
             List<string> colorNames = WebColorEditor.GetWebColorNames();
             for (int i = 0; i < colorNames.Count; ++i)
             {
