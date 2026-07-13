@@ -107,9 +107,6 @@ namespace FreelancerModStudio.Data
             [DisplayName("Restore previous files")]
             public bool RestorePreviousFiles { get; set; }
 
-            [Browsable(false)]
-            public bool ShowNavMapGrid { get; set; }
-
             [Category("INI Formatting")]
             [DisplayName("Spaces around equal sign")]
             public bool FormattingSpaces { get; set; }
@@ -193,7 +190,6 @@ namespace FreelancerModStudio.Data
                 IgnoredEditorTypes = new List<ContentType> { ContentType.ZonePath, ContentType.ZoneVignette };
                 ColorBox = new ColorBox();
                 RestorePreviousFiles = true;
-                ShowNavMapGrid = true;
 
                 FormattingSpaces = true;
                 FormattingEmptyLine = true;

@@ -25,7 +25,6 @@ namespace FreelancerModStudio
         ToolStripMenuItem _mnuThemeLight;
         ToolStripMenuItem _mnuThemeDark;
         ToolStripMenuItem _mnuRestorePreviousFiles;
-        ToolStripMenuItem _mnuNavMapGrid;
 
         public frmMain()
         {
@@ -38,7 +37,6 @@ namespace FreelancerModStudio
             Helper.UI.ApplyTheme(this);
             Helper.UI.ApplyDockPanelTheme(dockPanel1);
             ConfigureOptionsMenu();
-            ConfigureViewMenu();
 
             //initialize content windows after language was set
             InitContentWindows();
@@ -802,26 +800,6 @@ namespace FreelancerModStudio
             UpdateOptionsMenuChecks();
         }
 
-        void ConfigureViewMenu()
-        {
-            _mnuNavMapGrid = new ToolStripMenuItem("Nav-map grid", null, mnuNavMapGrid_Click)
-                {
-                    CheckOnClick = true,
-                    Checked = Helper.Settings.Data.Data.General.ShowNavMapGrid
-                };
-            int index = mnuView.DropDownItems.IndexOf(mnuFullScreen);
-            mnuView.DropDownItems.Insert(index < 0 ? mnuView.DropDownItems.Count : index, _mnuNavMapGrid);
-        }
-
-        void mnuNavMapGrid_Click(object sender, EventArgs e)
-        {
-            Helper.Settings.Data.Data.General.ShowNavMapGrid = _mnuNavMapGrid.Checked;
-            if (_systemEditor != null)
-            {
-                _systemEditor.ShowNavMapGrid = _mnuNavMapGrid.Checked;
-            }
-        }
-
         static Image CreateIniColorsIcon()
         {
             Bitmap icon = new Bitmap(16, 16);
@@ -947,7 +925,6 @@ namespace FreelancerModStudio
             if (_systemEditor != null)
             {
                 _systemEditor.ShowViewer(tableEditor.ViewerType);
-                _systemEditor.ShowNavMapGrid = _mnuNavMapGrid.Checked;
 
                 // set data path before showing the models
                 _systemEditor.DataPath = tableEditor.DataPath;
@@ -955,8 +932,6 @@ namespace FreelancerModStudio
                 switch (tableEditor.ViewerType)
                 {
                     case ViewerType.System:
-                        FreelancerManifest manifest = FreelancerManifest.FromFile(tableEditor.File);
-                        _systemEditor.NavMapScale = manifest == null ? 2d : manifest.GetNavMapScale(tableEditor.File);
                         // set model mode as it was reset if the editor was closed
                         _systemEditor.IsModelMode = mnuShowModels.Checked;
                         _systemEditor.ShowData(tableEditor.Data);

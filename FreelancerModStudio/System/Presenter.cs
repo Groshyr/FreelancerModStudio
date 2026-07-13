@@ -81,9 +81,6 @@ namespace FreelancerModStudio.SystemPresenter
         private Visual3D lighting;
         private BoundingBoxWireFrameVisual3D selectionBox;
         private LineVisual3D trackedLine;
-        private LinesVisual3D navMapGrid;
-        private bool showNavMapGrid;
-        private double navMapScale = 2d;
 
         private ContentBase trackedContent;
         private FixedLineVisual3D manipulatorX;
@@ -107,32 +104,6 @@ namespace FreelancerModStudio.SystemPresenter
             {
                 this.AddOrReplace(this.lighting, value);
                 this.lighting = value;
-            }
-        }
-
-        public bool ShowNavMapGrid
-        {
-            get { return showNavMapGrid; }
-            set
-            {
-                if (showNavMapGrid != value)
-                {
-                    showNavMapGrid = value;
-                    RefreshNavMapGrid();
-                }
-            }
-        }
-
-        public double NavMapScale
-        {
-            get { return navMapScale; }
-            set
-            {
-                if (value > 0d && navMapScale != value)
-                {
-                    navMapScale = value;
-                    RefreshNavMapGrid();
-                }
             }
         }
 
@@ -1170,7 +1141,6 @@ namespace FreelancerModStudio.SystemPresenter
         public void ClearDisplay(bool light)
         {
             this.Viewport.Children.Clear();
-            this.navMapGrid = null;
 
             if (light || this.Lighting == null)
             {
@@ -1181,8 +1151,6 @@ namespace FreelancerModStudio.SystemPresenter
                 this.Viewport.Children.Add(this.Lighting);
                 this.secondLayerId = 1;
             }
-
-            AddNavMapGrid();
         }
 
         public int GetContentStartId()
@@ -1218,57 +1186,7 @@ namespace FreelancerModStudio.SystemPresenter
                 ++index;
             }
 
-            if (this.navMapGrid != null)
-            {
-                ++index;
-            }
-
             return index;
-        }
-
-        void RefreshNavMapGrid()
-        {
-            if (navMapGrid != null)
-            {
-                Viewport.Children.Remove(navMapGrid);
-                --secondLayerId;
-                navMapGrid = null;
-            }
-
-            AddNavMapGrid();
-        }
-
-        void AddNavMapGrid()
-        {
-            if (!showNavMapGrid || ViewerType != ViewerType.System || navMapGrid != null)
-            {
-                return;
-            }
-
-            const double gridStep = 10000d * SystemParser.SYSTEM_SCALE;
-            double halfSize = navMapScale * 25000d * SystemParser.SYSTEM_SCALE;
-            int lineCount = (int)Math.Ceiling(halfSize / gridStep);
-            Point3DCollection points = new Point3DCollection();
-            double extent = lineCount * gridStep;
-
-            for (int i = -lineCount; i <= lineCount; ++i)
-            {
-                double offset = i * gridStep;
-                points.Add(new Point3D(offset, 0d, -extent));
-                points.Add(new Point3D(offset, 0d, extent));
-                points.Add(new Point3D(-extent, 0d, offset));
-                points.Add(new Point3D(extent, 0d, offset));
-            }
-
-            navMapGrid = new LinesVisual3D
-                {
-                    Color = Color.FromArgb(96, 100, 150, 200),
-                    Thickness = 1d,
-                    DepthOffset = 0.01d,
-                    Points = points
-                };
-            Viewport.Children.Insert(0, navMapGrid);
-            ++secondLayerId;
         }
 
         public void DisplayUniverse(string path, int systemTemplate, List<TableBlock> blocks, ArchetypeManager archetype)

@@ -116,19 +116,8 @@ namespace FreelancerModStudio
 
         public void ShowViewer(ViewerType viewerType)
         {
-            _presenter.ViewerType = viewerType;
             Clear(false, false);
-        }
-
-        public bool ShowNavMapGrid
-        {
-            get { return _presenter.ShowNavMapGrid; }
-            set { _presenter.ShowNavMapGrid = value; }
-        }
-
-        public double NavMapScale
-        {
-            set { _presenter.NavMapScale = value; }
+            _presenter.ViewerType = viewerType;
         }
 
         public void ShowData(TableData data)
