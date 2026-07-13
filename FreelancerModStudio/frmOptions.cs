@@ -22,6 +22,7 @@ namespace FreelancerModStudio
             InitializeComponent();
             Helper.UI.ApplyFont(this);
             Text = title;
+            propertyGrid.PropertySort = PropertySort.Categorized;
             propertyGrid.SelectedObject = selectedObject;
             propertyGrid.ExpandAllGridItems();
         }

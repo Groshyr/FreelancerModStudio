@@ -310,6 +310,11 @@ namespace FreelancerModStudio
             }
         }
 
+        public void RefreshColors()
+        {
+            _presenter.RefreshShapeModels();
+        }
+
         public ManipulationMode ManipulationMode
         {
             get

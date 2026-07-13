@@ -1463,6 +1463,23 @@ namespace FreelancerModStudio.SystemPresenter
                 ContentBaseList.PresentSelect(this);
         }
 
+        /// <summary>
+        /// Rebuilds the editor's coloured shape models after the shared palette changes.
+        /// Textured CMP/3DB models intentionally remain untouched because they use their own
+        /// materials rather than the editor's shape colours.
+        /// </summary>
+        public void RefreshShapeModels()
+        {
+            for (int i = this.GetContentStartId(); i < this.Viewport.Children.Count; ++i)
+            {
+                ContentBase content = (ContentBase)this.Viewport.Children[i];
+                if (!this.IsModelMode || !content.Block.IsRealModel())
+                {
+                    content.LoadModel();
+                }
+            }
+        }
+
         private ContentBase CreateContent(TableBlock block)
         {
             ContentBase content = CreateContent(block.ObjectType);
