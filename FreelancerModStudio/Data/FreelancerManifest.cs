@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using FreelancerModStudio.Data.INI;
 using FreelancerModStudio.Data.IO;
@@ -22,6 +23,7 @@ namespace FreelancerModStudio.Data
         // Stores all values per key (e.g. multiple "solar =" lines) in load order.
         readonly Dictionary<string, List<string>> _dataFiles = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
         readonly HashSet<string> _systemFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        readonly Dictionary<string, double> _navMapScales = new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
 
         FreelancerManifest(string rootPath)
         {
@@ -180,6 +182,16 @@ namespace FreelancerModStudio.Data
             return files.Count > 0 ? files[0] : null;
         }
 
+        /// <summary>
+        /// Returns the NavMapScale associated with a system file. A value of 2 is used when the
+        /// universe entry omits the optional setting, matching a typical vanilla-scale system.
+        /// </summary>
+        public double GetNavMapScale(string systemFile)
+        {
+            double scale;
+            return _navMapScales.TryGetValue(Normalize(systemFile), out scale) ? scale : 2d;
+        }
+
         void Load()
         {
             if (!File.Exists(_freelancerIni))
@@ -277,9 +289,23 @@ namespace FreelancerModStudio.Data
                     if (path != null)
                     {
                         _systemFiles.Add(path);
+                        _navMapScales[path] = GetNavMapScale(block);
                     }
                 }
             }
+        }
+
+        static double GetNavMapScale(INIBlock block)
+        {
+            List<INIOption> options;
+            double scale;
+            if (block.Options.TryGetValue("navmapscale", out options) && options.Count > 0 &&
+                double.TryParse(options[0].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out scale) && scale > 0d)
+            {
+                return scale;
+            }
+
+            return 2d;
         }
 
         string ResolveDataPath(string path)
