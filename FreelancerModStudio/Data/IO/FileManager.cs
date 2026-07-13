@@ -212,6 +212,29 @@ namespace FreelancerModStudio.Data.IO
                         }
                     }
 
+                    // Preserve unsupported options instead of silently dropping them. They
+                    // follow all documented template options, immediately before comments.
+                    List<EditorINIOption> exoticOptions = new List<EditorINIOption>();
+                    foreach (KeyValuePair<string, List<INIOption>> iniOptionPair in iniBlock.Options)
+                    {
+                        if (IsTemplateOption(templateBlock, iniOptionPair.Key))
+                        {
+                            continue;
+                        }
+
+                        EditorINIOption exoticOption = new EditorINIOption(iniOptionPair.Key, -1);
+                        foreach (INIOption iniOption in iniOptionPair.Value)
+                        {
+                            exoticOption.Values.Add(new EditorINIEntry(iniOption.Value.Length == 0 ? "=" : iniOption.Value));
+                        }
+                        exoticOptions.Add(exoticOption);
+                    }
+                    exoticOptions.Sort(delegate(EditorINIOption left, EditorINIOption right)
+                        {
+                            return GetFirstOptionIndex(iniBlock.Options[left.Name]).CompareTo(GetFirstOptionIndex(iniBlock.Options[right.Name]));
+                        });
+                    editorBlock.Options.AddRange(exoticOptions);
+
                     //add block
                     editorData.Blocks.Add(editorBlock);
                 }
@@ -222,6 +245,45 @@ namespace FreelancerModStudio.Data.IO
 #endif
 
             return editorData;
+        }
+
+        static bool IsTemplateOption(Template.Block templateBlock, string optionName)
+        {
+            foreach (Template.Option option in templateBlock.Options)
+            {
+                if (option.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+
+                if (option.RenameFrom != null)
+                {
+                    string[] alternativeNames = option.RenameFrom.Split(new[] { ',' });
+                    foreach (string alternativeName in alternativeNames)
+                    {
+                        if (alternativeName.Trim().Equals(optionName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        static int GetFirstOptionIndex(List<INIOption> options)
+        {
+            int index = int.MaxValue;
+            foreach (INIOption option in options)
+            {
+                if (option.Index < index)
+                {
+                    index = option.Index;
+                }
+            }
+
+            return index;
         }
 
         List<INIBlock> ReadINI()

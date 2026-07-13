@@ -44,7 +44,10 @@ namespace FreelancerModStudio.Controls
         {
             foreach (EditorINIOption option in block.Options)
             {
-                List.Add(new PropertyOption(option.Values, templateBlock.Options[option.TemplateIndex], option.ChildTemplateIndex != -1, encounterParameterStatus));
+                Template.Option templateOption = option.TemplateIndex >= 0
+                    ? templateBlock.Options[option.TemplateIndex]
+                    : new Template.Option { Name = option.Name, Multiple = option.Values.Count > 1 };
+                List.Add(new PropertyOption(option.Values, templateOption, option.ChildTemplateIndex != -1, encounterParameterStatus));
             }
 
             // show comments

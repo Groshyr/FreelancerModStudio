@@ -3022,6 +3022,8 @@
             <Option>group_dmg_hp</Option>
             <Option>group_dmg_obj</Option>
             <Option>destoy_parent</Option>
+            <Option>explosion_resistance</Option>
+            <Option>linked_equip</Option>
           </Options>
         </Block>
         <Block name="Ship" multiple="true" identifier="nickname">
@@ -3148,6 +3150,7 @@
             <Option>group_dmg_hp</Option>
             <Option>group_dmg_obj</Option>
             <Option>destoy_parent</Option>
+            <Option>explosion_resistance</Option>
           </Options>
         </Block>
         <Block name="Solar" multiple="true" identifier="nickname">
