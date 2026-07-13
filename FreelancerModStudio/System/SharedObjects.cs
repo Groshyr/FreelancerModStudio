@@ -24,9 +24,12 @@ namespace FreelancerModStudio.SystemPresenter
 
         public static Material CreateZoneMaterial(Color color)
         {
-            // Zone fog colors have no alpha component.  Retain the viewer's existing
-            // zone opacity when replacing only its RGB channels.
             return MaterialHelper.CreateEmissiveMaterial(Color.FromArgb(255, color.R, color.G, color.B));
+        }
+
+        public static Material CreateNebulaZoneMaterial(Color color)
+        {
+            return MaterialHelper.CreateEmissiveMaterial(Color.FromArgb(Helper.Settings.Data.Data.General.OverlayOpacity, color.R, color.G, color.B));
         }
     }
 
@@ -147,7 +150,7 @@ namespace FreelancerModStudio.SystemPresenter
 
         public static GeometryModel3D GetNebulaZoneGeometry(Geometry3D geometry, Color fogColor)
         {
-            return GetGeometry(geometry, SharedMaterials.CreateZoneMaterial(fogColor));
+            return GetGeometry(geometry, SharedMaterials.CreateNebulaZoneMaterial(fogColor));
         }
 
         public static void LoadColors(FreelancerModStudio.Data.Settings.ColorBox colors)
