@@ -134,7 +134,7 @@ namespace FreelancerModStudio.Data
 
         public void SetVisibleIfPossible()
         {
-            if (ObjectType != ContentType.None)
+            if (ObjectType != ContentType.None && !Helper.Settings.Data.Data.General.IgnoredEditorTypes.Contains(ObjectType))
             {
                 Visibility = true;
             }

@@ -27,6 +27,7 @@ namespace FreelancerModStudio
 #endif
                 //load settings
                 Settings.Load();
+                SystemPresenter.SharedGeometries.LoadColors(Settings.Data.Data.General.ColorBox);
 
                 //install downloaded update if it exists
                 if (Settings.Data.Data.General.AutoUpdate.Update.Downloaded)

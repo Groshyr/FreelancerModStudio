@@ -1033,6 +1033,7 @@ namespace FreelancerModStudio
 
         void SettingsChanged()
         {
+            SystemPresenter.SharedGeometries.LoadColors(Helper.Settings.Data.Data.General.ColorBox);
             Helper.UI.ApplyToolStripTheme();
             Helper.UI.ApplyTheme(this);
             Helper.UI.ApplyDockPanelTheme(dockPanel1);

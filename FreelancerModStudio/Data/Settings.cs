@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using FreelancerModStudio.SystemPresenter.Content;
 
 namespace FreelancerModStudio.Data
 {
@@ -96,6 +97,12 @@ namespace FreelancerModStudio.Data
             [DisplayName("Automatically Open 3D Editor")]
             public bool AutomaticallyOpen3DEditor { get; set; }
 
+            [Browsable(false)]
+            public List<ContentType> IgnoredEditorTypes { get; set; }
+
+            [XmlElement("ColorBox")]
+            public ColorBox ColorBox { get; set; }
+
             [Category("General")]
             [DisplayName("Restore previous files")]
             public bool RestorePreviousFiles { get; set; }
@@ -180,6 +187,8 @@ namespace FreelancerModStudio.Data
                 EditorModifiedSavedColor = Color.ForestGreen;
                 EditorHiddenColor = Color.Gray;
                 AutomaticallyOpen3DEditor = true;
+                IgnoredEditorTypes = new List<ContentType> { ContentType.ZonePath, ContentType.ZoneVignette };
+                ColorBox = new ColorBox();
                 RestorePreviousFiles = true;
 
                 FormattingSpaces = true;
@@ -196,6 +205,11 @@ namespace FreelancerModStudio.Data
 
             public void CheckVersion()
             {
+                if (IgnoredEditorTypes == null)
+                    IgnoredEditorTypes = new List<ContentType> { ContentType.ZonePath, ContentType.ZoneVignette };
+                if (ColorBox == null)
+                    ColorBox = new ColorBox();
+
                 if (Version < CURRENT_VERSION)
                 {
                     SetDefaultAutoUpdate();
@@ -219,6 +233,41 @@ namespace FreelancerModStudio.Data
                 AutoUpdate.SilentDownload = false;
                 AutoUpdate.UpdateFile = @"https://github.com/Groshyr/FreelancerModStudio/releases";
             }
+        }
+
+        public class ColorBox
+        {
+            [XmlIgnore] public Color Construct { get; set; } = Color.Fuchsia;
+            [XmlIgnore] public Color Depot { get; set; } = Color.SlateGray;
+            [XmlIgnore] public Color DockingRing { get; set; } = Color.DimGray;
+            [XmlIgnore] public Color JumpGate { get; set; } = Color.Green;
+            [XmlIgnore] public Color JumpHole { get; set; } = Color.Firebrick;
+            [XmlIgnore] public Color Planet { get; set; } = Color.FromArgb(0, 60, 120);
+            [XmlIgnore] public Color Satellite { get; set; } = Color.BlueViolet;
+            [XmlIgnore] public Color Ship { get; set; } = Color.Gold;
+            [XmlIgnore] public Color Station { get; set; } = Color.Orange;
+            [XmlIgnore] public Color Sun { get; set; } = Color.OrangeRed;
+            [XmlIgnore] public Color TradeLane { get; set; } = Color.Cyan;
+            [XmlIgnore] public Color WeaponsPlatform { get; set; } = Color.BurlyWood;
+            [XmlIgnore] public Color ZoneVignette { get; set; } = Color.FromArgb(0, 30, 15);
+            [XmlIgnore] public Color ZonePathTrade { get; set; } = Color.FromArgb(30, 0, 30);
+            [XmlIgnore] public Color ZonePathTradeLane { get; set; } = Color.FromArgb(0, 30, 30);
+
+            [Browsable(false)] public string ConstructXML { get { return ColorTranslator.ToHtml(Construct); } set { Construct = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string DepotXML { get { return ColorTranslator.ToHtml(Depot); } set { Depot = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string DockingRingXML { get { return ColorTranslator.ToHtml(DockingRing); } set { DockingRing = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string JumpGateXML { get { return ColorTranslator.ToHtml(JumpGate); } set { JumpGate = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string JumpHoleXML { get { return ColorTranslator.ToHtml(JumpHole); } set { JumpHole = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string PlanetXML { get { return ColorTranslator.ToHtml(Planet); } set { Planet = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string SatelliteXML { get { return ColorTranslator.ToHtml(Satellite); } set { Satellite = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string ShipXML { get { return ColorTranslator.ToHtml(Ship); } set { Ship = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string StationXML { get { return ColorTranslator.ToHtml(Station); } set { Station = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string SunXML { get { return ColorTranslator.ToHtml(Sun); } set { Sun = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string TradeLaneXML { get { return ColorTranslator.ToHtml(TradeLane); } set { TradeLane = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string WeaponsPlatformXML { get { return ColorTranslator.ToHtml(WeaponsPlatform); } set { WeaponsPlatform = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string ZoneVignetteXML { get { return ColorTranslator.ToHtml(ZoneVignette); } set { ZoneVignette = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string ZonePathTradeXML { get { return ColorTranslator.ToHtml(ZonePathTrade); } set { ZonePathTrade = ColorTranslator.FromHtml(value); } }
+            [Browsable(false)] public string ZonePathTradeLaneXML { get { return ColorTranslator.ToHtml(ZonePathTradeLane); } set { ZonePathTradeLane = ColorTranslator.FromHtml(value); } }
         }
 
         [Category("Auto Update")]
