@@ -152,9 +152,15 @@ namespace FreelancerModStudio.SystemPresenter
             Sun = GetGeometry(SharedMeshes.Sphere, MaterialHelper.CreateMaterial(ToMediaColor(colors.Sun)));
             TradeLane = GetGeometry(SharedMeshes.Pyramid, MaterialHelper.CreateMaterial(ToMediaColor(colors.TradeLane)));
             WeaponsPlatform = GetGeometry(SharedMeshes.Pyramid, MaterialHelper.CreateMaterial(ToMediaColor(colors.WeaponsPlatform)));
-            ZoneVignette = GetGeometry(SharedMeshes.Sphere, MaterialHelper.CreateEmissiveMaterial(ToMediaColor(colors.ZoneVignette)));
-            ZonePathTrade = GetGeometry(SharedMeshes.SurfaceCylinder, MaterialHelper.CreateEmissiveMaterial(ToMediaColor(colors.ZonePathTrade)));
-            ZonePathTradeLane = GetGeometry(SharedMeshes.Surface, MaterialHelper.CreateEmissiveMaterial(ToMediaColor(colors.ZonePathTradeLane)));
+            ZoneVignette = GetGeometry(SharedMeshes.Sphere, CreateOverlayMaterial(colors.ZoneVignette, 48));
+            ZonePathTrade = GetGeometry(SharedMeshes.SurfaceCylinder, CreateOverlayMaterial(colors.ZonePathTrade, 64));
+            ZonePathTradeLane = GetGeometry(SharedMeshes.Surface, CreateOverlayMaterial(colors.ZonePathTradeLane, 64));
+        }
+
+        static Material CreateOverlayMaterial(System.Drawing.Color color, byte opacity)
+        {
+            Color mediaColor = ToMediaColor(color);
+            return MaterialHelper.CreateEmissiveMaterial(Color.FromArgb(opacity, mediaColor.R, mediaColor.G, mediaColor.B));
         }
 
         static Color ToMediaColor(System.Drawing.Color color)
