@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FreelancerModStudio.Data.INI;
 using FreelancerModStudio.Data.IO;
 using FreelancerModStudio.SystemPresenter;
@@ -9,7 +10,15 @@ namespace FreelancerModStudio.Data
 {
     public class ArchetypeManager
     {
+        static readonly object CacheLock = new object();
+        static readonly Dictionary<string, CacheEntry> Cache = new Dictionary<string, CacheEntry>(StringComparer.OrdinalIgnoreCase);
         Dictionary<string, ArchetypeInfo> _archetypes;
+
+        class CacheEntry
+        {
+            public Dictionary<string, ArchetypeInfo> Archetypes;
+            public Dictionary<string, DateTime> LastWriteTimes;
+        }
 
         /// <summary>
         /// Loads archetypes from a single solar archetype file.
@@ -35,6 +44,17 @@ namespace FreelancerModStudio.Data
         /// </summary>
         public ArchetypeManager(List<string> files, int templateIndex)
         {
+            string key = GetCacheKey(files);
+            CacheEntry entry;
+            lock (CacheLock)
+            {
+                if (Cache.TryGetValue(key, out entry) && IsCurrent(entry))
+                {
+                    _archetypes = new Dictionary<string, ArchetypeInfo>(entry.Archetypes, StringComparer.OrdinalIgnoreCase);
+                    return;
+                }
+            }
+
             _archetypes = new Dictionary<string, ArchetypeInfo>(StringComparer.OrdinalIgnoreCase);
 
             foreach (string file in files)
@@ -48,6 +68,37 @@ namespace FreelancerModStudio.Data
                 EditorINIData iniContent = fileManager.Read(FileEncoding.Automatic, templateIndex);
                 MergeContentTable(iniContent.Blocks);
             }
+
+            entry = new CacheEntry
+                {
+                    Archetypes = new Dictionary<string, ArchetypeInfo>(_archetypes, StringComparer.OrdinalIgnoreCase),
+                    LastWriteTimes = GetLastWriteTimes(files)
+                };
+            lock (CacheLock)
+            {
+                Cache[key] = entry;
+            }
+        }
+
+        static string GetCacheKey(IEnumerable<string> files)
+        {
+            return string.Join("|", files.Where(x => !string.IsNullOrEmpty(x)).Select(Path.GetFullPath).ToArray());
+        }
+
+        static Dictionary<string, DateTime> GetLastWriteTimes(IEnumerable<string> files)
+        {
+            Dictionary<string, DateTime> result = new Dictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
+            foreach (string file in files.Where(x => !string.IsNullOrEmpty(x)))
+                result[Path.GetFullPath(file)] = File.Exists(file) ? File.GetLastWriteTimeUtc(file) : DateTime.MinValue;
+            return result;
+        }
+
+        static bool IsCurrent(CacheEntry entry)
+        {
+            foreach (KeyValuePair<string, DateTime> file in entry.LastWriteTimes)
+                if (!File.Exists(file.Key) || File.GetLastWriteTimeUtc(file.Key) != file.Value)
+                    return false;
+            return true;
         }
 
         public ArchetypeInfo TypeOf(string archetype)
