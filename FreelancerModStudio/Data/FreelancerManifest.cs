@@ -108,24 +108,31 @@ namespace FreelancerModStudio.Data
                 }
             }
 
-            // Check all solar archetype files (mods may list multiple)
-            List<string> solarFiles;
-            if (_dataFiles.TryGetValue("solar", out solarFiles))
-            {
-                foreach (string sf in solarFiles)
-                {
-                    if (SamePath(fullPath, sf))
-                    {
-                        return Helper.Template.Data.SolarArchetypeFile;
-                    }
-                }
-            }
+            int templateIndex = GetDataTemplateIndex(fullPath, "solar", Helper.Template.Data.SolarArchetypeFile);
+            if (templateIndex != -1) return templateIndex;
+            templateIndex = GetDataTemplateIndex(fullPath, "asteroids", Helper.Template.Data.AsteroidArchetypeFile);
+            if (templateIndex != -1) return templateIndex;
+            templateIndex = GetDataTemplateIndex(fullPath, "ships", Helper.Template.Data.ShipArchetypeFile);
+            if (templateIndex != -1) return templateIndex;
+            templateIndex = GetDataTemplateIndex(fullPath, "equipment", Helper.Template.Data.EquipmentFile);
+            if (templateIndex != -1) return templateIndex;
+            templateIndex = GetDataTemplateIndex(fullPath, "explosions", Helper.Template.Data.EffectExplosionsFile);
+            if (templateIndex != -1) return templateIndex;
 
             if (_systemFiles.Contains(fullPath))
             {
                 return Helper.Template.Data.SystemFile;
             }
 
+            return -1;
+        }
+
+        int GetDataTemplateIndex(string fullPath, string dataKey, int templateIndex)
+        {
+            List<string> files;
+            if (_dataFiles.TryGetValue(dataKey, out files))
+                foreach (string path in files)
+                    if (SamePath(fullPath, path)) return templateIndex;
             return -1;
         }
 
