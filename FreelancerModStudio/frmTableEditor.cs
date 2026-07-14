@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -150,6 +151,11 @@ namespace FreelancerModStudio
         {
             Icon = Resources.FileINIIcon;
 
+            if (objectListView1.SmallImageList != null)
+                objectListView1.SmallImageList.Dispose();
+
+            FreelancerModStudio.Data.Settings.ColorBox colors = Helper.Settings.Data.Data.General.ColorBox;
+
             // synchronized with ContentType enum
             ImageList imageList = new ImageList
                 {
@@ -159,18 +165,18 @@ namespace FreelancerModStudio
                 {
                     Resources.System,
                     Resources.LightSource,
-                    Resources.Construct,
-                    Resources.Depot,
-                    Resources.DockingRing,
-                    Resources.JumpGate,
-                    Resources.JumpHole,
-                    Resources.Planet,
-                    Resources.Satellite,
-                    Resources.Ship,
-                    Resources.Station,
-                    Resources.Sun,
-                    Resources.TradeLane,
-                    Resources.WeaponsPlatform,
+                    TintIcon(Resources.Construct, colors.Construct),
+                    TintIcon(Resources.Depot, colors.Depot),
+                    TintIcon(Resources.DockingRing, colors.DockingRing),
+                    TintIcon(Resources.JumpGate, colors.JumpGate),
+                    TintIcon(Resources.JumpHole, colors.JumpHole),
+                    TintIcon(Resources.Planet, colors.Planet),
+                    TintIcon(Resources.Satellite, colors.Satellite),
+                    TintIcon(Resources.Ship, colors.Ship),
+                    TintIcon(Resources.Station, colors.Station),
+                    TintIcon(Resources.Sun, colors.Sun),
+                    TintIcon(Resources.TradeLane, colors.TradeLane),
+                    TintIcon(Resources.WeaponsPlatform, colors.WeaponsPlatform),
                     Resources.Zone,
                     Resources.ZoneCylinder,
                     Resources.ZoneBox,
@@ -185,10 +191,31 @@ namespace FreelancerModStudio
             objectListView1.SmallImageList = imageList;
         }
 
+        static Image TintIcon(Image source, Color color)
+        {
+            Bitmap result = new Bitmap(source.Width, source.Height);
+            using (Graphics graphics = Graphics.FromImage(result))
+            using (ImageAttributes attributes = new ImageAttributes())
+            {
+                ColorMatrix matrix = new ColorMatrix(new[]
+                    {
+                        new[] { 0f, 0f, 0f, 0f, 0f },
+                        new[] { 0f, 0f, 0f, 0f, 0f },
+                        new[] { 0f, 0f, 0f, 0f, 0f },
+                        new[] { 0f, 0f, 0f, 1f, 0f },
+                        new[] { color.R / 255f, color.G / 255f, color.B / 255f, 0f, 1f }
+                    });
+                attributes.SetColorMatrix(matrix);
+                graphics.DrawImage(source, new Rectangle(0, 0, result.Width, result.Height), 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, attributes);
+            }
+            return result;
+        }
+
         public void RefreshSettings()
         {
             Helper.UI.ApplyTheme(this);
             SetTheme();
+            LoadIcons();
 
             objectListView1.EmptyListMsg = Strings.FileEditorEmpty;
 
